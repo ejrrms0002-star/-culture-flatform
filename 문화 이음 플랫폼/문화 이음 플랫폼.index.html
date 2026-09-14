@@ -1,0 +1,1145 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>문화 이음 플랫폼 | 예술과 마음이 닿는 곳</title>
+    <style>
+@font-face {
+            font-family: 'Cafe24Dongdong';
+            src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_twelve@1.1/Cafe24Dongdong.woff') format('woff');
+            font-weight: normal;
+            font-style: normal;
+        }
+        /* 폰트 및 기본 리셋 */
+        @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+        
+        :root {
+            --primary-purple: #5c2483;
+            --light-purple: #f8f3fc;
+            --dark-bg: #1a1025;
+            --text-dark: #222;
+            --text-gray: #666;
+            --white: #ffffff;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Pretendard', sans-serif;
+            color: var(--text-dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+            scroll-behavior: smooth; 
+        }
+        a { text-decoration: none; color: inherit; }
+        ul { list-style: none; }
+        .container { width: 90%; max-width: 1200px; margin: 0 auto; }
+
+        /* 상단 헤더 */
+        header {
+            position: absolute;
+            top: 0; left: 0; width: 100%;
+            padding: 25px 0;
+            z-index: 100;
+            color: var(--white);
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+        }
+        .header-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo { font-size: 24px; font-weight: 800; letter-spacing: -0.5px; }
+        nav > ul { display: flex; gap: 40px; font-weight: 500; font-size: 16px; }
+        nav a:hover { color: #d8b4e2; }
+        .util-menu { font-size: 20px; font-weight: bold; cursor: pointer; }
+
+        /* 메인 히어로 섹션 */
+        .hero {
+            height: 85vh;
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.8)), url('메인사진.jpg') center/cover;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: var(--white);
+            position: relative;
+        }
+        .hero h2 { font-size: 18px; font-weight: 400; letter-spacing: 2px; margin-bottom: 15px; text-transform: uppercase; }
+        .hero h1 { font-size: 52px; font-weight: 800; line-height: 1.3; text-shadow: 0 4px 15px rgba(0,0,0,0.5); }
+        .hero h1 span { color: #d8b4e2; }
+
+        /* 퀵 링크 바 */
+        .quick-links {
+            background-color: var(--light-purple);
+            padding: 30px 0;
+            border-bottom: 1px solid #eaeaea;
+        }
+        .quick-inner {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        .quick-item { text-align: center; 
+            color: var(--primary-purple); 
+            font-family: 'Cafe24Dongdong', sans-serif; 
+            font-size: 20px; 
+            transition: transform 0.3s}
+        .quick-item:hover { transform: translateY(-5px); }
+        .quick-icon { font-size: 32px; margin-bottom: 10px; display: block; }
+
+        /* 프로그램 포스터 그리드 섹션 */
+        .programs { padding: 80px 0; text-align: center; scroll-margin-top: 100px; }
+        
+        .tabs { margin-bottom: 40px; display: flex; justify-content: center; align-items: center; gap: 20px; }
+        .tabs > span, .tab-dropdown > span { 
+            font-size: 16px; 
+            font-weight: 600; 
+            color: #aaa; 
+            cursor: pointer; 
+            padding: 5px 10px; 
+            border-bottom: 2px solid transparent; 
+            transition: 0.2s; 
+        }
+        .tabs > span.active, .tab-dropdown.active > span { 
+            color: var(--primary-purple); 
+            border-bottom: 2px solid var(--primary-purple); 
+        }
+
+        .tab-dropdown { position: relative; display: inline-block; }
+        .tab-dropdown-menu {
+            position: absolute;
+            top: calc(100% + 5px);
+            left: 50%;
+            transform: translateX(-50%) translateY(10px);
+            background: #fff;
+            border: 1px solid #eaeaea;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+            padding: 10px 0;
+            min-width: 140px;
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+            transition: all 0.25s ease;
+            z-index: 50;
+            text-align: center;
+        }
+        .tab-dropdown.open .tab-dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
+            transform: translateX(-50%) translateY(0);
+        }
+        .tab-dropdown.open > span { color: var(--primary-purple); }
+        .tab-dropdown-menu li {
+            padding: 10px 15px;
+            font-size: 14px;
+            color: var(--text-gray);
+            cursor: pointer;
+            transition: background 0.2s, color 0.2s;
+            font-weight: 500;
+        }
+        .tab-dropdown-menu li:hover {
+            color: var(--primary-purple);
+            background: rgba(216, 180, 226, 0.15);
+            font-weight: 700;
+        }
+        
+        .poster-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+        }
+        .poster-card {
+            position: relative;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.08);
+            transition: 0.3s;
+            background: #fff;
+            text-align: left;
+        }
+        .poster-card:hover { transform: translateY(-10px); box-shadow: 0 15px 30px rgba(92, 36, 131, 0.2); }
+        .poster-img {
+            height: 350px;
+            background-color: #eee;
+            background-size: cover;
+            background-position: center;
+        }
+        .poster-badge {
+            position: absolute;
+            top: 15px; left: 15px;
+            background: var(--primary-purple);
+            color: #fff;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        .poster-info { padding: 20px; }
+        .poster-info h3 { font-size: 18px; margin-bottom: 8px; color: var(--text-dark); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .poster-info p { font-size: 13px; color: var(--text-gray); }
+
+        /* 심리상담 코칭 프로그램 상세 */
+        .counseling-section { background-color: #1a2a22; padding: 100px 0; }
+        .counseling-container { max-width: 1000px; margin: 0 auto; display: flex; flex-direction: column; gap: 30px; }
+        .counseling-card { display: flex; background: #fff; border-radius: 20px; overflow: hidden; box-shadow: 0 15px 35px rgba(0,0,0,0.2); scroll-margin-top: 110px; }
+        .counseling-card.reverse { flex-direction: row-reverse; }
+        .counseling-img-wrap { width: 45%; background-size: cover; background-position: center; min-height: 280px; }
+        .counseling-content { width: 55%; padding: 45px 55px; position: relative; display: flex; flex-direction: column; justify-content: center; }
+        .counseling-title-badge { position: absolute; top: 50px; background: #fff; color: #222; padding: 10px 30px; border-radius: 30px; font-size: 20px; font-weight: 800; box-shadow: 0 5px 15px rgba(0,0,0,0.1); z-index: 10; }
+        .counseling-card .counseling-title-badge { left: -45px; }
+        .counseling-card.reverse .counseling-title-badge { right: -45px; left: auto; }
+        .counseling-list { margin-top: 50px; list-style: none; }
+        .counseling-list .list-title { font-weight: 800; font-size: 16px; color: #111; margin-bottom: 12px; padding-left: 12px; border-left: 3px solid #222; }
+        .counseling-list li:not(.list-title) { position: relative; padding-left: 15px; margin-bottom: 6px; font-size: 14px; color: #555; line-height: 1.5; }
+        .counseling-list li:not(.list-title)::before { content: '·'; position: absolute; left: 5px; font-weight: bold; }
+
+        /* 취미원정대 원데이 클래스 섹션 */
+        .hobby-section { padding: 100px 0; background: #fff; scroll-margin-top: 100px; }
+        .hobby-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 20px; flex-wrap: wrap; gap: 20px; }
+        .hobby-title h2 { font-size: 32px; font-weight: 800; color: #000; letter-spacing: -1px; }
+        .hobby-search-area { display: flex; gap: 10px; align-items: center; }
+        .hobby-search-area select, .hobby-search-area input { padding: 10px 15px; border: 1px solid #ddd; border-radius: 4px; font-size: 14px; outline: none; color: #333; }
+        .hobby-search-area button { background: #333; color: #fff; border: none; padding: 10px 18px; border-radius: 4px; cursor: pointer; font-weight: bold; }
+        .hobby-count { font-size: 13px; color: #666; margin-bottom: 25px; display: flex; align-items: center; }
+        .hobby-count::before { content: '▶'; font-size: 10px; color: #aaa; margin-right: 5px; }
+        .hobby-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 25px; }
+        .hobby-card { background: #fff; border-radius: 12px; overflow: hidden; border: 1px solid #eee; box-shadow: 0 5px 15px rgba(0,0,0,0.03); transition: 0.3s; }
+        .hobby-card:hover { transform: translateY(-5px); box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
+        .hobby-img-wrap { position: relative; height: 360px; background-size: cover; background-position: center; background-color: #fafafa; }
+        .hobby-badges { position: absolute; top: 15px; right: 15px; display: flex; gap: 5px; }
+        .hobby-badge-year { background: #000; color: #fff; padding: 5px 10px; font-size: 12px; font-weight: 700; border-radius: 6px; }
+        .hobby-badge-cat { background: #9c27b0; color: #fff; padding: 5px 10px; font-size: 12px; font-weight: 700; border-radius: 6px; }
+        .hobby-info { padding: 20px; text-align: center; }
+        .hobby-info h3 { font-size: 18px; color: #222; font-weight: 700; word-break: keep-all; }
+
+
+        /* 신규: 수강 신청서 섹션 */
+        .enrollment-section {
+            padding: 100px 0;
+            background: #f8f9fa; /* 은은한 밝은 회색 배경 */
+            scroll-margin-top: 80px;
+        }
+        .enrollment-wrapper {
+            max-width: 540px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 50px 45px;
+            border-radius: 20px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.06);
+        }
+        .enrollment-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        .enrollment-header h2 {
+            font-size: 30px;
+            color: #111;
+            font-weight: 800;
+            margin-bottom: 12px;
+        }
+        .enrollment-header p {
+            color: #666;
+            font-size: 15px;
+        }
+
+        .form-group {
+            margin-bottom: 24px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 10px;
+            font-size: 14px;
+            font-weight: 700;
+            color: #222;
+        }
+        .form-control {
+            width: 100%;
+            padding: 15px 18px;
+            border: 1px solid #eaeaea;
+            border-radius: 10px;
+            font-size: 15px;
+            transition: all 0.3s ease;
+            background: #fafafa;
+            color: #333;
+        }
+        .form-control::placeholder { color: #aaa; }
+        .form-control:focus {
+            border-color: var(--primary-purple);
+            background: #fff;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(92, 36, 131, 0.1);
+        }
+
+        /* 성별 선택 버튼 스타일 */
+        .gender-group { display: flex; gap: 12px; }
+        .gender-option { flex: 1; position: relative; }
+        .gender-option input { display: none; }
+        .gender-option span {
+            display: block;
+            text-align: center;
+            padding: 15px;
+            border: 1px solid #eaeaea;
+            border-radius: 10px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            color: #666;
+            background: #fafafa;
+            transition: all 0.3s ease;
+        }
+        .gender-option input:checked + span {
+            border-color: var(--primary-purple);
+            color: var(--primary-purple);
+            background: rgba(92, 36, 131, 0.05);
+        }
+
+        /* 생년월일 그룹 */
+        .birth-group { display: flex; gap: 12px; }
+        .birth-group .form-control { flex: 1; text-align: center; padding: 15px 10px; }
+
+        /* 약관 동의 체크박스 */
+        .terms-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 35px;
+            margin-top: 15px;
+        }
+        .terms-group input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            accent-color: var(--primary-purple);
+            cursor: pointer;
+        }
+        .terms-group label {
+            font-size: 15px;
+            color: #444;
+            cursor: pointer;
+            font-weight: 500;
+        }
+
+        /* 신청 완료 버튼 */
+        .submit-btn {
+            width: 100%;
+            padding: 18px;
+            background: var(--primary-purple);
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .submit-btn:hover {
+            background: #4a1d6e;
+            box-shadow: 0 8px 20px rgba(92, 36, 131, 0.25);
+            transform: translateY(-2px);
+        }
+
+
+        /* 소식 섹션 */
+        .notices { padding: 80px 0; background: #fbfbfc; }
+        .section-title { text-align: center; margin-bottom: 50px; }
+        .section-title h2 { font-size: 28px; color: var(--text-dark); font-weight: 700; }
+        .section-title h2 span { color: var(--primary-purple); }
+        .section-title.white h2 { color: #fff; }
+        
+        .notice-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
+        .notice-card { background: var(--white); padding: 30px; border: 1px solid #eee; border-top: 3px solid var(--primary-purple); border-radius: 8px; transition: 0.2s; }
+        .notice-card:hover { border-color: var(--primary-purple); box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
+        .notice-card .tag { font-size: 12px; color: var(--primary-purple); font-weight: bold; margin-bottom: 10px; display: inline-block; }
+        .notice-card h4 { font-size: 16px; margin-bottom: 15px; line-height: 1.4; }
+        .notice-card .date { font-size: 13px; color: #999; }
+
+        /* 다크 갤러리 섹션 */
+        .dark-gallery { background: linear-gradient(135deg, #32154a 0%, var(--dark-bg) 100%); padding: 100px 0; color: var(--white); }
+        .gallery-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 40px; }
+        .gallery-header h2 { font-size: 28px; font-weight: 700; }
+        .gallery-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+        .gallery-item { height: 250px; border-radius: 8px; background-size: cover; background-position: center; position: relative; overflow: hidden; border: 1px solid rgba(255,255,255,0.1); }
+        .gallery-item::before { content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 50%; background: linear-gradient(transparent, rgba(0,0,0,0.9)); }
+        .gallery-text { position: absolute; bottom: 20px; left: 20px; right: 20px; z-index: 1; }
+        .gallery-text h4 { font-size: 16px; margin-bottom: 5px; }
+        .gallery-text p { font-size: 12px; color: #ccc; }
+
+
+        /* 메인 GNB 드롭다운 메뉴 */
+        nav > ul > li.dropdown { position: relative; }
+        nav > ul > li.dropdown > a { display: block; cursor: pointer; }
+        .dropdown-menu { display: block; position: absolute; top: calc(100% + 18px); left: 50%; transform: translateX(-50%) translateY(-8px); min-width: 220px; padding: 10px 0; background: rgba(20, 12, 28, 0.97); border: 1px solid rgba(255,255,255,0.18); border-radius: 12px; box-shadow: 0 15px 35px rgba(0,0,0,0.28); opacity: 0; visibility: hidden; pointer-events: none; transition: opacity .25s ease, transform .25s ease, visibility .25s ease; z-index: 200; }
+        .dropdown-menu::before { content: ''; position: absolute; top: -7px; left: 50%; width: 13px; height: 13px; background: rgba(20, 12, 28, 0.97); border-left: 1px solid rgba(255,255,255,0.18); border-top: 1px solid rgba(255,255,255,0.18); transform: translateX(-50%) rotate(45deg); }
+        .dropdown-menu li { width: 100%; }
+        .dropdown-menu a { display: block; padding: 13px 22px; color: #fff; font-size: 15px; font-weight: 500; white-space: nowrap; transition: background .2s ease, color .2s ease, padding-left .2s ease; }
+        .dropdown-menu a:hover { color: #d8b4e2; background: rgba(216,180,226,0.10); padding-left: 28px; }
+        nav > ul > li.dropdown.open .dropdown-menu { opacity: 1; visibility: visible; pointer-events: auto; transform: translateX(-50%) translateY(0); }
+        nav > ul > li.dropdown.open > a { color: #d8b4e2; }
+
+        @media(max-width: 900px) {
+            nav > ul { gap: 18px; font-size: 14px; }
+            .dropdown-menu { min-width: 200px; }
+            .instructor-grid { grid-template-columns: repeat(2, 1fr); }
+            .gallery-grid { grid-template-columns: repeat(2, 1fr); }
+            .hobby-header { flex-direction: column; align-items: flex-start; }
+            .hobby-search-area { width: 100%; flex-wrap: wrap; }
+        }
+        @media(max-width: 768px) {
+            .counseling-card, .counseling-card.reverse { flex-direction: column; }
+            .counseling-img-wrap { width: 100%; min-height: 220px; }
+            .counseling-content { width: 100%; padding: 30px; }
+            .counseling-title-badge { position: relative; top: 0; left: 0 !important; right: 0 !important; display: inline-block; margin-bottom: 20px; text-align: center; align-self: flex-start; }
+            .counseling-list { margin-top: 0; }
+            .enrollment-wrapper { padding: 40px 25px; }
+        }
+
+        /* 강사 소개 페이지 */
+        .instructor-section { padding: 95px 0 110px; background: linear-gradient(180deg, #fff 0%, #faf7fc 100%); }
+        .instructor-intro { max-width: 760px; margin: -25px auto 50px; text-align: center; color: #777; font-size: 16px; }
+        .instructor-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; }
+        .instructor-card { background: #fff; border: 1px solid #eee; border-radius: 18px; overflow: hidden; box-shadow: 0 12px 30px rgba(0,0,0,0.07); transition: transform .3s ease, box-shadow .3s ease; scroll-margin-top: 110px; }
+        .instructor-card:hover { transform: translateY(-8px); box-shadow: 0 18px 38px rgba(92,36,131,0.16); }
+        .instructor-photo { width: 100%; height: 300px; background: #eee; background-size: cover; background-position: center; display: flex; align-items: center; justify-content: center; color: #aaa; font-size: 14px; }
+        .instructor-photo span { background: rgba(255,255,255,.86); padding: 9px 15px; border-radius: 30px; }
+        .instructor-info { padding: 24px 25px 27px; }
+        .instructor-role { display: inline-block; color: var(--primary-purple); font-size: 12px; font-weight: 700; margin-bottom: 7px; letter-spacing: .2px; }
+        .instructor-info h3 { font-size: 21px; margin-bottom: 8px; color: #222; }
+        .instructor-info p { color: #777; font-size: 14px; }
+
+        @media(max-width: 600px) {
+            .instructor-grid { grid-template-columns: 1fr; }
+            .instructor-photo { height: 330px; }
+        }
+
+        /* 하단 푸터 */
+        footer { background: #111; color: #888; padding: 60px 0; font-size: 14px; }
+        .footer-inner { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 30px; }
+        .footer-logo { font-size: 24px; color: #fff; font-weight: 800; margin-bottom: 20px; }
+        .footer-info p { margin-bottom: 8px; }
+    </style>
+</head>
+<body>
+
+    <!-- 헤더 -->
+    <header>
+        <div class="container header-inner">
+            <div class="logo">문화 이음 플랫폼</div>
+            <nav>
+                <ul>
+                    <li class="dropdown">
+                        <a href="#" id="platformMenu" aria-haspopup="true" aria-expanded="false">
+                            문화 이음 플랫폼이란?
+                        </a>
+                        <ul class="dropdown-menu" aria-label="문화 이음 플랫폼 소개">
+                            <li><a href="#greeting">대표 인사말</a></li>
+                            <li><a href="#purpose">문화이음플랫폼 설립 취지</a></li>
+                            <li><a href="#seoul">서울 문화 이음 플랫폼</a></li>
+                            <li><a href="#busan">부산 문화 이음 플랫폼</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" id="instructorMenu" aria-haspopup="true" aria-expanded="false">
+                            Instructor
+                        </a>
+                        <ul class="dropdown-menu" aria-label="강사 소개">
+                            <li><a href="#instructor-bora">대표강사 : 강보라(예술 인문학)</a></li>
+                            <li><a href="#instructor-kyungseok">강사 : 서경석(TCI, DISC)</a></li>
+                            <li><a href="#instructor-yoonha">강사 : 이윤하(컬러 테라피)</a></li>
+                            <li><a href="#instructor-kihyun">강사 : 김기현(명리학, 타로)</a></li>
+                            <li><a href="#instructor-yujin">강사 : 최유진(이미지 메이킹)</a></li>
+                            <li><a href="#instructor-aesoon">강사 : 박애순(북테라피)</a></li>
+                            <li><a href="#instructor-hyeyoung">강사 : 정혜영(사진강좌)</a></li>
+                            <li><a href="#instructor-gwangpyeong">강사 : 이광평(뇌과학)</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" id="artsMenu" aria-haspopup="true" aria-expanded="false">
+                            예술 인문학
+                        </a>
+                        <ul class="dropdown-menu" aria-label="예술 인문학 카테고리">
+                            <li><a href="#programs-grid">미술인문학</a></li>
+                            <li><a href="#programs-grid">고전인문학</a></li>
+                            <li><a href="#programs-grid">음악인문학</a></li>
+                            <li><a href="#programs-grid">영화인문학</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" id="counselingMenu" aria-haspopup="true" aria-expanded="false">
+                            심리상담
+                        </a>
+                        <ul class="dropdown-menu" aria-label="심리상담 카테고리">
+                            <li><a href="#counseling-tci">TCI & DISC</a></li>
+                            <li><a href="#counseling-color">컬러 테라피</a></li>
+                            <li><a href="#counseling-book">북테라피</a></li>
+                            <li><a href="#counseling-tarot">명리학, 타로</a></li>
+                            <li><a href="#counseling-image">이미지 메이킹</a></li>
+                            <li><a href="#counseling-photo">사진강좌</a></li>
+                            <li><a href="#counseling-brain">뇌과학</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#hobby-section" id="hobbyMenu" aria-haspopup="true" aria-expanded="false">
+                            취미원정대 : 원데이 클래스
+                        </a>
+                        <ul class="dropdown-menu" aria-label="취미원정대 카테고리">
+                            <li><a href="#hobby-section">아로마 테라피 : 북 퍼퓸 만들기</a></li>
+                            <li><a href="#hobby-section">요리조리 쿠킹클래스</a></li>
+                            <li><a href="#hobby-section">플라워 아트 클래스</a></li>
+                            <li><a href="#hobby-section">세븐브릿지 드라이빙 투어</a></li>
+                        </ul>
+                    </li>
+                    
+                    <!-- 수정됨: 수강신청 안내 -> 수강신청서 (클릭 시 이동) -->
+                    <li><a href="#enrollment-section">수강신청서</a></li>
+                </ul>
+            </nav>
+            <div class="util-menu">☰</div>
+        </div>
+    </header>
+
+    <!-- 메인 히어로 -->
+    <section class="hero">
+        <div class="container">
+            <h2>Culture & Mind Connection</h2>
+            <h1>예술과 심리가 만나<br><span>문화의 빛을 밝히다</span></h1>
+        </div>
+    </section>
+
+    <!-- 퀵 링크 -->
+    <section class="quick-links">
+        <div class="quick-inner">
+            <a href="#" class="quick-item">
+                <span class="quick-icon">🏛️</span>
+                플랫폼 안내
+            </a>
+            <a href="#" class="quick-item">
+                <span class="quick-icon">🤝</span>
+                코칭 프로그램
+            </a>
+            <a href="#" class="quick-item">
+                <span class="quick-icon">🎨</span>
+                살롱 예약
+            </a>
+            <a href="#" class="quick-item">
+                <span class="quick-icon">📍</span>
+                오시는 길
+            </a>
+        </div>
+    </section>
+
+    <!-- 프로그램 포스터 갤러리 -->
+    <section id="programs-grid" class="programs">
+        <div class="container">
+            <div class="tabs">
+                <span class="active">전체</span>
+                <div class="tab-dropdown">
+                    <span>예술 인문학 ▾</span>
+                    <ul class="tab-dropdown-menu">
+                        <li>미술인문학</li>
+                        <li>고전인문학</li>
+                        <li>음악인문학</li>
+                        <li>영화인문학</li>
+                    </ul>
+                </div>
+                <span>심리 코칭</span>
+                <span>워크숍</span>
+            </div>
+            
+            <div class="poster-grid">
+                <div class="poster-card">
+                    <div class="poster-badge">미술인문학</div>
+                    <div class="poster-img" style="background-image: url('https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80');"></div>
+                    <div class="poster-info">
+                        <h3>2026 가을 예술 인문학 살롱</h3>
+                        <p>명화로 읽는 내면의 서사</p>
+                    </div>
+                </div>
+                <div class="poster-card">
+                    <div class="poster-badge">고전인문학</div>
+                    <div class="poster-img" style="background-image: url('https://images.unsplash.com/photo-1516534775068-ba3e7458af70?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80');"></div>
+                    <div class="poster-info">
+                        <h3>TCI & 에니어그램 심층 코칭</h3>
+                        <p>타고난 기질과 성격의 완벽한 이해</p>
+                    </div>
+                </div>
+                <div class="poster-card">
+                    <div class="poster-badge">음악인문학</div>
+                    <div class="poster-img" style="background-image: url('https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80');"></div>
+                    <div class="poster-info">
+                        <h3>DISC 기반 대인관계 워크숍</h3>
+                        <p>조직과 가족의 온도를 바꾸는 소통법</p>
+                    </div>
+                </div>
+                <div class="poster-card">
+                    <div class="poster-badge">영화인문학</div>
+                    <div class="poster-img" style="background-image: url('https://images.unsplash.com/photo-1541701494587-cb58502866ab?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80');"></div>
+                    <div class="poster-info">
+                        <h3>색으로 찾는 나의 마음 (도형 심리)</h3>
+                        <p>무의식을 깨우는 치유의 시간</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 심리상담 코칭 프로그램 상세 -->
+    <section class="counseling-section">
+        <div class="container">
+            <div class="section-title white">
+                <h2>심리상담 <span>코칭 프로그램</span></h2>
+            </div>
+            
+            <div class="counseling-container">
+                <article id="counseling-tci" class="counseling-card">
+                    <div class="counseling-img-wrap" style="background-image: url('https://images.unsplash.com/photo-1516534775068-ba3e7458af70?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80');"></div>
+                    <div class="counseling-content">
+                        <div class="counseling-title-badge">TCI & DISC</div>
+                        <ul class="counseling-list">
+                            <li class="list-title">기질과 성격의 완벽한 이해를 통한 관계 개선 코칭</li>
+                            <li>개인의 타고난 기질과 환경적 성격 구조 심층 분석</li>
+                            <li>조직과 가족의 온도를 바꾸는 DISC 소통법 솔루션 제공</li>
+                            <li>자아 탐색 및 타인에 대한 수용력 증진 훈련</li>
+                        </ul>
+                    </div>
+                </article>
+
+                <article id="counseling-color" class="counseling-card reverse">
+                    <div class="counseling-img-wrap" style="background-image: url('https://images.unsplash.com/photo-1541701494587-cb58502866ab?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80');"></div>
+                    <div class="counseling-content">
+                        <div class="counseling-title-badge">컬러 테라피</div>
+                        <ul class="counseling-list">
+                            <li class="list-title">색채와 도형으로 찾는 나의 무의식과 마음 상태 진단</li>
+                            <li>현재의 스트레스 지수 파악 및 심리적 이완 훈련</li>
+                            <li>에너지 밸런스를 맞추는 나만의 컬러 솔루션</li>
+                            <li>심신 안정을 돕는 맞춤형 아트 테라피 코칭</li>
+                        </ul>
+                    </div>
+                </article>
+
+                <article id="counseling-book" class="counseling-card">
+                    <div class="counseling-img-wrap" style="background-image: url('https://images.unsplash.com/photo-1491841550275-ad7854e35ca6?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80');"></div>
+                    <div class="counseling-content">
+                        <div class="counseling-title-badge">북테라피</div>
+                        <ul class="counseling-list">
+                            <li class="list-title">문학을 통해 내면의 상처를 치유하고 성찰하는 시간</li>
+                            <li>깊이 있는 독서 모임을 통한 공감과 소통 능력 강화</li>
+                            <li>책 속의 문장으로 나만의 자아 발견 및 가치관 정립</li>
+                            <li>생각을 정리하고 마음을 비우는 글쓰기 병행 과정</li>
+                        </ul>
+                    </div>
+                </article>
+
+                <article id="counseling-tarot" class="counseling-card reverse">
+                    <div class="counseling-img-wrap" style="background-image: url('https://images.unsplash.com/photo-1628157588553-5eeea00af15c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80');"></div>
+                    <div class="counseling-content">
+                        <div class="counseling-title-badge">명리학, 타로</div>
+                        <ul class="counseling-list">
+                            <li class="list-title">동양 철학과 타로 상징을 활용한 삶의 통찰 및 방향성 탐색</li>
+                            <li>불확실한 미래에 대한 심리적 안정감 및 자존감 회복</li>
+                            <li>내면의 잠재력을 일깨우는 스토리텔링 상담</li>
+                            <li>선택의 기로에서 합리적 결정을 돕는 직관적 코칭</li>
+                        </ul>
+                    </div>
+                </article>
+
+                <article id="counseling-image" class="counseling-card">
+                    <div class="counseling-img-wrap" style="background-image: url('https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80');"></div>
+                    <div class="counseling-content">
+                        <div class="counseling-title-badge">이미지 메이킹</div>
+                        <ul class="counseling-list">
+                            <li class="list-title">내면의 자신감을 외면으로 자연스럽게 표현하는 퍼스널 브랜딩</li>
+                            <li>개인의 매력을 극대화하는 스타일링 및 표정 연출법</li>
+                            <li>신뢰를 주는 긍정적인 첫인상과 비언어적 소통 전략 구축</li>
+                            <li>사회적 관계 향상을 위한 맞춤형 매너 및 스피치 코칭</li>
+                        </ul>
+                    </div>
+                </article>
+
+                <article id="counseling-photo" class="counseling-card reverse">
+                    <div class="counseling-img-wrap" style="background-image: url('https://images.unsplash.com/photo-1516961642265-531546e84af2?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80');"></div>
+                    <div class="counseling-content">
+                        <div class="counseling-title-badge">사진강좌</div>
+                        <ul class="counseling-list">
+                            <li class="list-title">카메라 프레임 너머의 세상을 보는 새로운 시각과 통찰력 배양</li>
+                            <li>평범한 일상의 순간을 예술로 기록하며 느끼는 심리적 성취감</li>
+                            <li>피사체와의 교감을 통한 정서적 안정 및 스트레스 해소</li>
+                            <li>나만의 시선을 담아내는 감성 사진 촬영 실무 테크닉</li>
+                        </ul>
+                    </div>
+                </article>
+
+                <article id="counseling-brain" class="counseling-card">
+                    <div class="counseling-img-wrap" style="background-image: url('https://images.unsplash.com/photo-1559757175-5700dde675bc?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80');"></div>
+                    <div class="counseling-content">
+                        <div class="counseling-title-badge">뇌과학</div>
+                        <ul class="counseling-list">
+                            <li class="list-title">인생의 도전과 리셋을 준비하는 사람을 위한 멘탈 리프레밍 코칭[cite: 1]</li>
+                            <li>국제 멘탈력 진단 기반 설계 및 뇌신경 과학 원리 적용[cite: 1]</li>
+                            <li>부정적 감정 회로를 차단하고 스트레스 회복력을 높이는 훈련</li>
+                            <li>성공 루틴으로 자신감 있는 자기 리프레밍 시스템 구축[cite: 1]</li>
+                        </ul>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <!-- 취미원정대 : 원데이 클래스 섹션 -->
+    <section id="hobby-section" class="hobby-section">
+        <div class="container">
+            <div class="hobby-header">
+                <div class="hobby-title">
+                    <h2>취미원정대 : 원데이 클래스</h2>
+                </div>
+                <div class="hobby-search-area">
+                    <select aria-label="부서별 검색">
+                        <option value="">부서별</option>
+                        <option value="d1">기획부</option>
+                        <option value="d2">교육부</option>
+                    </select>
+                    <select aria-label="연도별 검색">
+                        <option value="">연도별</option>
+                        <option value="2026">2026</option>
+                        <option value="2025">2025</option>
+                    </select>
+                    <input type="text" placeholder="검색어를 입력하세요">
+                    <button type="button">Q</button>
+                </div>
+            </div>
+            
+            <div class="hobby-count">
+                전체 4개 (페이지 1/1)
+            </div>
+            
+            <div class="hobby-grid">
+                <article class="hobby-card">
+                    <div class="hobby-img-wrap" style="background-image: url('https://images.unsplash.com/photo-1606836591695-4d58a73eba1e?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80');">
+                        <div class="hobby-badges">
+                            <span class="hobby-badge-year">2026</span>
+                            <span class="hobby-badge-cat" style="background-color: #ff5722;">클래스</span>
+                        </div>
+                    </div>
+                    <div class="hobby-info">
+                        <h3>아로마 테라피 : 북 퍼퓸 만들기</h3>
+                    </div>
+                </article>
+
+                <article class="hobby-card">
+                    <div class="hobby-img-wrap" style="background-image: url('https://images.unsplash.com/photo-1556910103-1c02745a872f?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80');">
+                        <div class="hobby-badges">
+                            <span class="hobby-badge-year">2026</span>
+                            <span class="hobby-badge-cat" style="background-color: #4caf50;">클래스</span>
+                        </div>
+                    </div>
+                    <div class="hobby-info">
+                        <h3>요리조리 쿠킹클래스</h3>
+                    </div>
+                </article>
+
+                <article class="hobby-card">
+                    <div class="hobby-img-wrap" style="background-image: url('https://images.unsplash.com/photo-1507369512168-9b7e7135f60b?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80');">
+                        <div class="hobby-badges">
+                            <span class="hobby-badge-year">2026</span>
+                            <span class="hobby-badge-cat" style="background-color: #e91e63;">클래스</span>
+                        </div>
+                    </div>
+                    <div class="hobby-info">
+                        <h3>플라워 아트 클래스</h3>
+                    </div>
+                </article>
+
+                <article class="hobby-card">
+                    <div class="hobby-img-wrap" style="background-image: url('https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80');">
+                        <div class="hobby-badges">
+                            <span class="hobby-badge-year">2026</span>
+                            <span class="hobby-badge-cat" style="background-color: #2196f3;">투어</span>
+                        </div>
+                    </div>
+                    <div class="hobby-info">
+                        <h3>세븐브릿지 드라이빙 투어</h3>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <!-- 신규: 수강 신청서 섹션 -->
+    <section id="enrollment-section" class="enrollment-section">
+        <div class="container">
+            <div class="enrollment-wrapper">
+                <div class="enrollment-header">
+                    <h2>수강 신청서 작성</h2>
+                    <p>문화 이음 플랫폼과 함께할 당신을 환영합니다.</p>
+                </div>
+
+                <form action="#" method="POST">
+                    <!-- 1. 이름 -->
+                    <div class="form-group">
+                        <label for="userName">이름</label>
+                        <input type="text" id="userName" class="form-control" placeholder="성함을 입력하세요">
+                    </div>
+                    
+                    <!-- 2. 성별 -->
+                    <div class="form-group">
+                        <label>성별</label>
+                        <div class="gender-group">
+                            <label class="gender-option">
+                                <input type="radio" name="gender" value="male">
+                                <span>남성</span>
+                            </label>
+                            <label class="gender-option">
+                                <input type="radio" name="gender" value="female">
+                                <span>여성</span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <!-- 3. 생년월일 -->
+                    <div class="form-group">
+                        <label>생년월일</label>
+                        <div class="birth-group">
+                            <input type="text" class="form-control" placeholder="년도">
+                            <input type="text" class="form-control" placeholder="월">
+                            <input type="text" class="form-control" placeholder="일">
+                        </div>
+                    </div>
+                    
+                    <!-- 4. 연락처 -->
+                    <div class="form-group">
+                        <label for="userPhone">연락처</label>
+                        <input type="tel" id="userPhone" class="form-control" placeholder="010-0000-0000">
+                    </div>
+                    
+                    <!-- 5. 주소 (수정됨) -->
+                    <div class="form-group">
+                        <label for="userAddress">주소 (동까지)</label>
+                        <input type="text" id="userAddress" class="form-control" placeholder="거주 주소를 입력하세요">
+                    </div>
+
+                    <!-- 6. 관심강좌 (신규 추가) -->
+                    <div class="form-group">
+                        <label for="interestCourse">관심강좌</label>
+                        <input type="text" id="interestCourse" class="form-control" placeholder="수강을 원하시는 강좌명을 입력하세요">
+                    </div>
+
+                    <!-- 7. 이용약관 동의 (신규 추가) -->
+                    <div class="terms-group">
+                        <input type="checkbox" id="agreeTerms">
+                        <label for="agreeTerms">이용약관에 동의합니다</label>
+                    </div>
+                    
+                    <!-- 8. 제출 버튼 -->
+                    <button type="submit" class="submit-btn">신청 완료</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- 열린 소식 -->
+    <section class="notices">
+        <div class="container">
+            <div class="section-title">
+                <h2>문화 이음 플랫폼의 <span>다양한 소식</span>을 확인해보세요.</h2>
+            </div>
+            <div class="notice-grid">
+                <a href="#" class="notice-card">
+                    <span class="tag">공지사항</span>
+                    <h4>2026년 하반기 TCI 기질 분석 코칭 모집 안내 (선착순 마감)</h4>
+                    <span class="date">2026-08-25</span>
+                </a>
+                <a href="#" class="notice-card">
+                    <span class="tag">살롱 소식</span>
+                    <h4>[가을 예술 인문학 살롱] 다빈치와 고야의 작품으로 보는 심리 해석</h4>
+                    <span class="date">2026-08-20</span>
+                </a>
+                <a href="#" class="notice-card">
+                    <span class="tag">언론보도</span>
+                    <h4>서경석 대표 코치, 지역 사회 마음 챙김 세미나 성료</h4>
+                    <span class="date">2026-08-10</span>
+                </a>
+                <a href="#" class="notice-card">
+                    <span class="tag">칼럼</span>
+                    <h4>나의 도형과 색채가 말해주는 현재의 스트레스 지수</h4>
+                    <span class="date">2026-07-28</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 문화 이음 플랫폼 소개 -->
+    <section id="greeting" style="padding: 90px 0; background:#fff;">
+        <div class="container">
+            <div class="section-title">
+                <h2>대표 <span>인사말</span></h2>
+            </div>
+            <p style="max-width:850px; margin:0 auto; text-align:center; color:#666;">
+                문화와 예술, 심리와 사람을 연결하는 문화 이음 플랫폼입니다.
+                이곳에 대표 인사말 내용을 입력하시면 됩니다.
+            </p>
+        </div>
+    </section>
+
+    <section id="purpose" style="padding: 90px 0; background:#f8f3fc;">
+        <div class="container">
+            <div class="section-title">
+                <h2>문화이음플랫폼 <span>설립 취지</span></h2>
+            </div>
+            <p style="max-width:850px; margin:0 auto; text-align:center; color:#666;">
+                문화이음플랫폼의 설립 목적과 운영 방향을 소개하는 공간입니다.
+            </p>
+        </div>
+    </section>
+
+    <section id="seoul" style="padding: 90px 0; background:#fff;">
+        <div class="container">
+            <div class="section-title">
+                <h2><span>서울</span> 문화 이음 플랫폼</h2>
+            </div>
+            <p style="max-width:850px; margin:0 auto; text-align:center; color:#666;">
+                서울 지역 문화 이음 플랫폼의 프로그램과 활동을 소개하는 공간입니다.
+            </p>
+        </div>
+    </section>
+
+    <section id="busan" style="padding: 90px 0; background:#f8f3fc;">
+        <div class="container">
+            <div class="section-title">
+                <h2><span>부산</span> 문화 이음 플랫폼</h2>
+            </div>
+            <p style="max-width:850px; margin:0 auto; text-align:center; color:#666;">
+                부산 지역 문화 이음 플랫폼의 프로그램과 활동을 소개하는 공간입니다.
+            </p>
+        </div>
+    </section>
+
+
+    <!-- Instructor / 강사 소개 -->
+    <section id="instructors" class="instructor-section">
+        <div class="container">
+            <div class="section-title">
+                <h2><span>Instructor</span> 강사 소개</h2>
+            </div>
+
+            <p class="instructor-intro">
+                문화 이음 플랫폼의 각 분야 전문 강사진을 소개합니다.
+                아래 사진 영역에 강사님의 프로필 사진을 넣을 수 있습니다.
+            </p>
+
+            <div class="instructor-grid">
+                <article id="instructor-bora" class="instructor-card">
+                    <div class="instructor-photo" style="background-image:url('images/instructor-kang-bora.jpg');">
+                        <span>강보라 강사 사진</span>
+                    </div>
+                    <div class="instructor-info">
+                        <span class="instructor-role">대표강사</span>
+                        <h3>강보라</h3>
+                        <p>예술 인문학</p>
+                    </div>
+                </article>
+
+                <article id="instructor-kyungseok" class="instructor-card">
+                    <div class="instructor-photo" style="background-image:url('images/instructor-seo-kyungseok.jpg');">
+                        <span>서경석 강사 사진</span>
+                    </div>
+                    <div class="instructor-info">
+                        <span class="instructor-role">강사</span>
+                        <h3>서경석</h3>
+                        <p>TCI · DISC</p>
+                    </div>
+                </article>
+
+                <article id="instructor-yoonha" class="instructor-card">
+                    <div class="instructor-photo" style="background-image:url('images/instructor-lee-yoonha.jpg');">
+                        <span>이윤하 강사 사진</span>
+                    </div>
+                    <div class="instructor-info">
+                        <span class="instructor-role">강사</span>
+                        <h3>이윤하</h3>
+                        <p>컬러 테라피</p>
+                    </div>
+                </article>
+
+                <article id="instructor-kihyun" class="instructor-card">
+                    <div class="instructor-photo" style="background-image:url('images/instructor-kim-kihyun.jpg');">
+                        <span>김기현 강사 사진</span>
+                    </div>
+                    <div class="instructor-info">
+                        <span class="instructor-role">강사</span>
+                        <h3>김기현</h3>
+                        <p>명리학 · 타로</p>
+                    </div>
+                </article>
+
+                <article id="instructor-yujin" class="instructor-card">
+                    <div class="instructor-photo" style="background-image:url('images/instructor-choi-yujin.jpg');">
+                        <span>최유진 강사 사진</span>
+                    </div>
+                    <div class="instructor-info">
+                        <span class="instructor-role">강사</span>
+                        <h3>최유진</h3>
+                        <p>이미지 메이킹</p>
+                    </div>
+                </article>
+
+                <article id="instructor-aesoon" class="instructor-card">
+                    <div class="instructor-photo" style="background-image:url('images/instructor-park-aesoon.jpg');">
+                        <span>박애순 강사 사진</span>
+                    </div>
+                    <div class="instructor-info">
+                        <span class="instructor-role">강사</span>
+                        <h3>박애순</h3>
+                        <p>북테라피</p>
+                    </div>
+                </article>
+
+                <article id="instructor-hyeyoung" class="instructor-card">
+                    <div class="instructor-photo" style="background-image:url('images/instructor-jeong-hyeyoung.jpg');">
+                        <span>정혜영 강사 사진</span>
+                    </div>
+                    <div class="instructor-info">
+                        <span class="instructor-role">강사</span>
+                        <h3>정혜영</h3>
+                        <p>사진강좌</p>
+                    </div>
+                </article>
+
+                <article id="instructor-gwangpyeong" class="instructor-card">
+                    <div class="instructor-photo" style="background-image:url('images/instructor-lee-gwangpyeong.jpg');">
+                        <span>이광평 강사 사진</span>
+                    </div>
+                    <div class="instructor-info">
+                        <span class="instructor-role">강사</span>
+                        <h3>이광평</h3>
+                        <p>뇌과학</p>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <!-- 다크 섹션 -->
+    <section class="dark-gallery">
+        <div class="container">
+            <div class="gallery-header">
+                <h2>문화 이음 아카이브</h2>
+                <a href="#" style="color: #d8b4e2; font-size: 14px;">전체보기 ➔</a>
+            </div>
+            <div class="gallery-grid">
+                <div class="gallery-item" style="background-image: url('https://images.unsplash.com/photo-1578301978018-3005759f48f7?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80');">
+                    <div class="gallery-text">
+                        <h4>Mona Lisa의 미소</h4>
+                        <p>감정의 이면을 읽는 시간</p>
+                    </div>
+                </div>
+                <div class="gallery-item" style="background-image: url('https://images.unsplash.com/photo-1549490349-8643362247b5?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80');">
+                    <div class="gallery-text">
+                        <h4>The Creation of Adam</h4>
+                        <p>관계의 연결성과 소통</p>
+                    </div>
+                </div>
+                <div class="gallery-item" style="background-image: url('https://images.unsplash.com/photo-1605721911519-3dfeb3be25e7?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80');">
+                    <div class="gallery-text">
+                        <h4>추상 속의 도형 심리</h4>
+                        <p>내면의 불안을 마주하다</p>
+                    </div>
+                </div>
+                <div class="gallery-item" style="background-image: url('https://images.unsplash.com/photo-1536924430914-91f9e2041b83?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80');">
+                    <div class="gallery-text">
+                        <h4>빛과 그림자의 테라피</h4>
+                        <p>에니어그램을 통한 통찰</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 푸터 -->
+    <footer>
+        <div class="container footer-inner">
+            <div class="footer-info">
+                <div class="footer-logo">문화 이음 플랫폼</div>
+                <p>예술과 심리학이 결합된 신개념 융합 코칭 센터</p>
+                <p>&copy; 2026 Culture & Mind Connection Platform. All rights reserved.</p>
+            </div>
+            <div class="footer-info" style="text-align: right;">
+                <p><strong>대표 코치 :</strong> 서경석</p>
+                <p><strong>주소 :</strong> 부산광역시 (상세 주소 기재 예정)</p>
+                <p><strong>전화번호 :</strong> 051-000-0000</p>
+            </div>
+        </div>
+    </footer>
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            
+            // 상단 네비게이션 GNB 드롭다운 스크립트
+            const navDropdowns = document.querySelectorAll('nav > ul > li.dropdown');
+            navDropdowns.forEach(function (dropdown) {
+                const trigger = dropdown.querySelector(':scope > a');
+                if (!trigger) return;
+
+                trigger.addEventListener('click', function (event) {
+                    event.preventDefault();
+                    navDropdowns.forEach(function (other) {
+                        if (other !== dropdown) {
+                            other.classList.remove('open');
+                            const otherTrigger = other.querySelector(':scope > a');
+                            if (otherTrigger) otherTrigger.setAttribute('aria-expanded', 'false');
+                        }
+                    });
+
+                    const isOpen = dropdown.classList.toggle('open');
+                    trigger.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+                });
+
+                dropdown.querySelectorAll('.dropdown-menu a').forEach(function (link) {
+                    link.addEventListener('click', function () {
+                        dropdown.classList.remove('open');
+                        trigger.setAttribute('aria-expanded', 'false');
+                    });
+                });
+            });
+
+            // 프로그램 갤러리 탭 내 드롭다운 스크립트
+            const tabDropdowns = document.querySelectorAll('.tab-dropdown');
+            tabDropdowns.forEach(function(dropdown) {
+                const trigger = dropdown.querySelector('span');
+                trigger.addEventListener('click', function(event) {
+                    event.stopPropagation();
+                    dropdown.classList.toggle('open');
+                });
+                
+                dropdown.querySelectorAll('.tab-dropdown-menu li').forEach(function(item) {
+                    item.addEventListener('click', function() {
+                        dropdown.classList.remove('open');
+                    });
+                });
+            });
+
+            // 빈 공간 클릭 시 모든 드롭다운 닫기
+            document.addEventListener('click', function (event) {
+                navDropdowns.forEach(function (dropdown) {
+                    if (!dropdown.contains(event.target)) {
+                        dropdown.classList.remove('open');
+                        const trigger = dropdown.querySelector(':scope > a');
+                        if (trigger) trigger.setAttribute('aria-expanded', 'false');
+                    }
+                });
+                
+                tabDropdowns.forEach(function(dropdown) {
+                    if (!dropdown.contains(event.target)) {
+                        dropdown.classList.remove('open');
+                    }
+                });
+            });
+            
+        });
+    </script>
+
+</body>
+</html>
