@@ -1782,6 +1782,52 @@ img{max-width:100%;height:auto}
 })();
 </script>
 
+
+<script>
+(function () {
+    const popup = document.getElementById('popup');
+    if (!popup) return;
+
+    // 현재 팝업 위치와 목표 위치
+    let currentY = window.scrollY;
+    let targetY = window.scrollY;
+    let animationId = null;
+
+    // 스크롤할 때 목표 위치만 변경
+    function onScroll() {
+        targetY = window.scrollY;
+
+        if (!animationId) {
+            animationId = requestAnimationFrame(animatePopup);
+        }
+    }
+
+    // 팝업이 스크롤을 살짝 늦게, 부드럽게 따라오도록 보간
+    function animatePopup() {
+        currentY += (targetY - currentY) * 0.14;
+
+        // 거의 도착하면 정확히 맞춰서 흔들림 방지
+        if (Math.abs(targetY - currentY) < 0.5) {
+            currentY = targetY;
+        }
+
+        popup.style.transform = 'translate3d(0,' + currentY + 'px,0)';
+
+        if (currentY !== targetY) {
+            animationId = requestAnimationFrame(animatePopup);
+        } else {
+            animationId = null;
+        }
+    }
+
+    // 첫 위치 맞추기
+    popup.style.willChange = 'transform';
+    popup.style.transform = 'translate3d(0,' + currentY + 'px,0)';
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+})();
+</script>
+
 </body>
 
 </html>
