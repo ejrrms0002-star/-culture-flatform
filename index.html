@@ -1782,32 +1782,6 @@ img{max-width:100%;height:auto}
 })();
 </script>
 
-
-<script>
-(function () {
-    const popup = document.getElementById('popup');
-    if (!popup) return;
-
-    let ticking = false;
-
-    function movePopupWithScroll() {
-        if (popup.style.display !== 'none') {
-            popup.style.top = window.scrollY + 'px';
-        }
-        ticking = false;
-    }
-
-    window.addEventListener('scroll', function () {
-        if (!ticking) {
-            window.requestAnimationFrame(movePopupWithScroll);
-            ticking = true;
-        }
-    }, { passive: true });
-
-    movePopupWithScroll();
-})();
-</script>
-
 </body>
 
 </html>
