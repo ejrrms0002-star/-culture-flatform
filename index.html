@@ -262,7 +262,12 @@
         .poster-info p { font-size: 13px; color: var(--text-gray); }
 
         /* 심리상담 코칭 프로그램 상세 */
-        .counseling-section { background-color: #1a2a22; padding: 100px 0; }
+        .counseling-section { background: linear-gradient(
+        135deg,
+        #211925 0%,
+        #2b2030 55%,
+        #241b29 100%
+    ); padding: 100px 0; }
         .counseling-container { max-width: 1000px; margin: 0 auto; display: flex; flex-direction: column; gap: 30px; }
         .counseling-card { display: flex; background: #fff; border-radius: 20px; overflow: hidden; box-shadow: 0 15px 35px rgba(0,0,0,0.2); scroll-margin-top: 110px; }
         .counseling-card.reverse { flex-direction: row-reverse; }
@@ -591,6 +596,25 @@ img{max-width:100%;height:auto}
         }
 
     </style>
+
+<style>
+/* 심리상담 코칭 프로그램 - 세련된 딥 플럼 & 라벤더 컬러 */
+.counseling-section {
+    background: linear-gradient(
+        135deg,
+        #211925 0%,
+        #2b2030 55%,
+        #241b29 100%
+    ) !important;
+}
+.counseling-section .section-title {
+    color: #ffffff !important;
+}
+.counseling-section .section-title span {
+    color: #c79ad8 !important;
+}
+</style>
+
 </head>
 <body>
  <!-- =========================
