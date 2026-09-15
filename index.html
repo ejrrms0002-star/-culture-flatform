@@ -597,21 +597,104 @@ img{max-width:100%;height:auto}
 
     </style>
 
+
+
+
 <style>
-/* 심리상담 코칭 프로그램 - 세련된 딥 플럼 & 라벤더 컬러 */
+/* ===== 심리상담 코칭 프로그램 FINAL DESIGN ===== */
 .counseling-section {
-    background: linear-gradient(
-        135deg,
-        #211925 0%,
-        #2b2030 55%,
-        #241b29 100%
-    ) !important;
+    position: relative;
+    overflow: hidden;
+    background:
+        radial-gradient(circle at 14% 18%, rgba(137, 101, 145, 0.08), transparent 31%),
+        radial-gradient(circle at 88% 82%, rgba(193, 170, 155, 0.10), transparent 34%),
+        linear-gradient(135deg, #FAF8F5 0%, #F7F3F7 52%, #F3EEF4 100%) !important;
+    padding: 110px 0 120px !important;
 }
+
+.counseling-section::before {
+    content: "";
+    position: absolute;
+    width: 340px;
+    height: 340px;
+    border-radius: 50%;
+    top: -190px;
+    right: -90px;
+    background: rgba(121, 82, 130, 0.045);
+    pointer-events: none;
+}
+
+.counseling-section .container {
+    position: relative;
+    z-index: 1;
+}
+
 .counseling-section .section-title {
-    color: #ffffff !important;
+    color: #29252B !important;
+    font-size: clamp(30px, 3vw, 42px) !important;
+    font-weight: 800 !important;
+    letter-spacing: -1.4px !important;
+    margin-bottom: 58px !important;
 }
+
 .counseling-section .section-title span {
-    color: #c79ad8 !important;
+    color: #795282 !important;
+    font-weight: 800 !important;
+}
+
+/* 상담 프로그램 메인 카드 */
+.counseling-card,
+.counseling-content,
+.counseling-item {
+    border-radius: 26px !important;
+}
+
+/* 상담 영역 안의 흰색 콘텐츠 박스에 자연스러운 깊이감 */
+.counseling-section [style*="background-color: white"],
+.counseling-section [style*="background: white"],
+.counseling-section [style*="background:#fff"],
+.counseling-section [style*="background: #fff"] {
+    box-shadow: 0 20px 55px rgba(53, 42, 56, 0.10) !important;
+}
+
+/* 이미지가 카드와 자연스럽게 이어지도록 */
+.counseling-section img {
+    display: block;
+}
+
+/* TCI & DISC 등 배지/제목의 톤 정리 */
+.counseling-section .badge,
+.counseling-section .program-tag,
+.counseling-section .counseling-badge {
+    background: rgba(255,255,255,0.96) !important;
+    color: #2D2830 !important;
+    box-shadow: 0 8px 24px rgba(57, 43, 60, 0.10) !important;
+}
+
+/* 설명 박스의 보라 포인트를 채도 낮은 모브로 통일 */
+.counseling-section blockquote,
+.counseling-section .description-box,
+.counseling-section .program-description {
+    border-color: #795282 !important;
+}
+
+/* 모바일 */
+@media (max-width: 768px) {
+    .counseling-section {
+        padding: 72px 0 82px !important;
+    }
+
+    .counseling-section .section-title {
+        font-size: 30px !important;
+        line-height: 1.25 !important;
+        margin-bottom: 36px !important;
+    }
+
+    .counseling-card,
+    .counseling-content,
+    .counseling-item {
+        border-radius: 20px !important;
+    }
 }
 </style>
 
