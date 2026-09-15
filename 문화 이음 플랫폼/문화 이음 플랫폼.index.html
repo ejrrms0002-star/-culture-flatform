@@ -33,26 +33,103 @@
         }
         a { text-decoration: none; color: inherit; }
         ul { list-style: none; }
-        .container { width: 90%; max-width: 1200px; margin: 0 auto; }
+        .container { width: 90%; max-width: 1200px; margin: 0 auto;}
 
         /* 상단 헤더 */
         header {
             position: absolute;
-            top: 0; left: 0; width: 100%;
-            padding: 25px 0;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100px;
+            display: flex;
+            align-items: center;
+            padding: 0;
             z-index: 100;
             color: var(--white);
-            border-bottom: 1px solid rgba(255,255,255,0.2);
+            background: linear-gradient(
+                180deg,
+                rgba(15, 10, 20, 0.42) 0%,
+                rgba(15, 10, 20, 0.18) 70%,
+                rgba(15, 10, 20, 0) 100%
+            );
+            border-bottom: 1px solid rgba(255,255,255,0.18);
         }
+
         .header-inner {
+            width: 94%;
+            max-width: 1500px;
+            margin: 0 auto;
             display: flex;
-            justify-content: space-between;
+            justify-content: flex-start;
             align-items: center;
         }
-        .logo { font-size: 24px; font-weight: 800; letter-spacing: -0.5px; }
-        nav > ul { display: flex; gap: 40px; font-weight: 500; font-size: 16px; }
-        nav a:hover { color: #d8b4e2; }
-        .util-menu { font-size: 20px; font-weight: bold; cursor: pointer; }
+
+        .logo {
+            flex-shrink: 0;
+            font-size: 30px;
+            font-weight: 800;
+            letter-spacing: -1.2px;
+            line-height: 1;
+        }
+
+        .logo a {
+            color: #fff;
+            display: inline-block;
+            transition: opacity 0.25s ease;
+        }
+
+        .logo a:hover { opacity: 0.82; }
+
+        nav {
+            margin-left: auto;
+            margin-right: 0;
+        }
+
+        nav > ul {
+            display: flex;
+            align-items: center;
+            gap: 44px;
+            font-size: 18px;
+            font-weight: 600;
+            letter-spacing: -0.4px;
+        }
+
+        nav > ul > li > a {
+            position: relative;
+            display: block;
+            padding: 36px 0;
+            color: rgba(255,255,255,0.95);
+            transition: color 0.25s ease;
+        }
+
+        nav > ul > li > a:hover {
+            color: #e8c8f2;
+        }
+
+        nav > ul > li > a::after {
+            content: '';
+            position: absolute;
+            left: 50%;
+            bottom: 25px;
+            width: 0;
+            height: 2px;
+            background: #e0b6ee;
+            border-radius: 10px;
+            transform: translateX(-50%);
+            transition: width 0.25s ease;
+        }
+
+        nav > ul > li > a:hover::after {
+            width: 100%;
+        }
+
+        .util-menu {
+            margin-left: 35px;
+            font-size: 22px;
+            font-weight: 700;
+            cursor: pointer;
+        }
 
         /* 메인 히어로 섹션 */
         .hero {
@@ -423,11 +500,203 @@
     </style>
 </head>
 <body>
+ <!-- =========================
+     메인 팝업 시작
+========================== -->
+<div id="popup" style="
+    position:fixed;
+    inset:0;
+    background:rgba(15,10,20,0.68);
+    backdrop-filter:blur(4px);
+    -webkit-backdrop-filter:blur(4px);
+    z-index:9999;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:0;
+">
 
+    <!-- 팝업 박스 -->
+    <div style="
+        position:relative;
+        width:min(500px, 92vw);
+        background:transparent;
+        border-radius:16px;
+        overflow:hidden;
+        box-shadow:0 20px 60px rgba(0,0,0,0.4);
+    ">
+
+        <!-- X 버튼 -->
+        <button
+            type="button"
+            aria-label="팝업 닫기"
+            onclick="closeMainPopup()"
+            style="
+                position:absolute;
+                top:12px;
+                right:12px;
+                width:42px;
+                height:42px;
+                border:1px solid rgba(255,255,255,0.55);
+                border-radius:50%;
+                background:rgba(35,35,35,0.55);
+                backdrop-filter:blur(8px);
+                -webkit-backdrop-filter:blur(8px);
+                color:#fff;
+                font-size:25px;
+                font-weight:300;
+                line-height:38px;
+                cursor:pointer;
+                z-index:10;
+                box-shadow:0 4px 14px rgba(0,0,0,0.22);
+                transition:all 0.2s ease;
+            "
+            onmouseover="
+                this.style.background='rgba(92,36,131,0.9)';
+                this.style.transform='scale(1.06)';
+            "
+            onmouseout="
+                this.style.background='rgba(35,35,35,0.55)';
+                this.style.transform='scale(1)';
+            "
+        >
+            ×
+        </button>
+
+
+        <!-- 팝업 이미지 -->
+        <img
+            src="팝업/팝업 사진.jpg"
+            alt="문화이음플랫폼 이벤트 팝업"
+            style="
+                width:100%;
+                height:auto;
+                display:block;
+                margin:0;
+                padding:0;
+            "
+        >
+
+
+        <!-- 하단 버튼 -->
+        <div style="
+            display:flex;
+            width:100%;
+            height:58px;
+            margin:0;
+            padding:0;
+            background:#fff;
+            border-top:1px solid #eeeeee;
+        ">
+
+            <!-- 닫기 -->
+            <button
+                type="button"
+                onclick="closeMainPopup()"
+                style="
+                    flex:1;
+                    height:58px;
+                    margin:0;
+                    padding:0;
+                    border:0;
+                    border-right:1px solid #eeeeee;
+                    background:#fff;
+                    color:#222;
+                    font-family:'Pretendard',sans-serif;
+                    font-size:15px;
+                    font-weight:700;
+                    cursor:pointer;
+                "
+                onmouseover="this.style.background='#f7f4f9'"
+                onmouseout="this.style.background='#fff'"
+            >
+                닫기
+            </button>
+
+
+            <!-- 일주일 동안 보지 않기 -->
+            <button
+                type="button"
+                onclick="hideMainPopupForWeek()"
+                style="
+                    flex:1.35;
+                    height:58px;
+                    margin:0;
+                    padding:0;
+                    border:0;
+                    background:#fff;
+                    color:#5c2483;
+                    font-family:'Pretendard',sans-serif;
+                    font-size:15px;
+                    font-weight:700;
+                    cursor:pointer;
+                "
+                onmouseover="this.style.background='#f7f4f9'"
+                onmouseout="this.style.background='#fff'"
+            >
+                일주일 동안 보지 않기
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+<!-- =========================
+     메인 팝업 끝
+========================== -->
+
+
+<script>
+
+    /* 그냥 닫기 */
+    function closeMainPopup() {
+        document.getElementById('popup').style.display = 'none';
+    }
+
+
+    /* 일주일 동안 보지 않기 */
+    function hideMainPopupForWeek() {
+
+        const hideUntil =
+            Date.now() + (7 * 24 * 60 * 60 * 1000);
+
+        localStorage.setItem(
+            'culturePopupHideUntil',
+            hideUntil
+        );
+
+        closeMainPopup();
+    }
+
+
+    /* 사이트 접속 시 일주일 숨김 여부 확인 */
+    (function () {
+
+        const hideUntil = Number(
+            localStorage.getItem('culturePopupHideUntil') || 0
+        );
+
+        if (hideUntil > Date.now()) {
+
+            document.getElementById('popup').style.display = 'none';
+
+        } else if (hideUntil) {
+
+            localStorage.removeItem('culturePopupHideUntil');
+
+        }
+
+    })();
+
+</script>
+ 
+
+    <!-- 여기부터 원래 홈페이지 내용 -->
     <!-- 헤더 -->
     <header>
         <div class="container header-inner">
-            <div class="logo">문화 이음 플랫폼</div>
+            <div class="logo"><a href="#">문화 이음 플랫폼</a></div>
             <nav>
                 <ul>
                     <li class="dropdown">
@@ -497,7 +766,7 @@
                     <li><a href="#enrollment-section">수강신청서</a></li>
                 </ul>
             </nav>
-            <div class="util-menu">☰</div>
+            
         </div>
     </header>
 
@@ -509,44 +778,16 @@
         </div>
     </section>
 
-    <!-- 퀵 링크 -->
-    <section class="quick-links">
-        <div class="quick-inner">
-            <a href="#" class="quick-item">
-                <span class="quick-icon">🏛️</span>
-                플랫폼 안내
-            </a>
-            <a href="#" class="quick-item">
-                <span class="quick-icon">🤝</span>
-                코칭 프로그램
-            </a>
-            <a href="#" class="quick-item">
-                <span class="quick-icon">🎨</span>
-                살롱 예약
-            </a>
-            <a href="#" class="quick-item">
-                <span class="quick-icon">📍</span>
-                오시는 길
-            </a>
-        </div>
-    </section>
 
     <!-- 프로그램 포스터 갤러리 -->
     <section id="programs-grid" class="programs">
         <div class="container">
-            <div class="tabs">
-                <span class="active">전체</span>
+            <div class="tabs" style="margin-top: -35px; margin-bottom: 25px;">
+                <span class="active" style="font-size: 22px; font-weight: 800; color: var(--primary-purple, #5b21b6); padding-bottom: 6px; border-bottom: 3px solid var(--primary-purple, #5b21b6);"">예술 인문학</span>
                 <div class="tab-dropdown">
-                    <span>예술 인문학 ▾</span>
-                    <ul class="tab-dropdown-menu">
-                        <li>미술인문학</li>
-                        <li>고전인문학</li>
-                        <li>음악인문학</li>
-                        <li>영화인문학</li>
-                    </ul>
+                    
                 </div>
-                <span>심리 코칭</span>
-                <span>워크숍</span>
+               
             </div>
             
             <div class="poster-grid">
@@ -554,32 +795,30 @@
                     <div class="poster-badge">미술인문학</div>
                     <div class="poster-img" style="background-image: url('https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80');"></div>
                     <div class="poster-info">
-                        <h3>2026 가을 예술 인문학 살롱</h3>
-                        <p>명화로 읽는 내면의 서사</p>
-                    </div>
+                        <h4 style="text-align: center;">캔버스 너머에 담긴 시대의 숨결과 인간의 철학을 읽어내는 눈</h4>
+                                            </div>
                 </div>
                 <div class="poster-card">
                     <div class="poster-badge">고전인문학</div>
                     <div class="poster-img" style="background-image: url('https://images.unsplash.com/photo-1516534775068-ba3e7458af70?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80');"></div>
                     <div class="poster-info">
-                        <h3>TCI & 에니어그램 심층 코칭</h3>
-                        <p>타고난 기질과 성격의 완벽한 이해</p>
+                        <h4 style="text-align: center;">시공간을 뛰어넘어 변하지 않는 삶의 본질과 지혜를 발견하는 여정</h4>
+                        
                     </div>
                 </div>
                 <div class="poster-card">
                     <div class="poster-badge">음악인문학</div>
                     <div class="poster-img" style="background-image: url('https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80');"></div>
                     <div class="poster-info">
-                        <h3>DISC 기반 대인관계 워크숍</h3>
-                        <p>조직과 가족의 온도를 바꾸는 소통법</p>
-                    </div>
+                        <h4 style="text-align: center;">선율 뒤에 숨겨진 시대의 울림과 인간의 깊은 내면을 경청하는 소리의 성찰</h4>
+                                            </div>
                 </div>
                 <div class="poster-card">
                     <div class="poster-badge">영화인문학</div>
                     <div class="poster-img" style="background-image: url('https://images.unsplash.com/photo-1541701494587-cb58502866ab?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80');"></div>
                     <div class="poster-info">
-                        <h3>색으로 찾는 나의 마음 (도형 심리)</h3>
-                        <p>무의식을 깨우는 치유의 시간</p>
+                        <h4 style="text-align: center;">스크린이라는 창을 통해 타인의 삶을 마주하고 현대 사회와 나를 비춰보는 거울</h4>
+                   
                     </div>
                 </div>
             </div>
@@ -595,9 +834,12 @@
             
             <div class="counseling-container">
                 <article id="counseling-tci" class="counseling-card">
-                    <div class="counseling-img-wrap" style="background-image: url('https://images.unsplash.com/photo-1516534775068-ba3e7458af70?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80');"></div>
+                    <div class="counseling-img-wrap" style="background-image: url('심리 상담/TCI & DISC.jpg');"></div>
                     <div class="counseling-content">
-                        <div class="counseling-title-badge">TCI & DISC</div>
+                        <div class="counseling-title-badge" style="transform: translateY(-35px); margin-bottom: -20px; display: inline-block;">TCI & DISC</div>
+                         <p style="margin-top: 35px; font-size: 14px; color: #444; line-height: 1.7; word-break: keep-all; background: #f8f3fc; padding: 15px; border-radius: 10px; border-left: 4px solid var(--primary-purple);">
+                            타고난 생물학적 기질과 후천적으로 형성된 성격을 구분하여 개인의 인성을 다각도로 측정하는 심리검사인 <strong>TCI</strong>와, 사람의 행동 유형을 4가지 범주로 분류하여 개인이 일상 및 업무 상황에서 나타내는 고유한 행동 방식을 측정하는 심리검사 <strong>DISC</strong>를 통해 당신이 누구인지 알려드립니다.
+                        </p>
                         <ul class="counseling-list">
                             <li class="list-title">기질과 성격의 완벽한 이해를 통한 관계 개선 코칭</li>
                             <li>개인의 타고난 기질과 환경적 성격 구조 심층 분석</li>
@@ -608,9 +850,17 @@
                 </article>
 
                 <article id="counseling-color" class="counseling-card reverse">
-                    <div class="counseling-img-wrap" style="background-image: url('https://images.unsplash.com/photo-1541701494587-cb58502866ab?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80');"></div>
+                    <div class="counseling-img-wrap" style="background-image: url('심리 상담/컬러테라피.jpg');"></div>
                     <div class="counseling-content">
-                        <div class="counseling-title-badge">컬러 테라피</div>
+                        <div class="counseling-title-badge" style="transform: translateY(-35px); margin-bottom: -20px; display: inline-block;">컬러 테라피</div>
+                        <div style="margin-top: 35px; background: #faf8fc; padding: 18px 20px; border-radius: 12px; border: 1px solid #eee; border-right: 4px solid var(--primary-purple);">
+                            <p style="font-size: 15px; font-weight: 700; color: var(--primary-purple); margin-bottom: 8px; word-break: keep-all;">
+                                “색을 통해 나를 만나고,<br>색을 통해 마음을 들여다보는 시간입니다.”
+                            </p>
+                            <p style="font-size: 13.5px; color: #555; line-height: 1.6; word-break: keep-all; margin: 0;">
+                                컬러 테라피는 색이 주는 심리적·정서적 자극을 활용하여 자신의 감정을 이해하고 마음을 돌아보도록 돕는 활동입니다.
+                            </p>
+                        </div>
                         <ul class="counseling-list">
                             <li class="list-title">색채와 도형으로 찾는 나의 무의식과 마음 상태 진단</li>
                             <li>현재의 스트레스 지수 파악 및 심리적 이완 훈련</li>
@@ -621,9 +871,15 @@
                 </article>
 
                 <article id="counseling-book" class="counseling-card">
-                    <div class="counseling-img-wrap" style="background-image: url('https://images.unsplash.com/photo-1491841550275-ad7854e35ca6?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80');"></div>
+                    <div class="counseling-img-wrap" style="background-image: url('심리 상담/북테라피.jpg');"></div>
                     <div class="counseling-content">
-                        <div class="counseling-title-badge">북테라피</div>
+                        <div class="counseling-title-badge" style="transform: translateY(-35px); margin-bottom: -20px; display: inline-block;">북테라피</div>
+                        <div style="margin-top: 35px; background: #faf8fc; padding: 18px 20px; border-radius: 12px; border: 1px solid #eee; border-left: 4px solid var(--primary-purple);">
+                            <p style="font-size: 14px; color: #444; line-height: 1.7; word-break: keep-all; margin: 0;">
+                                책을 읽는 과정을 통해 마음의 상처를 치유하고, 심리적 안정과 성장을 도모하는 심리 치유 방법입니다.<br><br>
+                                단순히 지식을 쌓기 위한 독서가 아니라, 문학 작품이나 에세이 등의 글로 <strong>자신을 되돌아보는 프로그램</strong>입니다.
+                            </p>
+                        </div>
                         <ul class="counseling-list">
                             <li class="list-title">문학을 통해 내면의 상처를 치유하고 성찰하는 시간</li>
                             <li>깊이 있는 독서 모임을 통한 공감과 소통 능력 강화</li>
@@ -634,9 +890,15 @@
                 </article>
 
                 <article id="counseling-tarot" class="counseling-card reverse">
-                    <div class="counseling-img-wrap" style="background-image: url('https://images.unsplash.com/photo-1628157588553-5eeea00af15c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80');"></div>
+                    <div class="counseling-img-wrap" style="background-image: url('심리 상담/명리학, 타로.jpg');"></div>
                     <div class="counseling-content">
-                        <div class="counseling-title-badge">명리학, 타로</div>
+                        <div class="counseling-title-badge" style="transform: translateY(-35px); margin-bottom: -20px; display: inline-block;">명리학, 타로</div>
+                        <div style="margin-top: 35px; background: #faf8fc; padding: 18px 20px; border-radius: 12px; border: 1px solid #eee; border-right: 4px solid var(--primary-purple);">
+                            <p style="font-size: 14px; color: #444; line-height: 1.7; word-break: keep-all; margin: 0;">
+                                타로는 <strong>78장의 상징적인 그림 카드</strong>를 활용하여 질문자의 무의식, 현재 상황, 그리고 미래의 가능성을 비추어 보는 통찰 도구입니다.<br><br>
+                                카드가 지닌 고유한 상징과 배치 관계를 해석함으로써 직면한 문제에 대한 새로운 관점과 해결의 힌트를 얻을 수 있습니다.
+                            </p>
+                        </div>
                         <ul class="counseling-list">
                             <li class="list-title">동양 철학과 타로 상징을 활용한 삶의 통찰 및 방향성 탐색</li>
                             <li>불확실한 미래에 대한 심리적 안정감 및 자존감 회복</li>
@@ -649,7 +911,16 @@
                 <article id="counseling-image" class="counseling-card">
                     <div class="counseling-img-wrap" style="background-image: url('https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80');"></div>
                     <div class="counseling-content">
-                        <div class="counseling-title-badge">이미지 메이킹</div>
+                        <div class="counseling-title-badge" style="transform: translateY(-35px); margin-bottom: -20px; display: inline-block;">이미지 메이킹</div>
+                        <div style="margin-top: 35px; background: #faf8fc; padding: 18px 20px; border-radius: 12px; border: 1px solid #eee; border-left: 4px solid var(--primary-purple);">
+                            <p style="font-size: 15px; font-weight: 700; color: var(--primary-purple); margin-bottom: 8px; word-break: keep-all;">
+                                "나만의 분위기를 디자인하다"
+                            </p>
+                            <p style="font-size: 14px; color: #444; line-height: 1.7; word-break: keep-all; margin: 0;">
+                                이미지 메이킹은 나를 꾸미는 것이 아니라 <strong>나의 가치를 발견하고 표현하는 과정</strong>입니다.<br>
+                                나를 알고, 나를 표현하고, 나만의 아름다움을 완성해봅시다.
+                            </p>
+                        </div>
                         <ul class="counseling-list">
                             <li class="list-title">내면의 자신감을 외면으로 자연스럽게 표현하는 퍼스널 브랜딩</li>
                             <li>개인의 매력을 극대화하는 스타일링 및 표정 연출법</li>
@@ -662,7 +933,16 @@
                 <article id="counseling-photo" class="counseling-card reverse">
                     <div class="counseling-img-wrap" style="background-image: url('https://images.unsplash.com/photo-1516961642265-531546e84af2?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80');"></div>
                     <div class="counseling-content">
-                        <div class="counseling-title-badge">사진강좌</div>
+                        <div class="counseling-title-badge" style="transform: translateY(-35px); margin-bottom: -20px; display: inline-block;">사진강좌</div>
+                        <div style="margin-top: 35px; background: #faf8fc; padding: 18px 20px; border-radius: 12px; border: 1px solid #eee; border-left: 4px solid var(--primary-purple);">
+                            <p style="font-size: 15px; font-weight: 700; color: var(--primary-purple); margin-bottom: 8px; word-break: keep-all;">
+                                "매일 지나치던 풍경 속, 진짜 '나'의 시선을 만나는 시간"
+                            </p>
+                            <p style="font-size: 14px; color: #444; line-height: 1.7; word-break: keep-all; margin: 0;">
+                                사진은 멋진 풍경을 남기는 기술이 아니라, 세상을 바라보는 나의 따뜻한 시선을 기록하는 일입니다.<br><br>
+                                복잡한 기술이나 비싼 카메라 대신 익숙한 스마트폰 하나로 일상을 들여다보며, 사진을 통해 나 자신을 발견하고 마음을 채워보는 프로그램입니다.
+                            </p>
+                        </div>
                         <ul class="counseling-list">
                             <li class="list-title">카메라 프레임 너머의 세상을 보는 새로운 시각과 통찰력 배양</li>
                             <li>평범한 일상의 순간을 예술로 기록하며 느끼는 심리적 성취감</li>
@@ -675,7 +955,16 @@
                 <article id="counseling-brain" class="counseling-card">
                     <div class="counseling-img-wrap" style="background-image: url('https://images.unsplash.com/photo-1559757175-5700dde675bc?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80');"></div>
                     <div class="counseling-content">
-                        <div class="counseling-title-badge">뇌과학</div>
+                        <div class="counseling-title-badge" style="transform: translateY(-35px); margin-bottom: -20px; display: inline-block;">뇌과학</div>
+                        <div style="margin-top: 35px; background: #faf8fc; padding: 18px 20px; border-radius: 12px; border: 1px solid #eee; border-left: 4px solid var(--primary-purple);">
+                            <p style="font-size: 15px; font-weight: 700; color: var(--primary-purple); margin-bottom: 8px; word-break: keep-all;">
+                                "생각과 감정의 비밀, 뇌를 통해 마음을 읽다"
+                            </p>
+                            <p style="font-size: 14px; color: #444; line-height: 1.7; word-break: keep-all; margin: 0;">
+                                뇌과학 세미나는 뇌의 작동 방식을 통해 나의 마음과 행동 패턴을 고찰해보는 시간입니다.<br><br>
+                                막연했던 나의 감정과 유난히 고치기 힘들었던 습관의 이유를 과학적으로 이해하며, 나 자신을 유연하고 다정하게 다루는 법을 배웁니다.
+                            </p>
+                        </div>
                         <ul class="counseling-list">
                             <li class="list-title">인생의 도전과 리셋을 준비하는 사람을 위한 멘탈 리프레밍 코칭[cite: 1]</li>
                             <li>국제 멘탈력 진단 기반 설계 및 뇌신경 과학 원리 적용[cite: 1]</li>
@@ -724,7 +1013,16 @@
                         </div>
                     </div>
                     <div class="hobby-info">
-                        <h3>아로마 테라피 : 북 퍼퓸 만들기</h3>
+                        <h3>아로마 테라피 : 북 퍼퓸</h3>
+                        <div style="margin-top: 12px; background: #fffbf5; padding: 14px 16px; border-radius: 10px; border-left: 3px solid #ff9800; text-align: left;">
+                            <p style="font-size: 13.5px; font-weight: 700; color: #e65100; margin-bottom: 6px; word-break: keep-all;">
+                                책장에 은은한 향기를 입혀 독서의 깊이를 더하다📚✨
+                            </p>
+                            <p style="font-size: 12.5px; color: #555; line-height: 1.6; word-break: keep-all; margin: 0;">
+                                책이나 서재 공간에 뿌려 독서 몰입도를 높여주는 감성 아이템! 나만의 향을 담은 퍼퓸으로 책을 오감으로 즐겨보세요.
+                            </p>
+                        </div>
+
                     </div>
                 </article>
 
@@ -737,6 +1035,14 @@
                     </div>
                     <div class="hobby-info">
                         <h3>요리조리 쿠킹클래스</h3>
+                        <div style="margin-top: 12px; background: #fffbf5; padding: 14px 16px; border-radius: 10px; border-left: 3px solid #ff9800; text-align: left;">
+                            <p style="font-size: 13.5px; font-weight: 700; color: #e65100; margin-bottom: 6px; word-break: keep-all;">
+                                조금만 배우면 맛있는 한 끼가 되고, 근사한 한 접시가 된다!
+                            </p>
+                            <p style="font-size: 12.5px; color: #555; line-height: 1.6; word-break: keep-all; margin: 0;">
+                                누구나 쉽고 즐겁게 따라 할 수 있는 레시피부터, 같은 음식도 더욱 근사하게 보이게 하는 플레이팅의 작은 비법까지❤️
+                            </p>
+                        </div>
                     </div>
                 </article>
 
@@ -749,6 +1055,14 @@
                     </div>
                     <div class="hobby-info">
                         <h3>플라워 아트 클래스</h3>
+                        <div style="margin-top: 12px; background: #fdf8f9; padding: 14px 16px; border-radius: 10px; border-left: 3px solid #e91e63; text-align: left;">
+                            <p style="font-size: 13.5px; font-weight: 700; color: #c2185b; margin-bottom: 6px; word-break: keep-all;">
+                                계절의 예쁨을 손끝에 담아, 일상에 향기를 채우다🌸
+                            </p>
+                            <p style="font-size: 12.5px; color: #555; line-height: 1.6; word-break: keep-all; margin: 0;">
+                                꽃을 만지며 마음의 스트레스를 비워내는 힐링의 시간! 세상에 단 하나뿐인 나만의 작품을 만들며 오롯이 나에게 몰입해 보세요.
+                            </p>
+                        </div>
                     </div>
                 </article>
 
@@ -761,6 +1075,14 @@
                     </div>
                     <div class="hobby-info">
                         <h3>세븐브릿지 드라이빙 투어</h3>
+                        <div style="margin-top: 12px; background: #f0f7ff; padding: 14px 16px; border-radius: 10px; border-left: 3px solid #0288d1; text-align: left;">
+                            <p style="font-size: 13.5px; font-weight: 700; color: #0277bd; margin-bottom: 6px; word-break: keep-all;">
+                                7개 바다 다리를 따라 펼쳐지는 부산만의 입체적 야경 뷰✨
+                            </p>
+                            <p style="font-size: 12.5px; color: #555; line-height: 1.6; word-break: keep-all; margin: 0;">
+                                부산을 대표하는 해안대교의 고유한 야경과 해안 절경을 연속으로 경험하며 해양 도시 부산의 화려한 매력을 완성해보세요!
+                            </p>
+                        </div>
                     </div>
                 </article>
             </div>
@@ -773,7 +1095,14 @@
             <div class="enrollment-wrapper">
                 <div class="enrollment-header">
                     <h2>수강 신청서 작성</h2>
-                    <p>문화 이음 플랫폼과 함께할 당신을 환영합니다.</p>
+                    <p style="font-size: 12.5px; color: #444; line-height: 1.8; word-break: keep-all; margin: 15px auto 30px; max-width: 520px; text-align: center;">
+    문화와 배움, 그리고 사람과 사람이 함께 어우러지는 다양한 프로그램을 준비했습니다.
+    새로운 배움과 즐거운 경험을 통해 일상에 작은 변화와 성장을 더해보시기 바랍니다.
+    여러분의 많은 관심과 참여를 기다리며, 아래 수강신청 안내를 참고하여<br>
+    <strong style="color: var(--primary-purple, #5b21b6); font-size: 15px; background: #f3e8ff; padding: 2px 6px; border-radius: 4px; font-weight: 700;">
+        원하는 프로그램에 신청해 주세요.
+    </strong>
+</p>
                 </div>
 
                 <form action="#" method="POST">
@@ -871,25 +1200,80 @@
     </section>
 
     <!-- 문화 이음 플랫폼 소개 -->
-    <section id="greeting" style="padding: 90px 0; background:#fff;">
-        <div class="container">
-            <div class="section-title">
-                <h2>대표 <span>인사말</span></h2>
+    <section id="greeting" style="padding: 90px 30; background:#fff;">
+      
+           
+            <!-- 대표 인사말 섹션 -->
+<section class="ceo-section" style="max-width: 1100px; margin: 60px auto; padding: 0 20px;">
+    
+    <!-- Section Title -->
+    <h2 style="font-size: 32px; font-weight: 800; color: #111; text-align: center; margin-bottom: 45px; letter-spacing: -0.5px;">
+        대표 <span style="color: var(--primary-purple, #5b21b6);">인사말</span>
+    </h2>
+
+    <!-- Left/Right Split Layout -->
+    <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 50px; background: #faf8fc; padding: 40px; border-radius: 20px; border: 1px solid #f0e6ff;">
+        
+        <!-- 왼쪽: 크게 들어가는 대표님 사진 영역 -->
+        <div style="flex: 1; min-width: 300px; max-width: 420px; margin: 0 auto;">
+            <div style="width: 100%; height: 480px; border-radius: 16px; overflow: hidden; box-shadow: 0 12px 28px rgba(91, 33, 182, 0.12); border: 2px solid #fff;">
+               <img src="images/원장님 사진.jpg" alt="문화 이음 플랫폼 류진희 대표" style="width: 100%; height: 100%; object-fit: cover; display: block;">
             </div>
-            <p style="max-width:850px; margin:0 auto; text-align:center; color:#666;">
-                문화와 예술, 심리와 사람을 연결하는 문화 이음 플랫폼입니다.
-                이곳에 대표 인사말 내용을 입력하시면 됩니다.
-            </p>
         </div>
-    </section>
+
+        <!-- 오른쪽: 직함, 이름, 인사말 본문 영역 -->
+        <div style="flex: 1.2; min-width: 300px; text-align: left;">
+            
+            <!-- 직함 및 이름 -->
+            <div style="margin-bottom: 20px; border-bottom: 2px solid var(--primary-purple, #5b21b6); padding-bottom: 15px; display: inline-block;">
+                <span style="font-size: 16px; font-weight: 600; color: var(--primary-purple, #5b21b6); display: block; margin-bottom: 4px;">문화 이음 	플랫폼</span>
+                <h3 style="font-size: 28px; font-weight: 800; color: #222; margin: 0;">
+                    대표 <span style="color: #111;">류진희</span>
+                </h3>
+            </div>
+
+            <!-- 인사말 본문 -->
+            <p style="font-size: 15px; color: #444; line-height: 1.85; word-break: keep-all; margin: 0 0 20px 0;">
+                안녕하세요. 문화 이음 플랫폼 대표 류진희입니다.<br><br>
+                어느 순간부터 이런 생각을 하게 되었습니다.<br>
+                <strong>“부산에도 서울처럼 사람들이 일상 가까이에서 문화를 만나고, 배우고, 이야기 나눌 수 있는 공간이 더 많아졌으면 좋겠다.”</strong><br><br>
+                누군가에게는 배움의 공간이 되고, 누군가에게는 자신의 재능을 나누는 공간이 되며, 새로운 사람과 세상을 만나는 연결고리가 되었으면 합니다. 인문학과 예술, 음악 등 다양한 강좌를 통해 오감으로 문화를 즐기며 삶의 즐거움을 발견해보세요.
+            </p>
+
+            <!-- 슬로건 포인트 -->
+            <div style="background: #fff; padding: 16px 20px; border-radius: 10px; border-left: 4px solid var(--primary-purple, #5b21b6); box-shadow: 0 2px 8px rgba(0,0,0,0.04);">
+                <p style="font-size: 14px; font-weight: 700; color: var(--primary-purple, #5b21b6); margin: 0; word-break: keep-all;text-align: center;">
+                    "여러분의 삶에 좋은 문화가 이어지고, 좋은 사람이 이어지는 공간이 되겠습니다."
+                </p>
+            </div>
+
+        </div>
+
+    </div>
+</section>
 
     <section id="purpose" style="padding: 90px 0; background:#f8f3fc;">
         <div class="container">
             <div class="section-title">
-                <h2>문화이음플랫폼 <span>설립 취지</span></h2>
+                <h2>문화 이음 플랫폼 <span>설립 취지</span></h2>
             </div>
             <p style="max-width:850px; margin:0 auto; text-align:center; color:#666;">
-                문화이음플랫폼의 설립 목적과 운영 방향을 소개하는 공간입니다.
+                문화로 사람을 잇고, 배움으로 삶을 풍요롭게 합니다.
+
+                문화이음플랫폼은 예술과 인문학, 문화와 교육을 통해
+                사람과 사람의 마음을 연결하고,
+                배움과 경험이 일상의 새로운 활력이 되도록 돕는 문화공간입니다.
+
+                누구나 쉽게 문화와 예술을 만나고,
+                함께 배우고 소통하며 자신의 삶을 새롭게 바라볼 수 있도록
+                다양한 문화·예술·인문학 프로그램을 제공합니다.
+
+                문화가 삶이 되고, 만남이 관계가 되며,
+                배움이 새로운 희망으로 이어지는 곳.
+
+                문화이음플랫폼은 사람과 문화가 만나
+                더 따뜻하고 행복한 지역사회를 만들어가는
+                문화 연결의 장을 만들어가겠습니다.
             </p>
         </div>
     </section>
@@ -900,7 +1284,8 @@
                 <h2><span>서울</span> 문화 이음 플랫폼</h2>
             </div>
             <p style="max-width:850px; margin:0 auto; text-align:center; color:#666;">
-                서울 지역 문화 이음 플랫폼의 프로그램과 활동을 소개하는 공간입니다.
+               경기도 과천시 문원청계 7길
+
             </p>
         </div>
     </section>
@@ -911,7 +1296,7 @@
                 <h2><span>부산</span> 문화 이음 플랫폼</h2>
             </div>
             <p style="max-width:850px; margin:0 auto; text-align:center; color:#666;">
-                부산 지역 문화 이음 플랫폼의 프로그램과 활동을 소개하는 공간입니다.
+                부산시 동구 충장대로 160
             </p>
         </div>
     </section>
@@ -942,8 +1327,8 @@
                 </article>
 
                 <article id="instructor-kyungseok" class="instructor-card">
-                    <div class="instructor-photo" style="background-image:url('images/instructor-seo-kyungseok.jpg');">
-                        <span>서경석 강사 사진</span>
+                    <div class="instructor-photo" style="background-image:url('images/서경석 사진.jpg');">
+                       
                     </div>
                     <div class="instructor-info">
                         <span class="instructor-role">강사</span>
@@ -953,8 +1338,8 @@
                 </article>
 
                 <article id="instructor-yoonha" class="instructor-card">
-                    <div class="instructor-photo" style="background-image:url('images/instructor-lee-yoonha.jpg');">
-                        <span>이윤하 강사 사진</span>
+                    <div class="instructor-photo" style="background-image:url('images/이윤하 사진.jpg');">
+                        </span>
                     </div>
                     <div class="instructor-info">
                         <span class="instructor-role">강사</span>
@@ -964,8 +1349,8 @@
                 </article>
 
                 <article id="instructor-kihyun" class="instructor-card">
-                    <div class="instructor-photo" style="background-image:url('images/instructor-kim-kihyun.jpg');">
-                        <span>김기현 강사 사진</span>
+                    <div class="instructor-photo" style="background-image:url('images/김기현 사진.jpg');">
+                       
                     </div>
                     <div class="instructor-info">
                         <span class="instructor-role">강사</span>
@@ -986,8 +1371,8 @@
                 </article>
 
                 <article id="instructor-aesoon" class="instructor-card">
-                    <div class="instructor-photo" style="background-image:url('images/instructor-park-aesoon.jpg');">
-                        <span>박애순 강사 사진</span>
+                    <div class="instructor-photo" style="background-image:url('images/박애순 사진.jpg');">
+                       
                     </div>
                     <div class="instructor-info">
                         <span class="instructor-role">강사</span>
@@ -1142,4 +1527,5 @@
     </script>
 
 </body>
+
 </html>
