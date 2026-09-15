@@ -556,7 +556,41 @@ img{max-width:100%;height:auto}
  .hobby-img-wrap{height:285px}
 }
 
-</style>
+
+        /* 수강신청서 입력 검증 */
+        .form-error-label {
+            color: #d93025 !important;
+        }
+        .form-control.input-error {
+            border-color: #d93025 !important;
+            background: #fff7f7 !important;
+            box-shadow: 0 0 0 3px rgba(217,48,37,0.08) !important;
+        }
+        .gender-group.input-error .gender-option span {
+            border-color: #d93025 !important;
+            color: #d93025 !important;
+            background: #fff7f7 !important;
+        }
+        .terms-group.input-error label {
+            color: #d93025 !important;
+            font-weight: 700;
+        }
+        .enrollment-success {
+            display: none;
+            margin-top: 18px;
+            padding: 16px 18px;
+            border-radius: 10px;
+            background: #f3eaf8;
+            color: #5c2483;
+            font-size: 17px;
+            font-weight: 800;
+            text-align: center;
+        }
+        .enrollment-success.show {
+            display: block;
+        }
+
+    </style>
 </head>
 <body>
  <!-- =========================
@@ -1164,7 +1198,7 @@ img{max-width:100%;height:auto}
 </p>
                 </div>
 
-                <form action="#" method="POST">
+                <form id="enrollmentForm" action="#" method="POST" novalidate>
                     <!-- 1. 이름 -->
                     <div class="form-group">
                         <label for="userName">이름</label>
@@ -1190,9 +1224,9 @@ img{max-width:100%;height:auto}
                     <div class="form-group">
                         <label>생년월일</label>
                         <div class="birth-group">
-                            <input type="text" class="form-control" placeholder="년도">
-                            <input type="text" class="form-control" placeholder="월">
-                            <input type="text" class="form-control" placeholder="일">
+                            <input type="text" id="birthYear" class="form-control" placeholder="년도" inputmode="numeric">
+                            <input type="text" id="birthMonth" class="form-control" placeholder="월" inputmode="numeric">
+                            <input type="text" id="birthDay" class="form-control" placeholder="일" inputmode="numeric">
                         </div>
                     </div>
                     
@@ -1222,6 +1256,9 @@ img{max-width:100%;height:auto}
                     
                     <!-- 8. 제출 버튼 -->
                     <button type="submit" class="submit-btn">신청 완료</button>
+                    <div id="enrollmentSuccess" class="enrollment-success" role="status" aria-live="polite">
+                        신청이 완료되었습니다.
+                    </div>
                 </form>
             </div>
         </div>
@@ -1584,6 +1621,163 @@ img{max-width:100%;height:auto}
             
         });
     </script>
+
+
+<script>
+(function () {
+    const form = document.getElementById('enrollmentForm');
+    if (!form) return;
+
+    const successBox = document.getElementById('enrollmentSuccess');
+    const submitBtn = form.querySelector('.submit-btn');
+
+    const fields = [
+        document.getElementById('userName'),
+        document.getElementById('birthYear'),
+        document.getElementById('birthMonth'),
+        document.getElementById('birthDay'),
+        document.getElementById('userPhone'),
+        document.getElementById('userAddress'),
+        document.getElementById('interestCourse')
+    ].filter(Boolean);
+
+    function setLabelError(input, isError) {
+        const group = input.closest('.form-group');
+        if (!group) return;
+        const label = group.querySelector('label');
+        if (label) label.classList.toggle('form-error-label', isError);
+        input.classList.toggle('input-error', isError);
+    }
+
+    function hideSuccess() {
+        if (successBox) successBox.classList.remove('show');
+    }
+
+    fields.forEach(input => {
+        input.addEventListener('input', function () {
+            if (this.value.trim()) setLabelError(this, false);
+            hideSuccess();
+        });
+    });
+
+    form.querySelectorAll('input[name="gender"]').forEach(radio => {
+        radio.addEventListener('change', function () {
+            const group = this.closest('.form-group');
+            if (group) {
+                const label = group.querySelector(':scope > label');
+                const genderGroup = group.querySelector('.gender-group');
+                if (label) label.classList.remove('form-error-label');
+                if (genderGroup) genderGroup.classList.remove('input-error');
+            }
+            hideSuccess();
+        });
+    });
+
+    const agree = document.getElementById('agreeTerms');
+    if (agree) {
+        agree.addEventListener('change', function () {
+            const group = this.closest('.terms-group');
+            if (group && this.checked) group.classList.remove('input-error');
+            hideSuccess();
+        });
+    }
+
+    form.addEventListener('submit', async function (event) {
+        event.preventDefault();
+        hideSuccess();
+
+        let valid = true;
+        let firstInvalid = null;
+
+        fields.forEach(input => {
+            const empty = !input.value.trim();
+            setLabelError(input, empty);
+            if (empty) {
+                valid = false;
+                if (!firstInvalid) firstInvalid = input;
+            }
+        });
+
+        const genderGroup = form.querySelector('.gender-group');
+        const genderLabel = genderGroup?.closest('.form-group')?.querySelector(':scope > label');
+        const genderChecked = !!form.querySelector('input[name="gender"]:checked');
+
+        if (genderGroup) genderGroup.classList.toggle('input-error', !genderChecked);
+        if (genderLabel) genderLabel.classList.toggle('form-error-label', !genderChecked);
+
+        if (!genderChecked) {
+            valid = false;
+            if (!firstInvalid) firstInvalid = genderGroup;
+        }
+
+        const termsGroup = agree?.closest('.terms-group');
+        const termsChecked = !!agree?.checked;
+        if (termsGroup) termsGroup.classList.toggle('input-error', !termsChecked);
+
+        if (!termsChecked) {
+            valid = false;
+            if (!firstInvalid) firstInvalid = agree;
+        }
+
+        if (!valid) {
+            firstInvalid?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            if (firstInvalid?.focus) firstInvalid.focus({ preventScroll: true });
+            return;
+        }
+
+        const gender = form.querySelector('input[name="gender"]:checked')?.value === 'male'
+            ? '남성' : '여성';
+
+        const data = {
+            name: document.getElementById('userName').value.trim(),
+            gender: gender,
+            birth:
+                document.getElementById('birthYear').value.trim() + '-' +
+                document.getElementById('birthMonth').value.trim().padStart(2, '0') + '-' +
+                document.getElementById('birthDay').value.trim().padStart(2, '0'),
+            phone: document.getElementById('userPhone').value.trim(),
+            address: document.getElementById('userAddress').value.trim(),
+            course: document.getElementById('interestCourse').value.trim()
+        };
+
+        const originalText = submitBtn.textContent;
+        submitBtn.disabled = true;
+        submitBtn.textContent = '신청 중...';
+        submitBtn.style.opacity = '0.7';
+        submitBtn.style.cursor = 'wait';
+
+        try {
+            await fetch('https://script.google.com/macros/s/AKfycbw5feAx5VnBoTkmRJc9743DSQUpBH2ScbDqEJL7TCrpZdgFZQTStMMdbzDTrE2xVomh/exec', {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: {
+                    'Content-Type': 'text/plain;charset=utf-8'
+                },
+                body: JSON.stringify(data)
+            });
+
+            if (successBox) {
+                successBox.textContent = '신청이 완료되었습니다.';
+                successBox.classList.add('show');
+                successBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+
+            form.reset();
+            document.querySelectorAll('.input-error').forEach(el => el.classList.remove('input-error'));
+            document.querySelectorAll('.form-error-label').forEach(el => el.classList.remove('form-error-label'));
+
+        } catch (error) {
+            alert('신청 전송 중 문제가 발생했습니다. 잠시 후 다시 시도해 주세요.');
+            console.error(error);
+        } finally {
+            submitBtn.disabled = false;
+            submitBtn.textContent = originalText;
+            submitBtn.style.opacity = '';
+            submitBtn.style.cursor = '';
+        }
+    });
+})();
+</script>
 
 </body>
 
