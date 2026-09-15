@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>문화 이음 플랫폼 | 예술과 마음이 닿는 곳</title>
     <style>
+        @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
 @font-face {
             font-family: 'Cafe24Dongdong';
             src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_twelve@1.1/Cafe24Dongdong.woff') format('woff');
@@ -12,7 +13,7 @@
             font-style: normal;
         }
         /* 폰트 및 기본 리셋 */
-        @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+        
         
         :root {
             --primary-purple: #5c2483;
@@ -497,7 +498,65 @@
         .footer-inner { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 30px; }
         .footer-logo { font-size: 24px; color: #fff; font-weight: 800; margin-bottom: 20px; }
         .footer-info p { margin-bottom: 8px; }
-    </style>
+    
+/* ===== 모바일 최적화 ===== */
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+body,button,input,select,textarea{font-family:'Pretendard',-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Noto Sans KR','Malgun Gothic',sans-serif}
+body{word-break:keep-all;overflow-wrap:break-word}
+img{max-width:100%;height:auto}
+
+@media(max-width:768px){
+ .container{width:92%;max-width:100%}
+ header{height:auto;min-height:72px;padding:14px 0}
+ .header-inner{width:92%;flex-direction:column;align-items:center;gap:12px}
+ .logo{font-size:24px;letter-spacing:-.8px;text-align:center}
+ nav{width:100%;margin:0;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+ nav::-webkit-scrollbar{display:none}
+ nav>ul{width:max-content;min-width:100%;justify-content:flex-start;gap:18px;padding:0 4px;font-size:14px}
+ nav>ul>li>a{padding:9px 0;white-space:nowrap}
+ nav>ul>li>a::after{bottom:2px}
+ .dropdown-menu{position:fixed;top:118px;left:50%;width:min(88vw,320px);min-width:0;max-height:55vh;overflow-y:auto;transform:translateX(-50%) translateY(-8px)}
+ nav>ul>li.dropdown.open .dropdown-menu{transform:translateX(-50%) translateY(0)}
+ .hero{height:72vh;min-height:520px;padding-top:115px}
+ .hero h2{font-size:13px;letter-spacing:1.4px;margin-bottom:12px}
+ .hero h1{font-size:clamp(30px,8.5vw,40px);line-height:1.35;letter-spacing:-1.2px}
+ .programs,.hobby-section,.notices,.dark-gallery,.instructor-section,.enrollment-section{padding-top:65px;padding-bottom:65px}
+ .tabs{gap:10px;flex-wrap:wrap}
+ .poster-grid,.hobby-grid,.notice-grid,.gallery-grid,.instructor-grid{grid-template-columns:1fr}
+ .poster-img{height:300px}
+ .poster-info h3{white-space:normal}
+ .counseling-section{padding:70px 0}
+ .counseling-container{width:100%}
+ .counseling-content{padding:28px 22px}
+ .counseling-title-badge{font-size:18px;transform:none!important;margin-bottom:15px!important}
+ .counseling-content p,.counseling-list li,.hobby-info p,.notice-card,.instructor-info p{overflow-wrap:break-word;word-break:keep-all}
+ .hobby-header{align-items:stretch}
+ .hobby-title h2{font-size:26px;line-height:1.35}
+ .hobby-search-area{display:grid;grid-template-columns:1fr 1fr;width:100%}
+ .hobby-search-area input,.hobby-search-area button{grid-column:1/-1;width:100%;min-width:0}
+ .hobby-img-wrap{height:320px}
+ .enrollment-wrapper{width:100%;padding:34px 20px;border-radius:16px}
+ .enrollment-header h2{font-size:26px}
+ .birth-group{gap:7px}
+ .birth-group .form-control{min-width:0;padding:14px 5px;font-size:14px}
+ .gallery-header,.footer-inner{flex-direction:column;align-items:flex-start}
+ .gallery-item{height:260px}
+ footer{padding:45px 0}
+ #popup>div{width:min(94vw,500px)!important;max-height:92vh}
+ #popup img{max-height:calc(92vh - 58px);object-fit:contain}
+}
+@media(max-width:390px){
+ .logo{font-size:22px}
+ nav>ul{font-size:13px;gap:15px}
+ .hero h1{font-size:29px}
+ .hero h2{font-size:12px}
+ .section-title h2{font-size:24px}
+ .hobby-title h2{font-size:23px}
+ .poster-img{height:270px}
+ .hobby-img-wrap{height:285px}
+}
+
+</style>
 </head>
 <body>
  <!-- =========================
