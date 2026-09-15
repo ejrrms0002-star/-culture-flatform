@@ -598,7 +598,10 @@ img{max-width:100%;height:auto}
 ========================== -->
 <div id="popup" style="
     position:absolute;
-    inset:0;
+    top:0;
+    left:0;
+    width:100%;
+    height:100vh;
     background:rgba(15,10,20,0.68);
     backdrop-filter:blur(4px);
     -webkit-backdrop-filter:blur(4px);
@@ -1776,6 +1779,32 @@ img{max-width:100%;height:auto}
             submitBtn.style.cursor = '';
         }
     });
+})();
+</script>
+
+
+<script>
+(function () {
+    const popup = document.getElementById('popup');
+    if (!popup) return;
+
+    let ticking = false;
+
+    function movePopupWithScroll() {
+        if (popup.style.display !== 'none') {
+            popup.style.top = window.scrollY + 'px';
+        }
+        ticking = false;
+    }
+
+    window.addEventListener('scroll', function () {
+        if (!ticking) {
+            window.requestAnimationFrame(movePopupWithScroll);
+            ticking = true;
+        }
+    }, { passive: true });
+
+    movePopupWithScroll();
 })();
 </script>
 
