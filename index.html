@@ -597,11 +597,8 @@ img{max-width:100%;height:auto}
      메인 팝업 시작
 ========================== -->
 <div id="popup" style="
-    position:absolute;
-    top:0;
-    left:0;
-    width:100%;
-    height:100vh;
+    position:fixed;
+    inset:0;
     background:rgba(15,10,20,0.68);
     backdrop-filter:blur(4px);
     -webkit-backdrop-filter:blur(4px);
@@ -613,7 +610,7 @@ img{max-width:100%;height:auto}
 ">
 
     <!-- 팝업 박스 -->
-    <div style="
+    <div id="popupBox" style="
         position:relative;
         width:min(500px, 92vw);
         background:transparent;
@@ -1786,45 +1783,37 @@ img{max-width:100%;height:auto}
 <script>
 (function () {
     const popup = document.getElementById('popup');
-    if (!popup) return;
+    const popupBox = document.getElementById('popupBox');
+    if (!popup || !popupBox) return;
 
-    // 현재 팝업 위치와 목표 위치
-    let currentY = window.scrollY;
-    let targetY = window.scrollY;
-    let animationId = null;
+    let lastScrollY = window.scrollY;
+    let visualOffset = 0;
+    let settleTimer = null;
 
-    // 스크롤할 때 목표 위치만 변경
-    function onScroll() {
-        targetY = window.scrollY;
+    // 움직임이 실제로 보이도록 transition을 사용
+    popupBox.style.transition = 'transform 0.32s cubic-bezier(0.22, 1, 0.36, 1)';
+    popupBox.style.willChange = 'transform';
 
-        if (!animationId) {
-            animationId = requestAnimationFrame(animatePopup);
-        }
-    }
+    window.addEventListener('scroll', function () {
+        if (popup.style.display === 'none') return;
 
-    // 팝업이 스크롤을 살짝 늦게, 부드럽게 따라오도록 보간
-    function animatePopup() {
-        currentY += (targetY - currentY) * 0.14;
+        const now = window.scrollY;
+        const delta = now - lastScrollY;
+        lastScrollY = now;
 
-        // 거의 도착하면 정확히 맞춰서 흔들림 방지
-        if (Math.abs(targetY - currentY) < 0.5) {
-            currentY = targetY;
-        }
+        // 아래로 스크롤하면 팝업도 아래로, 위로 스크롤하면 위로.
+        // 너무 멀리 이동하지 않도록 최대 90px까지만 자연스럽게 따라감.
+        visualOffset += delta * 0.55;
+        visualOffset = Math.max(-90, Math.min(90, visualOffset));
 
-        popup.style.transform = 'translate3d(0,' + currentY + 'px,0)';
+        popupBox.style.transform = 'translate3d(0,' + visualOffset + 'px,0)';
 
-        if (currentY !== targetY) {
-            animationId = requestAnimationFrame(animatePopup);
-        } else {
-            animationId = null;
-        }
-    }
-
-    // 첫 위치 맞추기
-    popup.style.willChange = 'transform';
-    popup.style.transform = 'translate3d(0,' + currentY + 'px,0)';
-
-    window.addEventListener('scroll', onScroll, { passive: true });
+        clearTimeout(settleTimer);
+        settleTimer = setTimeout(function () {
+            visualOffset = 0;
+            popupBox.style.transform = 'translate3d(0,0,0)';
+        }, 140);
+    }, { passive: true });
 })();
 </script>
 
