@@ -698,6 +698,46 @@ img{max-width:100%;height:auto}
 }
 </style>
 
+
+<style>
+/* ===== 강사진 사진 프레임 최종 정렬 ===== */
+.instructor-photo {
+    width: 100% !important;
+    height: 300px !important;
+    overflow: hidden !important;
+    background-repeat: no-repeat !important;
+    background-size: cover !important;
+    background-color: #f3f3f3 !important;
+}
+
+/* 가로 사진은 얼굴이 중앙에 오도록, 세로 사진은 상단 얼굴 중심으로 개별 조정 */
+.photo-kang .instructor-photo { background-position: center 15% !important; }
+.photo-seo  .instructor-photo { background-position: center 34% !important; }
+.photo-yoon .instructor-photo { background-position: center 25% !important; }
+.photo-kim  .instructor-photo { background-position: center 30% !important; }
+.photo-choi .instructor-photo { background-position: center 18% !important; }
+.photo-park .instructor-photo { background-position: center 30% !important; }
+.photo-jung .instructor-photo { background-position: center 18% !important; }
+.photo-lee  .instructor-photo { background-position: center 38% !important; }
+
+/* 카드 비율과 하단 정보 영역도 일정하게 */
+.instructor-card {
+    display: flex !important;
+    flex-direction: column !important;
+    min-height: 0 !important;
+}
+.instructor-info {
+    flex: 1;
+}
+
+/* 모바일에서도 동일한 인물 중심 유지 */
+@media (max-width: 768px) {
+    .instructor-photo {
+        height: 320px !important;
+    }
+}
+</style>
+
 </head>
 <body>
  <!-- =========================
@@ -1247,7 +1287,7 @@ img{max-width:100%;height:auto}
                 </article>
 
                 <article class="hobby-card">
-                    <div class="hobby-img-wrap" style="background-image: url('원데이클래스/플라워.jpg');">
+                    <div class="hobby-img-wrap" style="background-image: url('원데이클래스/플라워.png');">
                         <div class="hobby-badges">
                             <span class="hobby-badge-year">2026</span>
                             <span class="hobby-badge-cat" style="background-color: #e91e63;">클래스</span>
@@ -1518,9 +1558,9 @@ img{max-width:100%;height:auto}
             </p>
 
             <div class="instructor-grid">
-                <article id="instructor-bora" class="instructor-card">
+                <article id="instructor-bora" class="instructor-card photo-kang">
                     <div class="instructor-photo" style="background-image:url('images/강보승 사진.jpg');">
-                 
+                        
                     </div>
                     <div class="instructor-info">
                         <span class="instructor-role">대표강사</span>
@@ -1529,7 +1569,7 @@ img{max-width:100%;height:auto}
                     </div>
                 </article>
 
-                <article id="instructor-kyungseok" class="instructor-card">
+                <article id="instructor-kyungseok" class="instructor-card photo-seo">
                     <div class="instructor-photo" style="background-image:url('images/서경석 사진.jpg');">
                        
                     </div>
@@ -1540,9 +1580,8 @@ img{max-width:100%;height:auto}
                     </div>
                 </article>
 
-                <article id="instructor-yoonha" class="instructor-card">
+                <article id="instructor-yoonha" class="instructor-card photo-yoon">
                     <div class="instructor-photo" style="background-image:url('images/이윤하 사진.jpg');">
-                        </span>
                     </div>
                     <div class="instructor-info">
                         <span class="instructor-role">강사</span>
@@ -1551,7 +1590,7 @@ img{max-width:100%;height:auto}
                     </div>
                 </article>
 
-                <article id="instructor-kihyun" class="instructor-card">
+                <article id="instructor-kihyun" class="instructor-card photo-kim">
                     <div class="instructor-photo" style="background-image:url('images/김기현 사진.jpg');">
                        
                     </div>
@@ -1562,9 +1601,9 @@ img{max-width:100%;height:auto}
                     </div>
                 </article>
 
-                <article id="instructor-yujin" class="instructor-card">
+                <article id="instructor-yujin" class="instructor-card photo-choi">
                     <div class="instructor-photo" style="background-image:url('images/최유진 사진.jpg');">
-                
+                        
                     </div>
                     <div class="instructor-info">
                         <span class="instructor-role">강사</span>
@@ -1573,7 +1612,7 @@ img{max-width:100%;height:auto}
                     </div>
                 </article>
 
-                <article id="instructor-aesoon" class="instructor-card">
+                <article id="instructor-aesoon" class="instructor-card photo-park">
                     <div class="instructor-photo" style="background-image:url('images/박애순 사진.jpg');">
                        
                     </div>
@@ -1584,7 +1623,7 @@ img{max-width:100%;height:auto}
                     </div>
                 </article>
 
-                <article id="instructor-hyeyoung" class="instructor-card">
+                <article id="instructor-hyeyoung" class="instructor-card photo-jung">
                     <div class="instructor-photo" style="background-image:url('images/정혜영 사진.jpg');">
                         
                     </div>
@@ -1595,9 +1634,9 @@ img{max-width:100%;height:auto}
                     </div>
                 </article>
 
-                <article id="instructor-gwangpyeong" class="instructor-card">
-                    <div class="instructor-photo" style="background-image:url('images/이광평 사진.png');">
-                      
+                <article id="instructor-gwangpyeong" class="instructor-card photo-lee">
+                    <div class="instructor-photo" style="background-image:url('images/이광평 사진.jpg');">
+                        
                     </div>
                     <div class="instructor-info">
                         <span class="instructor-role">강사</span>
