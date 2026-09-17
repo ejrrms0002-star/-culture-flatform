@@ -1679,7 +1679,7 @@ html { scroll-behavior: smooth; }
             Date.now() + (7 * 24 * 60 * 60 * 1000);
 
         localStorage.setItem(
-            'culturePopupHideUntil',
+            'culturePopupHideUntil_v2',
             hideUntil
         );
 
@@ -1691,7 +1691,7 @@ html { scroll-behavior: smooth; }
     (function () {
 
         const hideUntil = Number(
-            localStorage.getItem('culturePopupHideUntil') || 0
+            localStorage.getItem('culturePopupHideUntil_v2') || 0
         );
 
         if (hideUntil > Date.now()) {
@@ -1700,7 +1700,7 @@ html { scroll-behavior: smooth; }
 
         } else if (hideUntil) {
 
-            localStorage.removeItem('culturePopupHideUntil');
+            localStorage.removeItem('culturePopupHideUntil_v2');
 
         }
 
@@ -2852,10 +2852,43 @@ html { scroll-behavior: smooth; }
 /* 팝업 확인용: index.html?showPopup=1 로 접속하면 7일 숨김 설정과 무관하게 표시 */
 (function(){
   if(new URLSearchParams(window.location.search).get('showPopup') === '1'){
-    localStorage.removeItem('culturePopupHideUntil');
+    localStorage.removeItem('culturePopupHideUntil_v2');
     var p=document.getElementById('popup');
     if(p) p.style.display='flex';
   }
 })();
-</script></body>
+</script>
+<script>
+/* ===== 메인 팝업 표시 최종 보강 ===== */
+(function () {
+    const POPUP_KEY = 'culturePopupHideUntil_v2';
+
+    function initializeCulturePopup() {
+        const popup = document.getElementById('popup');
+        if (!popup) return;
+
+        const hideUntil = Number(localStorage.getItem(POPUP_KEY) || 0);
+
+        if (hideUntil > Date.now()) {
+            popup.style.display = 'none';
+            return;
+        }
+
+        if (hideUntil) {
+            localStorage.removeItem(POPUP_KEY);
+        }
+
+        /* 숨김 설정이 없으면 사이트 접속 시 확실하게 표시 */
+        popup.style.display = 'flex';
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initializeCulturePopup);
+    } else {
+        initializeCulturePopup();
+    }
+})();
+</script>
+
+</body>
 </html>
