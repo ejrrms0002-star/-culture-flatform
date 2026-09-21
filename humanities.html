@@ -802,7 +802,55 @@ body { padding-top:95px; }
     top:16px;left:16px;min-height:39px;padding:0 17px;font-size:15px;
   }
 }
-</style></head>
+</style>
+<style id="cultureeum-premium-header-v1">
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@500;600;700&display=swap');
+/* 문화이음 프리미엄 헤더 */
+header{
+  height:96px!important;
+  background:
+    radial-gradient(circle at 8% 120%,rgba(91,111,63,.18),transparent 24%),
+    radial-gradient(circle at 92% -20%,rgba(194,151,75,.16),transparent 28%),
+    linear-gradient(105deg,#f5efe3 0%,#fffaf0 42%,#f7f0e4 100%)!important;
+  border-bottom:1px solid rgba(164,125,63,.22)!important;
+  box-shadow:0 7px 24px rgba(55,45,31,.08)!important;
+  color:#163f38!important;
+  overflow:visible;
+}
+header::before,header::after{content:"";position:absolute;pointer-events:none;z-index:0;border:1px solid rgba(176,128,50,.42);border-radius:50%;}
+header::before{width:310px;height:155px;left:-155px;top:-92px;transform:rotate(-8deg)}
+header::after{width:340px;height:170px;right:-175px;bottom:-105px;transform:rotate(-10deg)}
+.header-inner{width:96%!important;max-width:1680px!important;position:relative;z-index:1;gap:24px!important;}
+.logo{font-size:inherit!important;letter-spacing:0!important;min-width:370px;}
+.logo a{display:flex!important;align-items:center!important;gap:13px!important;color:#173f38!important;opacity:1!important;}
+.logo a::before{content:"";width:74px;height:62px;flex:0 0 74px;background:url('images/cultureeum-logo-mark.jpg') center 35%/145% auto no-repeat;border-radius:14px;box-shadow:0 4px 14px rgba(42,68,50,.10);}
+.logo a::after{content:"문화 이음 플랫폼";font-family:'Noto Serif KR','Batang','Times New Roman',serif;font-size:25px;font-weight:700;letter-spacing:-1.1px;white-space:nowrap;background:linear-gradient(90deg,#123f37 0 61%,#a87930 61% 100%);-webkit-background-clip:text;background-clip:text;color:transparent;}
+.logo a{font-size:0!important;}
+nav{margin-left:auto!important;}
+nav>ul{gap:clamp(20px,2.15vw,42px)!important;font-family:'Noto Serif KR','Batang',serif!important;font-size:15px!important;font-weight:600!important;letter-spacing:-.45px!important;}
+nav>ul>li>a{padding:36px 0 33px!important;color:#31423d!important;white-space:nowrap;text-shadow:none!important;}
+nav>ul>li>a:hover,nav>ul>li.dropdown.open>a{color:#9a6d2c!important;}
+nav>ul>li>a::after{bottom:25px!important;height:1px!important;background:linear-gradient(90deg,#315d4c,#bd8b3d)!important;}
+.dropdown-menu{top:calc(100% + 6px)!important;background:rgba(255,251,243,.98)!important;border:1px solid rgba(171,129,64,.24)!important;box-shadow:0 16px 38px rgba(50,42,31,.14)!important;}
+.dropdown-menu::before{background:#fffaf2!important;border-left:1px solid rgba(171,129,64,.24)!important;border-top:1px solid rgba(171,129,64,.24)!important;}
+.dropdown-menu a{font-family:'Pretendard',sans-serif!important;color:#31423d!important;}
+.dropdown-menu a:hover{color:#986a29!important;background:rgba(184,139,66,.08)!important;}
+@media(max-width:1100px) and (min-width:769px){.logo{min-width:300px}.logo a::before{width:62px;height:54px;flex-basis:62px}.logo a::after{font-size:21px}nav>ul{gap:16px!important;font-size:13px!important}}
+@media(max-width:768px){
+ header{min-height:82px!important;height:auto!important;padding:10px 0!important;overflow:visible!important}
+ .header-inner{width:94%!important;align-items:flex-start!important;gap:7px!important}
+ .logo{min-width:0;width:100%;}
+ .logo a{justify-content:flex-start!important;gap:9px!important}
+ .logo a::before{width:52px;height:44px;flex-basis:52px;border-radius:10px}
+ .logo a::after{font-size:20px;letter-spacing:-.8px}
+ nav{width:100%!important}
+ nav>ul{font-family:'Pretendard',sans-serif!important;font-size:13px!important;gap:18px!important}
+ nav>ul>li>a{padding:7px 0!important}
+ nav>ul>li>a::after{bottom:0!important}
+ .dropdown-menu{top:112px!important}
+}
+</style>
+</head>
 <body>
 <!-- =========================
      메인 팝업 시작
@@ -918,43 +966,33 @@ body { padding-top:95px; }
 
     /* 그냥 닫기 */
     function closeMainPopup() {
+    sessionStorage.setItem('culturePopupClosed', 'true');
+    document.getElementById('popup').style.display = 'none';
+}
+
+/* 일주일 동안 보지 않기 */
+function hideMainPopupForWeek() {
+    const hideUntil = Date.now() + (7 * 24 * 60 * 60 * 1000);
+    localStorage.setItem('culturePopupHideUntil_v2', hideUntil);
+    document.getElementById('popup').style.display = 'none';
+}
+
+/* 팝업 표시 여부 확인 */
+(function () {
+    const popupClosed = sessionStorage.getItem('culturePopupClosed') === 'true';
+    const hideUntil = Number(localStorage.getItem('culturePopupHideUntil_v2') || 0);
+
+    if (popupClosed) {
         document.getElementById('popup').style.display = 'none';
+        return;
     }
 
-
-    /* 일주일 동안 보지 않기 */
-    function hideMainPopupForWeek() {
-
-        const hideUntil =
-            Date.now() + (7 * 24 * 60 * 60 * 1000);
-
-        localStorage.setItem(
-            'culturePopupHideUntil',
-            hideUntil
-        );
-
-        closeMainPopup();
+    if (hideUntil > Date.now()) {
+        document.getElementById('popup').style.display = 'none';
+    } else if (hideUntil) {
+        localStorage.removeItem('culturePopupHideUntil_v2');
     }
-
-
-    /* 사이트 접속 시 일주일 숨김 여부 확인 */
-    (function () {
-
-        const hideUntil = Number(
-            localStorage.getItem('culturePopupHideUntil') || 0
-        );
-
-        if (hideUntil > Date.now()) {
-
-            document.getElementById('popup').style.display = 'none';
-
-        } else if (hideUntil) {
-
-            localStorage.removeItem('culturePopupHideUntil');
-
-        }
-
-    })();
+})();
 
 </script>
 <!-- 여기부터 원래 홈페이지 내용 -->
