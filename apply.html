@@ -791,6 +791,23 @@ nav{margin-left:auto!important;margin-right:0!important}nav>ul{gap:clamp(20px,2.
   nav > ul > li > a { font-size: 15px !important; }
 }
 </style>
+
+<style id="cultureeum-mobile-width-hotfix">
+/* Mobile viewport hotfix: force the site to use the full device width. */
+@media (max-width: 768px) {
+  html, body { width:100% !important; max-width:100% !important; min-width:0 !important; margin:0 !important; overflow-x:hidden !important; }
+  header { left:0 !important; right:0 !important; width:100% !important; max-width:none !important; box-sizing:border-box !important; }
+  .header-inner { width:100% !important; max-width:none !important; padding-left:14px !important; padding-right:14px !important; box-sizing:border-box !important; }
+  .logo { width:100% !important; max-width:100% !important; }
+  nav { width:100% !important; max-width:100% !important; overflow-x:auto !important; overflow-y:visible !important; }
+  nav > ul { min-width:max-content !important; width:max-content !important; font-size:16px !important; gap:22px !important; padding-right:18px !important; }
+  nav > ul > li > a { font-size:16px !important; font-weight:700 !important; }
+  main, section, .premium-main { max-width:100% !important; }
+  .cm-slider { width:100vw !important; max-width:100vw !important; margin:0 !important; overflow:hidden !important; }
+  .cm-track { width:200vw !important; max-width:none !important; }
+  .cm-slide, .cm-slide-programs { flex:0 0 100vw !important; width:100vw !important; max-width:100vw !important; }
+}
+</style>
 </head>
 <body>
 <!-- =========================
