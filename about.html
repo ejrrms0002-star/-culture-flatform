@@ -870,41 +870,44 @@ body { padding-top:95px; }
 
     /* 그냥 닫기 */
     function closeMainPopup() {
-        document.getElementById('popup').style.display = 'none';
-    }
+    localStorage.setItem('culturePopupClosed', 'true');
+    document.getElementById('popup').style.display = 'none';
+}
 
+/* 일주일 동안 보지 않기 */
+function hideMainPopupForWeek() {
+    const hideUntil =
+        Date.now() + (7 * 24 * 60 * 60 * 1000);
 
-    /* 일주일 동안 보지 않기 */
-    function hideMainPopupForWeek() {
+    localStorage.setItem(
+        'culturePopupHideUntil_v2',
+        hideUntil
+    );
 
-        const hideUntil =
-            Date.now() + (7 * 24 * 60 * 60 * 1000);
-
-        localStorage.setItem(
-            'culturePopupHideUntil',
-            hideUntil
-        );
-
-        closeMainPopup();
-    }
+    document.getElementById('popup').style.display = 'none';
+}
 
 
     /* 사이트 접속 시 일주일 숨김 여부 확인 */
     (function () {
 
-        const hideUntil = Number(
-            localStorage.getItem('culturePopupHideUntil') || 0
-        );
+       const popupClosed =
+    localStorage.getItem('culturePopupClosed') === 'true';
 
-        if (hideUntil > Date.now()) {
+const hideUntil = Number(
+    localStorage.getItem('culturePopupHideUntil_v2') || 0
+);
 
-            document.getElementById('popup').style.display = 'none';
+if (popupClosed) {
+    document.getElementById('popup').style.display = 'none';
+    return;
+}
 
-        } else if (hideUntil) {
-
-            localStorage.removeItem('culturePopupHideUntil');
-
-        }
+if (hideUntil > Date.now()) {
+    document.getElementById('popup').style.display = 'none';
+} else if (hideUntil) {
+    localStorage.removeItem('culturePopupHideUntil_v2');
+}
 
     })();
 
