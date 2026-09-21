@@ -846,6 +846,38 @@ header { left:0 !important; right:auto !important; overflow:hidden !important; }
 }
 </style>
 
+
+<style id="cultureeum-pc-dropdown-final-fix">
+/* PC category dropdown: keep dropdown above hero and remove hover dead-zone */
+@media (min-width: 901px) {
+  header { z-index: 100000 !important; overflow: visible !important; }
+  .header-inner, nav, nav > ul, nav > ul > li.dropdown { overflow: visible !important; }
+  nav > ul > li.dropdown { position: relative !important; }
+  nav > ul > li.dropdown::after {
+    content: "";
+    position: absolute;
+    left: -12px; right: -12px;
+    top: 100%; height: 18px;
+    background: transparent;
+    pointer-events: auto;
+  }
+  nav > ul > li.dropdown > .dropdown-menu {
+    position: absolute !important;
+    top: 100% !important;
+    left: 50% !important;
+    z-index: 100001 !important;
+    margin-top: 0 !important;
+  }
+  nav > ul > li.dropdown:hover > .dropdown-menu,
+  nav > ul > li.dropdown:focus-within > .dropdown-menu,
+  nav > ul > li.dropdown.open > .dropdown-menu {
+    opacity: 1 !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
+    transform: translateX(-50%) translateY(0) !important;
+  }
+}
+</style>
 </head>
 <body>
 <!-- =========================
@@ -1935,5 +1967,64 @@ initializeCulturePopup();
     }, { passive: true });
 })();
 </script>
-</section></body>
+</section>
+<style id="cultureeum-pc-dropdown-guaranteed-final">
+/* PC dropdown guaranteed final: no clipping, no hover gap, click/hover both work */
+@media (min-width: 769px) {
+  header, .header-inner, nav, nav > ul, nav > ul > li.dropdown { overflow: visible !important; }
+  header { position: absolute !important; z-index: 2147483000 !important; }
+  .header-inner, nav, nav > ul { position: relative !important; z-index: 2147483001 !important; }
+  nav > ul > li.dropdown { position: relative !important; }
+  nav > ul > li.dropdown > .dropdown-menu {
+    display: block !important;
+    position: absolute !important;
+    top: calc(100% - 12px) !important;
+    left: 50% !important;
+    min-width: 220px !important;
+    width: max-content !important;
+    max-width: 360px !important;
+    height: auto !important;
+    max-height: none !important;
+    overflow: visible !important;
+    z-index: 2147483002 !important;
+    margin: 0 !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+    transform: translateX(-50%) translateY(6px) !important;
+  }
+  nav > ul > li.dropdown:hover > .dropdown-menu,
+  nav > ul > li.dropdown:focus-within > .dropdown-menu,
+  nav > ul > li.dropdown.open > .dropdown-menu {
+    opacity: 1 !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
+    transform: translateX(-50%) translateY(0) !important;
+  }
+}
+</style>
+<script id="cultureeum-pc-dropdown-guaranteed-js">
+(function(){
+  function initPcMenus(){
+    document.querySelectorAll('nav > ul > li.dropdown').forEach(function(li){
+      var a=li.querySelector(':scope > a');
+      if(!a || a.dataset.pcFinalBound==='1') return;
+      a.dataset.pcFinalBound='1';
+      a.addEventListener('click',function(e){
+        if(window.innerWidth < 769) return;
+        if((a.getAttribute('href')||'#')==='#'){
+          e.preventDefault(); e.stopPropagation();
+          document.querySelectorAll('nav > ul > li.dropdown.open').forEach(function(other){if(other!==li){other.classList.remove('open');var oa=other.querySelector(':scope > a');if(oa)oa.setAttribute('aria-expanded','false');}});
+          var willOpen=!li.classList.contains('open');
+          li.classList.toggle('open',willOpen);
+          a.setAttribute('aria-expanded',willOpen?'true':'false');
+        }
+      },true);
+    });
+  }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',initPcMenus); else initPcMenus();
+})();
+</script>
+
+</body>
 </html>
