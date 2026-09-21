@@ -1,6 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://index-1-ten-delta.vercel.app/</loc>
+    <loc>https://www.cultureeum.kr/</loc>
+  </url>
+  <url>
+    <loc>https://www.cultureeum.kr/about.html</loc>
+  </url>
+  <url>
+    <loc>https://www.cultureeum.kr/instructors.html</loc>
+  </url>
+  <url>
+    <loc>https://www.cultureeum.kr/humanities.html</loc>
+  </url>
+  <url>
+    <loc>https://www.cultureeum.kr/counseling.html</loc>
+  </url>
+  <url>
+    <loc>https://www.cultureeum.kr/oneday.html</loc>
+  </url>
+  <url>
+    <loc>https://www.cultureeum.kr/apply.html</loc>
   </url>
 </urlset>
