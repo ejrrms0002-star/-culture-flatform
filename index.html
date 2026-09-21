@@ -1677,9 +1677,9 @@ html { scroll-behavior: smooth; }
 <script>
 
     /* 그냥 닫기 */
-    function closeMainPopup() {
-        document.getElementById('popup').style.display = 'none';
-    }
+   function closeMainPopup() {
+    sessionStorage.setItem('culturePopupClosed', 'true');
+    document.getElementById('popup').style.display = 'none';}
 
 
     /* 일주일 동안 보지 않기 */
@@ -1698,23 +1698,27 @@ html { scroll-behavior: smooth; }
 
 
     /* 사이트 접속 시 일주일 숨김 여부 확인 */
-    (function () {
+   (function () {
 
-        const hideUntil = Number(
-            localStorage.getItem('culturePopupHideUntil_v2') || 0
-        );
+    const popupClosed =
+        sessionStorage.getItem('culturePopupClosed') === 'true';
 
-        if (hideUntil > Date.now()) {
+    const hideUntil = Number(
+        localStorage.getItem('culturePopupHideUntil_v2') || 0
+    );
 
-            document.getElementById('popup').style.display = 'none';
+    if (popupClosed) {
+        document.getElementById('popup').style.display = 'none';
+        return;
+    }
 
-        } else if (hideUntil) {
+    if (hideUntil > Date.now()) {
+        document.getElementById('popup').style.display = 'none';
+    } else if (hideUntil) {
+        localStorage.removeItem('culturePopupHideUntil_v2');
+    }
 
-            localStorage.removeItem('culturePopupHideUntil_v2');
-
-        }
-
-    })();
+})();
 
 </script>
 <!-- 여기부터 원래 홈페이지 내용 -->
