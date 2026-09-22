@@ -870,6 +870,80 @@ header { left:0 !important; right:auto !important; overflow:hidden !important; }
   }
 }
 </style>
+
+<style id="cultureeum-new-menu-fit">
+@media (min-width:901px){
+  .header-inner{gap:18px!important;width:97%!important;max-width:1860px!important}
+  .logo{min-width:390px!important}
+  nav>ul{gap:18px!important;flex-wrap:nowrap!important}
+  nav>ul>li>a{font-size:15.5px!important;white-space:nowrap!important}
+  nav>ul>li>a.new-top-menu{font-weight:700!important;color:#143f37!important}
+}
+@media (max-width:900px){nav>ul>li>a.new-top-menu{font-weight:700!important}}
+</style>
+
+
+<style id="cultureeum-header-exact-final">
+/* Approved compact header: original logo artwork retained; no brand/nav overlap. */
+@media (min-width: 1351px){
+  .header-inner{width:100%!important;max-width:none!important;padding:0 28px!important;gap:18px!important;box-sizing:border-box!important;display:flex!important;align-items:center!important}
+  .logo{min-width:365px!important;width:365px!important;flex:0 0 365px!important;overflow:hidden!important}
+  .logo a{grid-template-columns:72px minmax(0,1fr)!important;column-gap:12px!important;width:100%!important}
+  .logo a::before{width:72px!important;height:62px!important;border-radius:14px!important}
+  .logo a::after{font-size:20px!important;line-height:1.28!important;letter-spacing:-.9px!important}
+  nav{margin:0!important;min-width:0!important;flex:1 1 auto!important;overflow:visible!important}
+  nav>ul{gap:0!important;justify-content:flex-start!important;flex-wrap:nowrap!important}
+  nav>ul>li{position:relative!important;padding:0 11px!important;flex:0 0 auto!important}
+  nav>ul>li+li::before{content:""!important;position:absolute!important;left:0!important;top:50%!important;transform:translateY(-50%)!important;width:1px!important;height:24px!important;background:rgba(178,135,68,.48)!important;pointer-events:none!important}
+  nav>ul>li>a{font-size:14px!important;letter-spacing:-.45px!important;white-space:nowrap!important}
+}
+@media (min-width: 1101px) and (max-width:1350px){
+  .header-inner{width:100%!important;max-width:none!important;padding:0 16px!important;gap:10px!important;box-sizing:border-box!important}
+  .logo{min-width:275px!important;width:275px!important;flex:0 0 275px!important;overflow:hidden!important}
+  .logo a{grid-template-columns:58px minmax(0,1fr)!important;column-gap:8px!important;width:100%!important}
+  .logo a::before{width:58px!important;height:50px!important;border-radius:11px!important}
+  .logo a::after{font-size:15.5px!important;line-height:1.25!important;letter-spacing:-.7px!important}
+  nav{margin:0!important;min-width:0!important;flex:1 1 auto!important}
+  nav>ul{gap:0!important;flex-wrap:nowrap!important}
+  nav>ul>li{position:relative!important;padding:0 6px!important;flex:0 0 auto!important}
+  nav>ul>li+li::before{content:""!important;position:absolute!important;left:0!important;top:50%!important;transform:translateY(-50%)!important;width:1px!important;height:18px!important;background:rgba(178,135,68,.45)!important;pointer-events:none!important}
+  nav>ul>li>a{font-size:11.5px!important;letter-spacing:-.5px!important;white-space:nowrap!important}
+}
+/* Narrow desktop/tablet: use a clean second navigation row instead of ever overlapping the logo. */
+@media (min-width:901px) and (max-width:1100px){
+  header{height:auto!important;min-height:116px!important}
+  .header-inner{width:100%!important;max-width:none!important;padding:10px 16px 0!important;box-sizing:border-box!important;display:flex!important;flex-wrap:wrap!important;gap:4px 0!important}
+  .logo{min-width:0!important;width:100%!important;flex:0 0 100%!important;overflow:visible!important}
+  .logo a{grid-template-columns:58px auto!important;column-gap:9px!important;width:max-content!important}
+  .logo a::before{width:58px!important;height:50px!important;border-radius:11px!important}
+  .logo a::after{font-size:16px!important;line-height:1.24!important;letter-spacing:-.7px!important}
+  nav{width:100%!important;flex:0 0 100%!important;margin:0!important;overflow-x:auto!important;overflow-y:visible!important;scrollbar-width:none!important}
+  nav::-webkit-scrollbar{display:none!important}
+  nav>ul{width:max-content!important;min-width:100%!important;gap:0!important;justify-content:flex-start!important;flex-wrap:nowrap!important}
+  nav>ul>li{position:relative!important;padding:0 9px!important;flex:0 0 auto!important}
+  nav>ul>li+li::before{content:""!important;position:absolute!important;left:0!important;top:50%!important;transform:translateY(-50%)!important;width:1px!important;height:17px!important;background:rgba(178,135,68,.45)!important;pointer-events:none!important}
+  nav>ul>li>a{font-size:12.5px!important;white-space:nowrap!important;padding:9px 0 12px!important}
+}
+@media (max-width:900px){nav>ul>li+li::before{display:none!important}}
+</style>
+
+
+<style id="cultureeum-nav-balance-final">
+/* Final desktop balance: keep the approved logo untouched and use the right-side space naturally. */
+@media (min-width:1351px){
+  .header-inner{padding-left:28px!important;padding-right:22px!important;}
+  nav>ul{justify-content:flex-end!important;width:100%!important;}
+  nav>ul>li{padding-left:12px!important;padding-right:12px!important;}
+}
+@media (min-width:1101px) and (max-width:1350px){
+  .header-inner{padding-left:16px!important;padding-right:14px!important;}
+  nav>ul{justify-content:flex-end!important;width:100%!important;}
+  nav>ul>li{padding-left:7px!important;padding-right:7px!important;}
+}
+@media (min-width:901px) and (max-width:1100px){
+  nav>ul{justify-content:flex-start!important;}
+}
+</style>
 </head>
 <body>
 <!-- =========================
@@ -1082,6 +1156,9 @@ initializeCulturePopup();
 </li>
 <!-- 수정됨: 수강신청 안내 -> 수강신청서 (클릭 시 이동) -->
 <li><a href="apply.html#enrollment-section">수강신청서</a></li>
+<li><a href="community.html" class="new-top-menu">커뮤니티</a></li>
+<li><a href="media.html" class="new-top-menu">미디어 이야기</a></li>
+<li><a href="reviews.html" class="new-top-menu">상담 후기</a></li>
 </ul>
 </nav>
 </div>
