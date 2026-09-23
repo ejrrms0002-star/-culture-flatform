@@ -1107,6 +1107,29 @@ header { left:0 !important; right:auto !important; overflow:hidden !important; }
 }
 </style>
 
+
+<style id="cultureeum-popup-larger-final">
+/* 업로드한 원본의 팝업 구성은 그대로 두고 크기만 확대 */
+@media (min-width: 701px){
+  #popup .popup-content,
+  #popup .popup-inner,
+  #popup .popup-box,
+  #popup > div{
+    width:min(620px, 90vw) !important;
+    max-width:620px !important;
+  }
+}
+@media (max-width: 700px){
+  #popup .popup-content,
+  #popup .popup-inner,
+  #popup .popup-box,
+  #popup > div{
+    width:min(430px, 92vw) !important;
+    max-width:92vw !important;
+  }
+}
+</style>
+
 </head>
 <body>
 <!-- =========================
@@ -1336,7 +1359,7 @@ initializeCulturePopup();
             </p>
 <div class="instructor-grid">
 <article class="instructor-card photo-kang" id="instructor-bora">
-<div class="instructor-photo" style="background-image:url('images/강보승 사진.jpg');">
+<div class="instructor-photo" style="background-image:url('images/강보라 사진.jpg');">
 </div>
 <div class="instructor-info">
 <span class="instructor-role">대표강사</span>
