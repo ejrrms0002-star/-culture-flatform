@@ -988,6 +988,161 @@ header { left:0 !important; right:auto !important; overflow:hidden !important; }
   nav>ul{justify-content:flex-start!important;}
 }
 </style>
+
+<style id="cultureeum-desktop-100-final">
+/* 100% browser zoom: same visual balance that previously appeared around 90%. */
+@media (min-width:1351px){
+  .header-inner{padding-left:18px!important;padding-right:18px!important;gap:12px!important;}
+  .logo{min-width:330px!important;width:330px!important;flex:0 0 330px!important;}
+  .logo a{grid-template-columns:65px minmax(0,1fr)!important;column-gap:10px!important;}
+  .logo a::before{width:65px!important;height:56px!important;border-radius:13px!important;}
+  .logo a::after{font-size:18px!important;line-height:1.27!important;letter-spacing:-.82px!important;}
+  nav>ul{justify-content:flex-end!important;width:100%!important;}
+  nav>ul>li{padding-left:10px!important;padding-right:10px!important;}
+  nav>ul>li>a{font-size:13px!important;letter-spacing:-.48px!important;}
+  nav>ul>li+li::before{height:22px!important;}
+}
+@media (min-width:1101px) and (max-width:1350px){
+  .header-inner{padding-left:14px!important;padding-right:12px!important;gap:8px!important;}
+  .logo{min-width:248px!important;width:248px!important;flex:0 0 248px!important;}
+  .logo a{grid-template-columns:52px minmax(0,1fr)!important;column-gap:7px!important;}
+  .logo a::before{width:52px!important;height:45px!important;}
+  .logo a::after{font-size:14px!important;}
+  nav>ul>li{padding-left:5px!important;padding-right:5px!important;}
+  nav>ul>li>a{font-size:10.8px!important;}
+}
+</style>
+
+<style id="cultureeum-4060-nav-readable">
+@media (min-width:1351px){
+  .header-inner{padding-left:22px!important;padding-right:22px!important;gap:14px!important}
+  .logo{min-width:340px!important;width:340px!important;flex-basis:340px!important}
+  nav>ul>li{padding-left:9px!important;padding-right:9px!important}
+  nav>ul>li>a{font-size:16px!important;font-weight:800!important;letter-spacing:-.55px!important}
+}
+@media (min-width:1101px) and (max-width:1350px){
+  .logo{min-width:255px!important;width:255px!important;flex-basis:255px!important}
+  nav>ul>li{padding-left:5px!important;padding-right:5px!important}
+  nav>ul>li>a{font-size:13.5px!important;font-weight:800!important}
+}
+</style>
+
+
+
+
+<style id="cultureeum-popup-fit-screen-final">
+/* 팝업이 처음부터 화면 안에 전부 보이도록 최종 조정 */
+#popup{
+    padding:12px !important;
+    align-items:center !important;
+    justify-content:center !important;
+    overflow:auto !important;
+    background:transparent !important;
+    background-color:transparent !important;
+    backdrop-filter:none !important;
+    -webkit-backdrop-filter:none !important;
+    pointer-events:none !important;
+}
+#popup .popup-content,
+#popup .popup-inner,
+#popup .popup-box,
+#popup > div{
+    width:min(310px, 84vw) !important;
+    max-width:310px !important;
+    max-height:calc(100vh - 24px) !important;
+    margin:auto !important;
+    border-radius:14px !important;
+    overflow:hidden !important;
+    pointer-events:auto !important;
+    box-shadow:0 12px 34px rgba(25,48,43,.20) !important;
+}
+#popup img{
+    width:100% !important;
+    max-width:100% !important;
+    height:auto !important;
+    max-height:calc(100vh - 82px) !important;
+    object-fit:contain !important;
+    display:block !important;
+}
+@media (max-height:760px){
+    #popup .popup-content,
+    #popup .popup-inner,
+    #popup .popup-box,
+    #popup > div{
+        width:min(270px, 78vw) !important;
+        max-width:270px !important;
+    }
+}
+@media (max-width:700px){
+    #popup{
+        padding:10px !important;
+    }
+    #popup .popup-content,
+    #popup .popup-inner,
+    #popup .popup-box,
+    #popup > div{
+        width:min(290px, 82vw) !important;
+        max-width:82vw !important;
+        max-height:calc(100dvh - 20px) !important;
+    }
+    #popup img{
+        max-height:calc(100dvh - 78px) !important;
+    }
+}
+</style>
+
+
+<style id="cultureeum-popup-footer-final">
+/* X 제거 + 이미지 아래 흰 여백 최소화 + 파란 하단 버튼 */
+#popup .popup-close,
+#popup .close,
+#popup .close-btn,
+#popup [class*="popup-close"],
+#popup button[aria-label="닫기"],
+#popup button[aria-label="Close"]{
+    display:none !important;
+}
+
+/* 기존 하단 영역을 진한 파란색으로 */
+#popup .popup-actions,
+#popup .popup-footer,
+#popup .popup-bottom,
+#popup .popup-controls,
+#popup .popup-buttons{
+    background:#174c82 !important;
+    color:#fff !important;
+    border-top:0 !important;
+}
+
+/* 하단의 닫기 / 하루 동안 보지 않기 */
+#popup .popup-actions button,
+#popup .popup-actions a,
+#popup .popup-footer button,
+#popup .popup-footer a,
+#popup .popup-bottom button,
+#popup .popup-bottom a,
+#popup .popup-controls button,
+#popup .popup-controls a,
+#popup .popup-buttons button,
+#popup .popup-buttons a{
+    color:#fff !important;
+    background:transparent !important;
+    font-weight:800 !important;
+    border-color:rgba(255,255,255,.35) !important;
+}
+
+/* 이미지와 하단 버튼 사이 불필요한 여백 제거 */
+#popup .popup-content,
+#popup .popup-inner,
+#popup .popup-box,
+#popup > div{
+    padding-bottom:0 !important;
+}
+#popup img{
+    margin-bottom:0 !important;
+}
+</style>
+
 </head>
 <body>
 <!-- =========================
@@ -1078,7 +1233,7 @@ header { left:0 !important; right:auto !important; overflow:hidden !important; }
                 " type="button">
                 닫기
             </button>
-<!-- 일주일 동안 보지 않기 -->
+<!-- 하루 동안 보지 않기 -->
 <button onclick="hideMainPopupForWeek()" onmouseout="this.style.background='#fff'" onmouseover="this.style.background='#f7f4f9'" style="
                     flex:1.35;
                     height:58px;
@@ -1092,7 +1247,7 @@ header { left:0 !important; right:auto !important; overflow:hidden !important; }
                     font-weight:700;
                     cursor:pointer;
                 " type="button">
-                일주일 동안 보지 않기
+                하루 동안 보지 않기
             </button>
 </div>
 </div>
@@ -1112,9 +1267,9 @@ function closeMainPopup() {
     if (popup) popup.style.display = 'none';
 }
 
-/* 일주일 동안 보지 않기 */
+/* 하루 동안 보지 않기 */
 function hideMainPopupForWeek() {
-    const hideUntil = Date.now() + (7 * 24 * 60 * 60 * 1000);
+    const hideUntil = Date.now() + (24 * 60 * 60 * 1000);
     localStorage.setItem(CULTURE_POPUP_WEEK_KEY, String(hideUntil));
     const popup = document.getElementById('popup');
     if (popup) popup.style.display = 'none';
