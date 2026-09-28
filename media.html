@@ -2272,45 +2272,69 @@ html body #popup .ce-individual-popup{
 <!-- /CULTUREEUM THREE INDIVIDUAL POPUPS -->
 <script id="cultureeum-popup-controller">
 /* ===== 문화이음 공통 팝업 제어 ===== */
-const CULTURE_POPUP_WEEK_KEY = 'culturePopupHideUntil_v2';
+const CULTURE_POPUP_DAY_KEY = 'culturePopupHideUntil_v2';
 const CULTURE_POPUP_SESSION_KEY = 'culturePopupClosed';
+const CULTURE_POPUP_INTERNAL_KEY = 'culturePopupInternalMove';
 
-/* X 닫기: 현재 탭을 닫을 때까지만 숨김 */
+/* 페이지가 뜨는 바로 그 순간:
+   내부 메뉴 이동으로 온 경우만 일반 닫기 상태 유지.
+   새로고침/주소 재입력/외부 재방문이면 일반 닫기 상태 초기화. */
+const cultureCameFromInternalMove =
+    sessionStorage.getItem(CULTURE_POPUP_INTERNAL_KEY) === '1';
+sessionStorage.removeItem(CULTURE_POPUP_INTERNAL_KEY);
+if (!cultureCameFromInternalMove) {
+    sessionStorage.removeItem(CULTURE_POPUP_SESSION_KEY);
+}
+
 function closeMainPopup() {
     sessionStorage.setItem(CULTURE_POPUP_SESSION_KEY, 'true');
     const popup = document.getElementById('popup');
-    if (popup) popup.style.display = 'none';
+    if (popup) popup.style.setProperty('display','none','important');
 }
 
-/* 하루 동안 보지 않기 */
 function hideMainPopupForWeek() {
     const hideUntil = Date.now() + (24 * 60 * 60 * 1000);
-    localStorage.setItem(CULTURE_POPUP_WEEK_KEY, String(hideUntil));
+    localStorage.setItem(CULTURE_POPUP_DAY_KEY, String(hideUntil));
+    sessionStorage.setItem(CULTURE_POPUP_SESSION_KEY, 'true');
     const popup = document.getElementById('popup');
-    if (popup) popup.style.display = 'none';
+    if (popup) popup.style.setProperty('display','none','important');
 }
+window.hideMainPopupForDay = hideMainPopupForWeek;
 
 function initializeCulturePopup() {
     const popup = document.getElementById('popup');
     if (!popup) return;
 
-    const closedThisSession =
+    const closedThisVisit =
         sessionStorage.getItem(CULTURE_POPUP_SESSION_KEY) === 'true';
-    const hideUntil = Number(localStorage.getItem(CULTURE_POPUP_WEEK_KEY) || 0);
+    const hideUntil = Number(localStorage.getItem(CULTURE_POPUP_DAY_KEY) || 0);
 
-    if (closedThisSession) {
-        popup.style.display = 'none';
-        return;
+    if (hideUntil && hideUntil <= Date.now()) {
+        localStorage.removeItem(CULTURE_POPUP_DAY_KEY);
     }
 
-    if (hideUntil > Date.now()) {
-        popup.style.display = 'none';
-        return;
+    if (closedThisVisit || hideUntil > Date.now()) {
+        popup.style.setProperty('display','none','important');
+    } else {
+        /* PC와 모바일 CSS가 각자 flex/block을 결정하도록 inline important 제거 */
+        popup.style.removeProperty('display');
     }
-
-    if (hideUntil) localStorage.removeItem(CULTURE_POPUP_WEEK_KEY);
-    popup.style.display = 'flex';
 }
+
+/* 사이트 내부 링크를 누른 경우에만 다음 페이지에서 닫힘 상태 유지 */
+document.addEventListener('click', function(e){
+    const a=e.target.closest && e.target.closest('a[href]');
+    if(!a) return;
+    try{
+        const u=new URL(a.href,location.href);
+        if(u.origin===location.origin){
+            sessionStorage.setItem(CULTURE_POPUP_INTERNAL_KEY,'1');
+        } else {
+            sessionStorage.removeItem(CULTURE_POPUP_INTERNAL_KEY);
+            sessionStorage.removeItem(CULTURE_POPUP_SESSION_KEY);
+        }
+    }catch(_){}
+}, true);
 
 initializeCulturePopup();
 </script>
@@ -3023,46 +3047,6 @@ initializeCulturePopup();
 })();
 </script>
 
-<script id="ce-popup-navigation-state-final">
-(function(){
-  const CLOSE_KEY='culturePopupClosed';
-  const INTERNAL_KEY='culturePopupInternalMove';
-
-  /* 새로고침이면 일반 닫기/X 상태를 즉시 해제.
-     '오늘 하루 열지 않음'은 localStorage이므로 그대로 유지. */
-  try{
-    const nav=performance.getEntriesByType('navigation')[0];
-    if(nav && nav.type==='reload'){
-      sessionStorage.removeItem(CLOSE_KEY);
-      sessionStorage.removeItem(INTERNAL_KEY);
-    }
-  }catch(_){}
-
-  /* 사이트 내부 링크 이동은 닫기 상태 유지 */
-  document.addEventListener('click',function(e){
-    const a=e.target.closest && e.target.closest('a[href]');
-    if(!a) return;
-    try{
-      const u=new URL(a.href,location.href);
-      if(u.origin===location.origin){
-        sessionStorage.setItem(INTERNAL_KEY,'1');
-      }else{
-        sessionStorage.removeItem(CLOSE_KEY);
-        sessionStorage.removeItem(INTERNAL_KEY);
-      }
-    }catch(_){}
-  },true);
-
-  /* 사이트를 실제로 벗어나면 일반 닫기 상태 해제 */
-  window.addEventListener('pagehide',function(){
-    if(sessionStorage.getItem(INTERNAL_KEY)==='1'){
-      sessionStorage.removeItem(INTERNAL_KEY);
-      return;
-    }
-    sessionStorage.removeItem(CLOSE_KEY);
-  });
-})();
-</script>
 <script id="ce-popup-persistence-final">
 (function(){
   const SESSION_KEY='culturePopupClosed';
