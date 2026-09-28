@@ -2076,6 +2076,140 @@ html body #popup .ce-individual-popup{
   -webkit-tap-highlight-color:transparent!important;
 }
 </style>
+
+<style id="ce-mobile-hero-popup-click-final">
+/* ===== 모바일 메인 첫 화면 ===== */
+@media (max-width:700px){
+  /* 뒤쪽의 PC용 큰 글자 규칙보다 우선하여 제목이 잘리지 않게 */
+  html body .trust-hero{
+    min-height:auto!important;
+    background-position:64% center!important;
+  }
+  html body .trust-hero-inner{
+    width:92%!important;
+    padding:52px 0 58px!important;
+  }
+  html body .trust-eyebrow{
+    font-size:14px!important;
+    margin-bottom:14px!important;
+  }
+  html body .trust-hero h1{
+    max-width:100%!important;
+    font-size:clamp(36px,10.4vw,44px)!important;
+    line-height:1.20!important;
+    letter-spacing:-.055em!important;
+    word-break:keep-all!important;
+    overflow-wrap:normal!important;
+  }
+  html body .trust-hero h1 br{display:block!important}
+  html body .trust-hero p{
+    font-size:16px!important;
+    line-height:1.72!important;
+    margin-top:20px!important;
+    word-break:keep-all!important;
+  }
+  html body .trust-actions{
+    margin-top:25px!important;
+    gap:12px!important;
+  }
+  html body .trust-actions a{
+    width:min(100%,310px)!important;
+    min-width:0!important;
+    box-sizing:border-box!important;
+    font-size:17px!important;
+    padding:16px 22px!important;
+  }
+
+  /* ===== 모바일 팝업 =====
+     PC 드래그용 absolute 규칙을 모바일에서는 확실히 해제 */
+  html body #popup.ce-multi-popup-wrap{
+    display:block!important;
+    position:fixed!important;
+    inset:0!important;
+    width:100vw!important;
+    height:100dvh!important;
+    padding:10px 8px 24px!important;
+    overflow-x:hidden!important;
+    overflow-y:auto!important;
+    pointer-events:auto!important;
+    z-index:2147483647!important;
+    box-sizing:border-box!important;
+    -webkit-overflow-scrolling:touch!important;
+  }
+  html body #popup .ce-individual-popup{
+    position:relative!important;
+    left:auto!important;
+    right:auto!important;
+    top:auto!important;
+    bottom:auto!important;
+    width:min(96vw,430px)!important;
+    max-width:430px!important;
+    max-height:none!important;
+    margin:0 auto 14px!important;
+    pointer-events:auto!important;
+    touch-action:pan-y!important;
+    overflow:hidden!important;
+  }
+  html body #popup .ce-individual-popup img{
+    width:100%!important;
+    height:auto!important;
+    max-height:none!important;
+    pointer-events:none!important;
+  }
+
+  /* 이미지 우측 상단에 인쇄된 X를 넉넉한 터치영역으로 활성화 */
+  html body #popup .ce-image-x-close{
+    display:block!important;
+    position:absolute!important;
+    top:0!important;
+    right:0!important;
+    width:22%!important;
+    height:11%!important;
+    min-width:64px!important;
+    min-height:52px!important;
+    z-index:2147483647!important;
+    background:transparent!important;
+    border:0!important;
+    pointer-events:auto!important;
+    touch-action:manipulation!important;
+    cursor:pointer!important;
+  }
+
+  /* 이미지 하단 '오늘 하루 열지 않음 / 닫기' 터치영역 */
+  html body #popup .ce-image-bottom-controls{
+    display:grid!important;
+    position:absolute!important;
+    left:0!important;
+    right:0!important;
+    bottom:0!important;
+    width:100%!important;
+    height:9.5%!important;
+    min-height:48px!important;
+    grid-template-columns:78% 22%!important;
+    z-index:2147483646!important;
+    pointer-events:auto!important;
+  }
+  html body #popup .ce-image-bottom-controls button{
+    display:block!important;
+    width:100%!important;
+    height:100%!important;
+    min-height:48px!important;
+    padding:0!important;
+    margin:0!important;
+    border:0!important;
+    background:transparent!important;
+    pointer-events:auto!important;
+    touch-action:manipulation!important;
+    cursor:pointer!important;
+  }
+}
+@media (max-width:390px){
+  html body .trust-hero h1{
+    font-size:clamp(34px,10.2vw,40px)!important;
+  }
+}
+</style>
+
 </head>
 <body class="home-short premium-home">
 <!-- CULTUREEUM THREE INDIVIDUAL POPUPS -->
@@ -2991,6 +3125,66 @@ initializeCulturePopup();
       else closeForSession();
     }
   },true);
+})();
+</script>
+
+
+<script id="ce-mobile-popup-tap-final">
+(function(){
+  const wrap=document.getElementById('popup');
+  if(!wrap) return;
+
+  function visibleCards(){
+    return [...wrap.querySelectorAll('.ce-individual-popup')]
+      .filter(c=>getComputedStyle(c).display!=='none');
+  }
+  function hideCard(card){
+    if(!card) return;
+    card.style.setProperty('display','none','important');
+    if(!visibleCards().length){
+      wrap.style.setProperty('display','none','important');
+    }
+  }
+  function sessionClose(card){
+    sessionStorage.setItem('culturePopupClosed','true');
+    hideCard(card);
+  }
+  function dayClose(card){
+    localStorage.setItem('culturePopupHideUntil_v2',
+      String(Date.now()+24*60*60*1000));
+    sessionStorage.setItem('culturePopupClosed','true');
+    hideCard(card);
+  }
+
+  /* click + touchend 둘 다 지원하되 한 번만 실행 */
+  function bindTap(el, fn){
+    if(!el || el.dataset.mobileTapBound==='1') return;
+    el.dataset.mobileTapBound='1';
+    let touched=false;
+    el.addEventListener('touchend',function(e){
+      touched=true;
+      e.preventDefault();
+      e.stopPropagation();
+      fn();
+      setTimeout(()=>{touched=false},500);
+    },{passive:false});
+    el.addEventListener('click',function(e){
+      e.preventDefault();
+      e.stopPropagation();
+      if(!touched) fn();
+    });
+  }
+
+  function bindAll(){
+    wrap.querySelectorAll('.ce-individual-popup').forEach(card=>{
+      bindTap(card.querySelector('.ce-image-x-close'), ()=>sessionClose(card));
+      const buttons=card.querySelectorAll('.ce-image-bottom-controls button');
+      if(buttons[0]) bindTap(buttons[0], ()=>dayClose(card));
+      if(buttons[1]) bindTap(buttons[1], ()=>sessionClose(card));
+    });
+  }
+  bindAll();
+  new MutationObserver(bindAll).observe(wrap,{childList:true,subtree:true});
 })();
 </script>
 
