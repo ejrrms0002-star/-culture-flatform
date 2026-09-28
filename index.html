@@ -2247,32 +2247,6 @@ html body #popup .ce-individual-popup{
 }
 </style>
 
-<style id="ce-mobile-real-viewport-final">
-@media (max-width:900px){
-  html,body{width:100%!important;max-width:100%!important;overflow-x:hidden!important}
-  html body .trust-hero{min-height:auto!important;background-position:62% center!important;overflow:hidden!important}
-  html body .trust-hero-inner{width:auto!important;max-width:none!important;margin:0!important;padding:42px 24px 54px!important;box-sizing:border-box!important}
-  html body .trust-hero h1{
-    display:block!important;width:100%!important;max-width:100%!important;margin:0!important;
-    font-size:32px!important;line-height:1.28!important;letter-spacing:-1.8px!important;
-    white-space:normal!important;word-break:keep-all!important;overflow:visible!important;
-  }
-  html body .trust-hero h1 strong{display:block!important;margin-top:5px!important}
-  html body .trust-hero p{font-size:16px!important;line-height:1.75!important;margin-top:18px!important;word-break:keep-all!important}
-  html body .trust-actions{margin-top:22px!important;gap:10px!important;flex-direction:column!important;align-items:flex-start!important}
-  html body .trust-actions a{width:min(100%,300px)!important;min-width:0!important;padding:15px 20px!important;font-size:16px!important;box-sizing:border-box!important}
-  html body #popup.ce-multi-popup-wrap{pointer-events:auto!important;overflow-y:auto!important;-webkit-overflow-scrolling:touch!important}
-  html body #popup .ce-individual-popup{touch-action:pan-y!important;pointer-events:auto!important}
-  html body #popup .ce-image-x-close{width:24%!important;height:12%!important;min-width:68px!important;min-height:54px!important;pointer-events:auto!important;touch-action:manipulation!important;z-index:2147483647!important}
-  html body #popup .ce-image-bottom-controls{height:10.5%!important;min-height:52px!important;pointer-events:auto!important;z-index:2147483646!important}
-  html body #popup .ce-image-bottom-controls button{min-height:52px!important;pointer-events:auto!important;touch-action:manipulation!important}
-}
-@media (max-width:430px){
-  html body .trust-hero-inner{padding-left:20px!important;padding-right:20px!important}
-  html body .trust-hero h1{font-size:30px!important;letter-spacing:-1.5px!important}
-}
-</style>
-
 <!-- 문화 이음 플랫폼 검색엔진 정보 -->
 <meta name="description" content="문화 이음 플랫폼은 예술 인문학, 심리상담, 원데이 클래스 등 문화와 배움을 통해 사람과 마음을 잇는 문화 플랫폼입니다.">
 <link rel="canonical" href="https://www.cultureeum.kr/">
@@ -2284,17 +2258,83 @@ html body #popup .ce-individual-popup{
 <meta name="twitter:description" content="문화 이음 플랫폼은 예술 인문학, 심리상담, 원데이 클래스 등 문화와 배움을 통해 사람과 마음을 잇는 문화 플랫폼입니다.">
 <script id="ce-site-structured-data" type="application/ld+json">{"@context": "https://schema.org", "@type": "WebSite", "name": "문화 이음 플랫폼", "url": "https://www.cultureeum.kr/", "description": "문화 이음 플랫폼은 예술 인문학, 심리상담, 원데이 클래스 등 문화와 배움을 통해 사람과 마음을 잇는 문화 플랫폼입니다.", "alternateName": "Culture Eum Platform"}</script>
 
-<style id="ce-hero-firstline-restore-final">
+
+<style id="ce-exact-mobile-hero-final">
 @media (max-width:900px){
- html body .trust-hero{min-height:680px!important;display:block!important;overflow:visible!important}
- html body .trust-hero-inner{position:relative!important;width:100%!important;max-width:100%!important;margin:0!important;padding:48px 22px 58px!important;box-sizing:border-box!important}
- html body .trust-hero h1{display:block!important;width:100%!important;max-width:100%!important;margin:0!important;padding:0!important;font-size:38px!important;line-height:1.28!important;letter-spacing:-2px!important;white-space:normal!important;overflow:visible!important}
- html body .trust-hero h1 .ce-hero-first{display:block!important;visibility:visible!important;opacity:1!important;height:auto!important;max-height:none!important;margin:0 0 6px!important;color:#123f37!important;white-space:nowrap!important;font:inherit!important}
- html body .trust-hero h1 strong{display:block!important;visibility:visible!important;opacity:1!important;margin:0!important;color:#a56f27!important}
+  html body .trust-hero{
+    min-height:auto!important;
+    overflow:visible!important;
+  }
+  html body .trust-hero-inner{
+    width:100%!important;
+    max-width:100%!important;
+    box-sizing:border-box!important;
+    margin:0!important;
+    padding:150px 32px 54px!important;
+  }
+  html body .trust-hero .ce-mobile-hero-title{
+    display:block!important;
+    width:100%!important;
+    max-width:100%!important;
+    height:auto!important;
+    max-height:none!important;
+    margin:0 0 24px!important;
+    padding:0!important;
+    overflow:visible!important;
+    white-space:normal!important;
+    font-size:0!important;
+    line-height:1!important;
+  }
+  html body .trust-hero .ce-mobile-hero-title > span{
+    display:block!important;
+    visibility:visible!important;
+    opacity:1!important;
+    width:100%!important;
+    height:auto!important;
+    margin:0 0 7px!important;
+    padding:0!important;
+    overflow:visible!important;
+    white-space:nowrap!important;
+    color:#0B443A!important;
+    font-size:36px!important;
+    font-weight:700!important;
+    line-height:1.18!important;
+    letter-spacing:-2.2px!important;
+  }
+  html body .trust-hero .ce-mobile-hero-title > strong{
+    display:block!important;
+    visibility:visible!important;
+    opacity:1!important;
+    width:100%!important;
+    height:auto!important;
+    margin:0!important;
+    padding:0!important;
+    overflow:visible!important;
+    white-space:normal!important;
+    color:#A96E20!important;
+    font-size:36px!important;
+    font-weight:700!important;
+    line-height:1.24!important;
+    letter-spacing:-2.2px!important;
+  }
 }
-@media(max-width:430px){html body .trust-hero h1{font-size:34px!important;letter-spacing:-1.8px!important}}
-@media(max-width:370px){html body .trust-hero h1{font-size:31px!important;letter-spacing:-1.5px!important}}
+@media (max-width:430px){
+  html body .trust-hero-inner{padding:150px 28px 54px!important}
+  html body .trust-hero .ce-mobile-hero-title > span,
+  html body .trust-hero .ce-mobile-hero-title > strong{
+    font-size:34px!important;
+    letter-spacing:-2px!important;
+  }
+}
+@media (max-width:370px){
+  html body .trust-hero .ce-mobile-hero-title > span,
+  html body .trust-hero .ce-mobile-hero-title > strong{
+    font-size:31px!important;
+    letter-spacing:-1.6px!important;
+  }
+}
 </style>
+
 </head>
 <body class="home-short premium-home">
 <!-- CULTUREEUM THREE INDIVIDUAL POPUPS -->
@@ -2419,7 +2459,7 @@ initializeCulturePopup();
 <main class="trust-home">
 <section class="trust-hero"><div class="trust-hero-overlay"></div><div class="trust-hero-inner">
 <div class="trust-eyebrow">문화와 사람이 만나는 특별한 공간</div>
-<h1><span class="ce-hero-first">예술과 심리가 만나</span><strong>당신의 일상이 더 빛납니다</strong></h1>
+<h1 class="ce-mobile-hero-title"><span>예술과 심리가 만나</span><strong>당신의 일상이 더 빛납니다</strong></h1>
 <p>문화와 배움으로 오늘이 더 특별해지는 새로운 경험.<br>편안하게 배우고, 깊이 있게 나를 만나는 시간을 시작해 보세요.</p>
 <div class="trust-actions"><a class="primary" href="#trust-programs">강좌 둘러보기 →</a><a class="secondary" href="about.html">플랫폼 소개 →</a></div>
 </div></section>
