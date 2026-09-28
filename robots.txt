@@ -1,4 +1,3 @@
 User-agent: *
 Allow: /
-
-Sitemap: https://index-1-ten-delta.vercel.app/sitemap.xml
+Sitemap: https://www.cultureeum.kr/sitemap.xml
