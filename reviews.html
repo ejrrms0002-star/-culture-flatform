@@ -2991,6 +2991,46 @@ initializeCulturePopup();
 })();
 </script>
 
+<script id="ce-popup-navigation-state-final">
+(function(){
+  const CLOSE_KEY='culturePopupClosed';
+  const INTERNAL_KEY='culturePopupInternalMove';
+
+  /* 새로고침이면 일반 닫기/X 상태를 즉시 해제.
+     '오늘 하루 열지 않음'은 localStorage이므로 그대로 유지. */
+  try{
+    const nav=performance.getEntriesByType('navigation')[0];
+    if(nav && nav.type==='reload'){
+      sessionStorage.removeItem(CLOSE_KEY);
+      sessionStorage.removeItem(INTERNAL_KEY);
+    }
+  }catch(_){}
+
+  /* 사이트 내부 링크 이동은 닫기 상태 유지 */
+  document.addEventListener('click',function(e){
+    const a=e.target.closest && e.target.closest('a[href]');
+    if(!a) return;
+    try{
+      const u=new URL(a.href,location.href);
+      if(u.origin===location.origin){
+        sessionStorage.setItem(INTERNAL_KEY,'1');
+      }else{
+        sessionStorage.removeItem(CLOSE_KEY);
+        sessionStorage.removeItem(INTERNAL_KEY);
+      }
+    }catch(_){}
+  },true);
+
+  /* 사이트를 실제로 벗어나면 일반 닫기 상태 해제 */
+  window.addEventListener('pagehide',function(){
+    if(sessionStorage.getItem(INTERNAL_KEY)==='1'){
+      sessionStorage.removeItem(INTERNAL_KEY);
+      return;
+    }
+    sessionStorage.removeItem(CLOSE_KEY);
+  });
+})();
+</script>
 <script id="ce-popup-persistence-final">
 (function(){
   const SESSION_KEY='culturePopupClosed';
@@ -3138,23 +3178,5 @@ initializeCulturePopup();
 })();
 </script>
 
-<script id="ce-popup-visit-session-final">
-(function(){
- const CLOSE_KEY='culturePopupClosed', INTERNAL_KEY='culturePopupInternalMove';
- if(sessionStorage.getItem(INTERNAL_KEY)==='1') sessionStorage.removeItem(INTERNAL_KEY);
- document.addEventListener('click',function(e){
-   const a=e.target.closest&&e.target.closest('a[href]'); if(!a)return;
-   try{const u=new URL(a.href,location.href);
-     if(u.origin===location.origin) sessionStorage.setItem(INTERNAL_KEY,'1');
-     else {sessionStorage.removeItem(CLOSE_KEY);sessionStorage.removeItem(INTERNAL_KEY);}
-   }catch(_){}
- },true);
- window.addEventListener('pageshow',function(){sessionStorage.removeItem(INTERNAL_KEY);});
- window.addEventListener('pagehide',function(){
-   if(sessionStorage.getItem(INTERNAL_KEY)==='1')return;
-   sessionStorage.removeItem(CLOSE_KEY);
- });
-})();
-</script>
 </body>
 </html>
