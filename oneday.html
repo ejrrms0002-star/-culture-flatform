@@ -1140,69 +1140,6 @@ html body #popup.ce-multi-popup-wrap{
   #popup .ce-image-bottom-controls{min-height:40px!important}
 }
 </style>
-<style id="ce-popup-drag-style-final">
-/* PC에서 팝업을 마우스로 자유롭게 이동 */
-@media (min-width:701px){
-  #popup.ce-multi-popup-wrap{
-    display:block!important;
-    position:fixed!important;
-    inset:0!important;
-    pointer-events:none!important;
-  }
-  #popup .ce-individual-popup{
-    position:absolute!important;
-    margin:0!important;
-    touch-action:none!important;
-    user-select:none!important;
-    -webkit-user-select:none!important;
-    cursor:grab!important;
-  }
-  #popup .ce-individual-popup.ce-dragging{
-    cursor:grabbing!important;
-    z-index:100!important;
-  }
-  #popup .ce-individual-popup img{
-    -webkit-user-drag:none!important;
-    user-drag:none!important;
-    pointer-events:none!important;
-  }
-  #popup .ce-image-bottom-controls,
-  #popup .ce-image-bottom-controls button{
-    pointer-events:auto!important;
-  }
-}
-/* 모바일은 기존 최적화 유지: 스크롤/버튼 사용 우선 */
-@media (max-width:700px){
-  #popup .ce-individual-popup{cursor:default!important}
-}
-</style>
-
-<style id="ce-popup-top-safe-final">
-@media (min-width:701px){
-  #popup.ce-multi-popup-wrap{
-    padding-top:16px!important;
-    overflow:visible!important;
-  }
-  #popup .ce-individual-popup{
-    top:16px;
-    max-height:calc(100vh - 32px)!important;
-  }
-  #popup .ce-individual-popup img{
-    max-height:calc(100vh - 32px)!important;
-    object-fit:contain!important;
-  }
-}
-@media (max-width:700px){
-  html body #popup.ce-multi-popup-wrap{
-    padding-top:10px!important;
-    scroll-padding-top:10px!important;
-  }
-  #popup .ce-individual-popup:first-child{
-    margin-top:0!important;
-  }
-}
-</style>
-
 <style id="ce-popup-header-overlap-fix-final">
 /* 헤더가 팝업 위를 덮던 문제 해결: 팝업을 페이지 최상단 레이어로 고정 */
 html body #popup.ce-multi-popup-wrap{
@@ -1221,6 +1158,109 @@ html body #popup .ce-individual-popup{
 }
 </style>
 
+
+
+<style id="ce-popup-layout-drag-v2">
+/* PC: 처음 열릴 때 3개가 반드시 나란히 모두 보이도록 배치 */
+@media (min-width:701px){
+  html body #popup.ce-multi-popup-wrap{
+    position:fixed!important;
+    inset:0!important;
+    display:block!important;
+    width:100vw!important;
+    height:100vh!important;
+    padding:0!important;
+    margin:0!important;
+    overflow:visible!important;
+    pointer-events:none!important;
+    z-index:2147483647!important;
+  }
+
+  html body #popup .ce-individual-popup{
+    position:absolute!important;
+    top:16px!important;
+    width:min(30.2vw,430px)!important;
+    max-width:430px!important;
+    max-height:calc(100vh - 32px)!important;
+    margin:0!important;
+    pointer-events:auto!important;
+    cursor:grab!important;
+    touch-action:none!important;
+    user-select:none!important;
+    -webkit-user-select:none!important;
+  }
+
+  /* JS가 뜨기 전에도 겹치지 않는 안전한 초기 위치 */
+  html body #popup .ce-individual-popup:nth-of-type(1){left:2%!important}
+  html body #popup .ce-individual-popup:nth-of-type(2){left:34.9%!important}
+  html body #popup .ce-individual-popup:nth-of-type(3){left:67.8%!important}
+
+  html body #popup .ce-individual-popup.ce-drag-ready{
+    left:var(--drag-left)!important;
+    top:var(--drag-top)!important;
+  }
+
+  html body #popup .ce-individual-popup.ce-dragging{
+    cursor:grabbing!important;
+    z-index:2147483647!important;
+  }
+
+  #popup .ce-individual-popup img{
+    display:block!important;
+    width:100%!important;
+    height:auto!important;
+    max-height:calc(100vh - 32px)!important;
+    object-fit:contain!important;
+    pointer-events:none!important;
+    -webkit-user-drag:none!important;
+  }
+
+  /* 클릭 기능이 있는 부분은 드래그보다 우선 */
+  #popup .ce-image-bottom-controls,
+  #popup .ce-image-bottom-controls button,
+  #popup .ce-image-x-close{
+    pointer-events:auto!important;
+  }
+}
+
+/* 모바일은 기존 한 열 최적화 유지 */
+@media (max-width:700px){
+  html body #popup.ce-multi-popup-wrap{
+    display:block!important;
+    overflow-y:auto!important;
+  }
+  html body #popup .ce-individual-popup{
+    position:relative!important;
+    left:auto!important;
+    top:auto!important;
+  }
+}
+</style>
+
+
+<style id="ce-popup-x-click-final">
+#popup .ce-individual-popup{position:absolute!important}
+#popup .ce-image-x-close{
+  display:block!important;
+  position:absolute!important;
+  top:0!important;
+  right:0!important;
+  width:18%!important;
+  height:10%!important;
+  min-width:54px!important;
+  min-height:48px!important;
+  z-index:2147483647!important;
+  border:0!important;
+  outline:0!important;
+  margin:0!important;
+  padding:0!important;
+  background:transparent!important;
+  cursor:pointer!important;
+  pointer-events:auto!important;
+  touch-action:manipulation!important;
+  -webkit-tap-highlight-color:transparent!important;
+}
+</style>
 </head>
 <body>
 <!-- CULTUREEUM THREE INDIVIDUAL POPUPS -->
@@ -2323,71 +2363,227 @@ initializeCulturePopup();
   }
 })();
 </script>
-<script id="ce-popup-drag-controller-final">
+
+
+<script id="ce-popup-layout-drag-controller-v2">
 (function(){
   const wrap=document.getElementById('popup');
   if(!wrap || window.matchMedia('(max-width:700px)').matches) return;
 
   const cards=[...wrap.querySelectorAll('.ce-individual-popup')];
-  if(!cards.length) return;
+  if(cards.length!==3) return;
 
-  function layout(){
-    const gap=22, pad=24;
+  let topZ=1000;
+
+  function setPos(card,left,top){
+    card.style.setProperty('--drag-left', left+'px');
+    card.style.setProperty('--drag-top', top+'px');
+    card.classList.add('ce-drag-ready');
+  }
+
+  /* 최초 로딩: 실제 카드 폭을 측정해 3장을 화면 가운데에 정확히 나란히 배치 */
+  function initialLayout(){
     const visible=cards.filter(c=>getComputedStyle(c).display!=='none');
     if(!visible.length) return;
+
+    const gap=Math.max(14,Math.min(24,window.innerWidth*0.012));
     const widths=visible.map(c=>c.getBoundingClientRect().width);
     const total=widths.reduce((a,b)=>a+b,0)+gap*(visible.length-1);
-    let x=Math.max(pad,(window.innerWidth-total)/2);
-    visible.forEach((c,i)=>{
-      if(!c.dataset.dragPositioned){
-        c.style.left=x+'px';
-        c.style.top='16px';
-        c.dataset.dragPositioned='1';
-      }
-      x+=widths[i]+gap;
+    let left=Math.max(10,(window.innerWidth-total)/2);
+
+    visible.forEach((card,i)=>{
+      setPos(card,left,16);
+      left+=widths[i]+gap;
     });
   }
-  requestAnimationFrame(layout);
 
-  let topZ=50;
+  requestAnimationFrame(()=>requestAnimationFrame(initialLayout));
+
   cards.forEach(card=>{
     card.addEventListener('pointerdown',function(e){
       if(e.button!==0) return;
-      if(e.target.closest('.ce-image-bottom-controls')) return;
+
+      /* X / 오늘 하루 / 닫기는 클릭으로 작동 */
+      if(e.target.closest('.ce-image-x-close,.ce-image-bottom-controls')) return;
+
+      e.preventDefault();
 
       const rect=card.getBoundingClientRect();
-      card.style.left=rect.left+'px';
-      card.style.top=rect.top+'px';
-      card.style.width=rect.width+'px';
-      card.classList.add('ce-dragging');
-      card.style.zIndex=String(++topZ);
+      const startX=e.clientX;
+      const startY=e.clientY;
+      const startLeft=rect.left;
+      const startTop=rect.top;
 
-      const startX=e.clientX, startY=e.clientY;
-      const startL=rect.left, startT=rect.top;
-      card.setPointerCapture(e.pointerId);
+      setPos(card,startLeft,startTop);
+      card.style.zIndex=String(++topZ);
+      card.classList.add('ce-dragging');
+
+      try{card.setPointerCapture(e.pointerId)}catch(_){}
 
       function move(ev){
-        let left=startL+(ev.clientX-startX);
-        let top=startT+(ev.clientY-startY);
-        const w=card.offsetWidth, h=card.offsetHeight;
-        left=Math.min(Math.max(0,left),Math.max(0,window.innerWidth-w));
-        top=Math.min(Math.max(8,top),Math.max(8,window.innerHeight-Math.min(h,window.innerHeight)));
-        card.style.left=left+'px';
-        card.style.top=top+'px';
+        const dx=ev.clientX-startX;
+        const dy=ev.clientY-startY;
+
+        let left=startLeft+dx;
+        let top=startTop+dy;
+
+        const w=card.offsetWidth;
+        const h=card.offsetHeight;
+        const minVisible=70;
+
+        /* X축과 Y축을 둘 다 직접 갱신 */
+        left=Math.max(-w+minVisible, Math.min(window.innerWidth-minVisible,left));
+        top=Math.max(8, Math.min(window.innerHeight-minVisible,top));
+
+        setPos(card,left,top);
       }
-      function up(ev){
+
+      function end(ev){
         card.classList.remove('ce-dragging');
         try{card.releasePointerCapture(ev.pointerId)}catch(_){}
         card.removeEventListener('pointermove',move);
-        card.removeEventListener('pointerup',up);
-        card.removeEventListener('pointercancel',up);
+        card.removeEventListener('pointerup',end);
+        card.removeEventListener('pointercancel',end);
       }
+
       card.addEventListener('pointermove',move);
-      card.addEventListener('pointerup',up);
-      card.addEventListener('pointercancel',up);
+      card.addEventListener('pointerup',end);
+      card.addEventListener('pointercancel',end);
     });
   });
 })();
 </script>
+
+
+<script id="ce-popup-x-click-controller-final">
+(function(){
+  const wrap=document.getElementById('popup');
+  if(!wrap) return;
+
+  const cards=[...wrap.querySelectorAll('.ce-individual-popup')];
+
+  function closeCard(card){
+    if(!card) return;
+    card.style.setProperty('display','none','important');
+    const anyVisible=cards.some(c=>getComputedStyle(c).display!=='none');
+    if(!anyVisible){
+      wrap.style.setProperty('display','none','important');
+      sessionStorage.setItem('culturePopupClosed','true');
+    }
+  }
+
+  cards.forEach(function(card){
+    let btn=card.querySelector('.ce-image-x-close');
+    if(!btn){
+      btn=document.createElement('button');
+      btn.type='button';
+      btn.className='ce-image-x-close';
+      btn.setAttribute('aria-label','팝업 닫기');
+      card.appendChild(btn);
+    }
+
+    /* 드래그 이벤트로 전달되지 않도록 X가 먼저 잡음 */
+    ['pointerdown','mousedown','touchstart'].forEach(function(type){
+      btn.addEventListener(type,function(e){
+        e.stopPropagation();
+      },{passive:false});
+    });
+
+    btn.addEventListener('click',function(e){
+      e.preventDefault();
+      e.stopPropagation();
+      closeCard(card);
+    });
+  });
+})();
+</script>
+
+<script id="ce-popup-persistence-final">
+(function(){
+  const SESSION_KEY='culturePopupClosed';
+  const DAY_KEY='culturePopupHideUntil_v2';
+  const DAY_MS=24*60*60*1000;
+
+  const wrap=document.getElementById('popup');
+  if(!wrap) return;
+
+  function hideAll(){
+    wrap.style.setProperty('display','none','important');
+  }
+
+  /* 페이지를 옮겨도 같은 탭/사이트 이용 중이면 닫힌 상태 유지 */
+  const sessionClosed=sessionStorage.getItem(SESSION_KEY)==='true';
+  const hideUntil=Number(localStorage.getItem(DAY_KEY)||0);
+
+  if(sessionClosed || hideUntil>Date.now()){
+    hideAll();
+    return;
+  }
+  if(hideUntil && hideUntil<=Date.now()){
+    localStorage.removeItem(DAY_KEY);
+  }
+
+  /* 일반 닫기와 이미지 X:
+     현재 탭을 닫기 전까지 모든 카테고리에서 다시 뜨지 않음 */
+  function closeForSession(){
+    sessionStorage.setItem(SESSION_KEY,'true');
+  }
+
+  /* 오늘 하루 열지 않음:
+     브라우저/사이트를 닫았다 다시 들어와도 24시간 동안 숨김 */
+  function closeForDay(){
+    localStorage.setItem(DAY_KEY,String(Date.now()+DAY_MS));
+    sessionStorage.setItem(SESSION_KEY,'true');
+  }
+
+  /* 기존 함수가 호출되는 경우도 저장 정책을 동일하게 보강 */
+  window.closeMainPopup=function(){
+    closeForSession();
+    hideAll();
+  };
+  window.hideMainPopupForDay=function(){
+    closeForDay();
+    hideAll();
+  };
+  window.hideMainPopupForWeek=window.hideMainPopupForDay;
+
+  /* 동적으로 생성되는 X와 하단 버튼까지 잡기 위해 이벤트 위임 */
+  document.addEventListener('click',function(e){
+    const x=e.target.closest && e.target.closest('.ce-image-x-close');
+    if(x && wrap.contains(x)){
+      closeForSession();
+      return; /* 기존 개별 닫기 UI는 그대로 실행 */
+    }
+
+    const controls=e.target.closest && e.target.closest('.ce-image-bottom-controls');
+    if(!controls || !wrap.contains(controls)) return;
+
+    const target=e.target.closest('button,a,[role="button"]') || e.target;
+    const txt=(target.textContent||'').replace(/\s+/g,' ').trim();
+
+    if(txt.includes('오늘 하루') || txt.includes('하루 동안') || txt.includes('열지 않음')){
+      closeForDay();
+    }else if(txt==='닫기' || txt.includes('닫기')){
+      closeForSession();
+    }
+  },true);
+
+  /* 혹시 하단 버튼이 이미지 위 투명영역이라 text가 없는 구조도 처리 */
+  wrap.addEventListener('pointerdown',function(e){
+    const card=e.target.closest && e.target.closest('.ce-individual-popup');
+    if(!card) return;
+    const rect=card.getBoundingClientRect();
+    const y=(e.clientY-rect.top)/rect.height;
+    const x=(e.clientX-rect.left)/rect.width;
+
+    /* 이미지 하단 약 10% 영역: 왼쪽=오늘 하루, 오른쪽=닫기 */
+    if(y>=0.90){
+      if(x<0.68) closeForDay();
+      else closeForSession();
+    }
+  },true);
+})();
+</script>
+
 </body>
 </html>
