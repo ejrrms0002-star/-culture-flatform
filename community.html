@@ -2017,6 +2017,25 @@ html body #popup.ce-multi-popup-wrap{
   }
 }
 </style>
+
+<style id="ce-popup-header-overlap-fix-final">
+/* 헤더가 팝업 위를 덮던 문제 해결: 팝업을 페이지 최상단 레이어로 고정 */
+html body #popup.ce-multi-popup-wrap{
+  position:fixed!important;
+  inset:0!important;
+  z-index:2147483647!important;
+  isolation:isolate!important;
+}
+html body #popup .ce-individual-popup{
+  z-index:2147483647!important;
+}
+@media (min-width:701px){
+  html body #popup .ce-individual-popup{
+    top:16px!important;
+  }
+}
+</style>
+
 </head>
 <body class="home-short premium-home">
 <!-- CULTUREEUM THREE INDIVIDUAL POPUPS -->
