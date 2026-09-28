@@ -1921,21 +1921,82 @@ html body #popup.ce-multi-popup-wrap{
 }
 </style>
 
+<style id="ce-popup-bottom-controls-style-final">
+/* 이미지에 인쇄된 X 위에 별도 동그란 X를 추가하지 않음 */
+#popup .ce-individual-close{display:none!important}
+
+/* 이미지 하단의 '오늘 하루 열지 않음 / 닫기' 위치만 실제 버튼으로 활성화 */
+#popup .ce-individual-popup{position:relative!important}
+#popup .ce-image-bottom-controls{
+  position:absolute!important;
+  left:0!important;right:0!important;bottom:0!important;
+  height:8.8%!important;
+  min-height:42px!important;
+  display:grid!important;
+  grid-template-columns:82% 18%!important;
+  z-index:30!important;
+  pointer-events:auto!important;
+}
+#popup .ce-image-bottom-controls button{
+  display:block!important;
+  width:100%!important;height:100%!important;
+  margin:0!important;padding:0!important;border:0!important;
+  background:transparent!important;
+  cursor:pointer!important;
+  -webkit-tap-highlight-color:transparent!important;
+}
+@media(max-width:700px){
+  #popup .ce-image-bottom-controls{min-height:40px!important}
+}
+</style>
+<style id="ce-popup-drag-style-final">
+/* PC에서 팝업을 마우스로 자유롭게 이동 */
+@media (min-width:701px){
+  #popup.ce-multi-popup-wrap{
+    display:block!important;
+    position:fixed!important;
+    inset:0!important;
+    pointer-events:none!important;
+  }
+  #popup .ce-individual-popup{
+    position:absolute!important;
+    margin:0!important;
+    touch-action:none!important;
+    user-select:none!important;
+    -webkit-user-select:none!important;
+    cursor:grab!important;
+  }
+  #popup .ce-individual-popup.ce-dragging{
+    cursor:grabbing!important;
+    z-index:100!important;
+  }
+  #popup .ce-individual-popup img{
+    -webkit-user-drag:none!important;
+    user-drag:none!important;
+    pointer-events:none!important;
+  }
+  #popup .ce-image-bottom-controls,
+  #popup .ce-image-bottom-controls button{
+    pointer-events:auto!important;
+  }
+}
+/* 모바일은 기존 최적화 유지: 스크롤/버튼 사용 우선 */
+@media (max-width:700px){
+  #popup .ce-individual-popup{cursor:default!important}
+}
+</style>
 </head>
 <body class="home-short premium-home">
 <!-- CULTUREEUM THREE INDIVIDUAL POPUPS -->
 <div id="popup" class="ce-multi-popup-wrap" aria-label="문화이음플랫폼 안내 팝업">
   <div class="ce-individual-popup" data-popup="1">
-    <button type="button" class="ce-individual-close" aria-label="팝업 1 닫기">×</button>
-    <img src="팝업/팝업 사진1.png" alt="개인정보 취급 및 유의 안내">
+<img src="팝업/팝업 사진1.png" alt="개인정보 취급 및 유의 안내">
   </div>
   <div class="ce-individual-popup" data-popup="2">
-    <button type="button" class="ce-individual-close" aria-label="팝업 2 닫기">×</button>
-    <img src="팝업/팝업 사진2.png" alt="2026년 10월 특별 강좌 소개">
+<img src="팝업/팝업 사진2.png" alt="2026년 10월 특별 강좌 소개">
   </div>
   <div class="ce-individual-popup" data-popup="3">
-    <button type="button" class="ce-individual-close" aria-label="팝업 3 닫기">×</button>
-    <img src="팝업/팝업 사진3.png" alt="아로마테라피 북 퍼퓸 3기 마감 안내">
+<img src="팝업/팝업 사진3.png" alt="아로마테라피 북 퍼퓸 3기 마감 안내">
   </div>
 </div>
 <!-- /CULTUREEUM THREE INDIVIDUAL POPUPS -->
@@ -2491,20 +2552,125 @@ initializeCulturePopup();
 </script>
 
 <script>(function(){let rating=0;const stars=[...document.querySelectorAll('#starPicker button')];stars.forEach((b,i)=>b.onclick=()=>{rating=i+1;stars.forEach((x,j)=>x.classList.toggle('on',j<rating))});const seed=[{n:'박*민 회원님',r:5,d:'2026.09.18',t:'처음엔 긴장했는데 편안하게 이야기를 들어주셔서 제 마음을 깊이 들여다볼 수 있었습니다. 진심으로 감사드립니다.'},{n:'김*영 회원님',r:5,d:'2026.09.12',t:'온라인 상담이 처음이라 걱정했는데 세심한 조언 덕분에 도움이 많이 됐습니다. 다음에도 꼭 다시 상담받고 싶어요.'},{n:'이*수 회원님',r:5,d:'2026.09.04',t:'수업을 통해 저를 더 잘 이해하게 되었고 삶의 방향을 새롭게 정할 수 있었습니다.'}];let saved=JSON.parse(localStorage.getItem('ceReviews')||'[]');const list=document.getElementById('reviewList');function draw(){list.innerHTML='';[...saved,...seed].forEach(x=>{const a=document.createElement('article');a.className='ce-review';a.innerHTML='<div class="ce-review-top"><div><span class="ce-review-name">'+x.n+'</span><div style="color:#d9a62e;margin-top:5px">'+'★'.repeat(x.r)+'☆'.repeat(5-x.r)+'</div></div><span class="ce-review-date">'+x.d+'</span></div><p>'+x.t+'</p>';list.appendChild(a)})}draw();document.getElementById('submitReview').onclick=()=>{const t=document.getElementById('reviewText').value.trim();if(!rating||!t){alert('별점과 후기 내용을 입력해주세요.');return}saved.unshift({n:'방문자 회원님',r:rating,d:new Date().toISOString().slice(0,10).replaceAll('-','.'),t});localStorage.setItem('ceReviews',JSON.stringify(saved));document.getElementById('reviewText').value='';rating=0;stars.forEach(x=>x.classList.remove('on'));draw();alert('후기가 등록되었습니다.')}})();</script>
-<script id="ce-three-individual-popup-controller">
+<script id="ce-popup-bottom-controls-final">
 (function(){
- const wrap=document.getElementById('popup');
- if(!wrap) return;
- wrap.querySelectorAll('.ce-individual-close').forEach(function(btn){
-   btn.addEventListener('click',function(){
-     const card=btn.closest('.ce-individual-popup');
-     if(card) card.style.display='none';
-     if(![...wrap.querySelectorAll('.ce-individual-popup')].some(x=>x.style.display!=='none')){
-       wrap.style.display='none';
-       sessionStorage.setItem('culturePopupClosed','true');
-     }
-   });
- });
+  const wrap=document.getElementById('popup');
+  if(!wrap) return;
+
+  // 기존에 코드로 추가했던 동그란 X 버튼은 제거
+  wrap.querySelectorAll('.ce-individual-close').forEach(el=>el.remove());
+
+  function visibleCards(){
+    return [...wrap.querySelectorAll('.ce-individual-popup')].filter(el=>el.style.display!=='none');
+  }
+  function closeCard(card){
+    if(card) card.style.display='none';
+    if(visibleCards().length===0){
+      wrap.style.setProperty('display','none','important');
+      sessionStorage.setItem('culturePopupClosed','true');
+    }
+  }
+  function hideCardToday(card, index){
+    const until=Date.now() + 24*60*60*1000;
+    localStorage.setItem('culturePopupHideToday_'+index, String(until));
+    closeCard(card);
+  }
+
+  wrap.querySelectorAll('.ce-individual-popup').forEach(function(card, i){
+    const index=i+1;
+
+    // 오늘 하루 숨김 기록이 있으면 해당 팝업만 표시하지 않음
+    const until=Number(localStorage.getItem('culturePopupHideToday_'+index)||0);
+    if(until>Date.now()){
+      card.style.display='none';
+      return;
+    } else if(until){
+      localStorage.removeItem('culturePopupHideToday_'+index);
+    }
+
+    // 이미지 안에 이미 그려져 있는 하단 버튼 영역 위에 투명 클릭영역만 얹음
+    let controls=card.querySelector('.ce-image-bottom-controls');
+    if(!controls){
+      controls=document.createElement('div');
+      controls.className='ce-image-bottom-controls';
+      controls.innerHTML=
+        '<button type="button" class="ce-hide-today" aria-label="오늘 하루 열지 않음"></button>'+
+        '<button type="button" class="ce-close-popup" aria-label="닫기"></button>';
+      card.appendChild(controls);
+    }
+    controls.querySelector('.ce-hide-today').addEventListener('click',()=>hideCardToday(card,index));
+    controls.querySelector('.ce-close-popup').addEventListener('click',()=>closeCard(card));
+  });
+
+  if(visibleCards().length===0){
+    wrap.style.setProperty('display','none','important');
+  }
+})();
+</script>
+<script id="ce-popup-drag-controller-final">
+(function(){
+  const wrap=document.getElementById('popup');
+  if(!wrap || window.matchMedia('(max-width:700px)').matches) return;
+
+  const cards=[...wrap.querySelectorAll('.ce-individual-popup')];
+  if(!cards.length) return;
+
+  function layout(){
+    const gap=22, pad=24;
+    const visible=cards.filter(c=>getComputedStyle(c).display!=='none');
+    if(!visible.length) return;
+    const widths=visible.map(c=>c.getBoundingClientRect().width);
+    const total=widths.reduce((a,b)=>a+b,0)+gap*(visible.length-1);
+    let x=Math.max(pad,(window.innerWidth-total)/2);
+    visible.forEach((c,i)=>{
+      if(!c.dataset.dragPositioned){
+        c.style.left=x+'px';
+        c.style.top='18px';
+        c.dataset.dragPositioned='1';
+      }
+      x+=widths[i]+gap;
+    });
+  }
+  requestAnimationFrame(layout);
+
+  let topZ=50;
+  cards.forEach(card=>{
+    card.addEventListener('pointerdown',function(e){
+      if(e.button!==0) return;
+      if(e.target.closest('.ce-image-bottom-controls')) return;
+
+      const rect=card.getBoundingClientRect();
+      card.style.left=rect.left+'px';
+      card.style.top=rect.top+'px';
+      card.style.width=rect.width+'px';
+      card.classList.add('ce-dragging');
+      card.style.zIndex=String(++topZ);
+
+      const startX=e.clientX, startY=e.clientY;
+      const startL=rect.left, startT=rect.top;
+      card.setPointerCapture(e.pointerId);
+
+      function move(ev){
+        let left=startL+(ev.clientX-startX);
+        let top=startT+(ev.clientY-startY);
+        const w=card.offsetWidth, h=card.offsetHeight;
+        left=Math.min(Math.max(0,left),Math.max(0,window.innerWidth-w));
+        top=Math.min(Math.max(0,top),Math.max(0,window.innerHeight-Math.min(h,window.innerHeight)));
+        card.style.left=left+'px';
+        card.style.top=top+'px';
+      }
+      function up(ev){
+        card.classList.remove('ce-dragging');
+        try{card.releasePointerCapture(ev.pointerId)}catch(_){}
+        card.removeEventListener('pointermove',move);
+        card.removeEventListener('pointerup',up);
+        card.removeEventListener('pointercancel',up);
+      }
+      card.addEventListener('pointermove',move);
+      card.addEventListener('pointerup',up);
+      card.addEventListener('pointercancel',up);
+    });
+  });
 })();
 </script>
 </body>
