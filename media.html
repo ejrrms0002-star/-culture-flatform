@@ -3170,5 +3170,23 @@ initializeCulturePopup();
 })();
 </script>
 
+<script id="ce-popup-visit-session-final">
+(function(){
+ const CLOSE_KEY='culturePopupClosed', INTERNAL_KEY='culturePopupInternalMove';
+ if(sessionStorage.getItem(INTERNAL_KEY)==='1') sessionStorage.removeItem(INTERNAL_KEY);
+ document.addEventListener('click',function(e){
+   const a=e.target.closest&&e.target.closest('a[href]'); if(!a)return;
+   try{const u=new URL(a.href,location.href);
+     if(u.origin===location.origin) sessionStorage.setItem(INTERNAL_KEY,'1');
+     else {sessionStorage.removeItem(CLOSE_KEY);sessionStorage.removeItem(INTERNAL_KEY);}
+   }catch(_){}
+ },true);
+ window.addEventListener('pageshow',function(){sessionStorage.removeItem(INTERNAL_KEY);});
+ window.addEventListener('pagehide',function(){
+   if(sessionStorage.getItem(INTERNAL_KEY)==='1')return;
+   sessionStorage.removeItem(CLOSE_KEY);
+ });
+})();
+</script>
 </body>
 </html>
