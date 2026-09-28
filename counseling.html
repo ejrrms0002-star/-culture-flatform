@@ -1432,6 +1432,22 @@ html body #popup .ce-individual-popup{
 <meta name="twitter:description" content="문화 이음 플랫폼의 심리상담 프로그램을 소개합니다. 나를 이해하고 마음을 돌보는 다양한 상담 프로그램을 만나보세요.">
 <script id="ce-site-structured-data" type="application/ld+json">{"@context": "https://schema.org", "@type": "WebPage", "name": "심리상담 | 문화 이음 플랫폼", "url": "https://www.cultureeum.kr/counseling.html", "description": "문화 이음 플랫폼의 심리상담 프로그램을 소개합니다. 나를 이해하고 마음을 돌보는 다양한 상담 프로그램을 만나보세요."}</script>
 
+<style id="ce-popup-mobile-visibility-safety">
+@media(max-width:700px){
+  html body #popup.ce-multi-popup-wrap{
+    visibility:visible!important;
+    opacity:1!important;
+  }
+  html body #popup.ce-multi-popup-wrap:not([style*="display: none"]){
+    display:block!important;
+  }
+  html body #popup .ce-individual-popup:not([style*="display: none"]){
+    display:block!important;
+    position:relative!important;
+    left:auto!important;top:auto!important;
+  }
+}
+</style>
 </head>
 <body>
 <!-- CULTUREEUM THREE INDIVIDUAL POPUPS -->
@@ -1447,74 +1463,6 @@ html body #popup .ce-individual-popup{
   </div>
 </div>
 <!-- /CULTUREEUM THREE INDIVIDUAL POPUPS -->
-<script id="cultureeum-popup-controller">
-/* ===== 문화이음 공통 팝업 제어 ===== */
-const CULTURE_POPUP_DAY_KEY = 'culturePopupHideUntil_v2';
-const CULTURE_POPUP_SESSION_KEY = 'culturePopupClosed';
-const CULTURE_POPUP_INTERNAL_KEY = 'culturePopupInternalMove';
-
-/* 페이지가 뜨는 바로 그 순간:
-   내부 메뉴 이동으로 온 경우만 일반 닫기 상태 유지.
-   새로고침/주소 재입력/외부 재방문이면 일반 닫기 상태 초기화. */
-const cultureCameFromInternalMove =
-    sessionStorage.getItem(CULTURE_POPUP_INTERNAL_KEY) === '1';
-sessionStorage.removeItem(CULTURE_POPUP_INTERNAL_KEY);
-if (!cultureCameFromInternalMove) {
-    sessionStorage.removeItem(CULTURE_POPUP_SESSION_KEY);
-}
-
-function closeMainPopup() {
-    sessionStorage.setItem(CULTURE_POPUP_SESSION_KEY, 'true');
-    const popup = document.getElementById('popup');
-    if (popup) popup.style.setProperty('display','none','important');
-}
-
-function hideMainPopupForWeek() {
-    const hideUntil = Date.now() + (24 * 60 * 60 * 1000);
-    localStorage.setItem(CULTURE_POPUP_DAY_KEY, String(hideUntil));
-    sessionStorage.setItem(CULTURE_POPUP_SESSION_KEY, 'true');
-    const popup = document.getElementById('popup');
-    if (popup) popup.style.setProperty('display','none','important');
-}
-window.hideMainPopupForDay = hideMainPopupForWeek;
-
-function initializeCulturePopup() {
-    const popup = document.getElementById('popup');
-    if (!popup) return;
-
-    const closedThisVisit =
-        sessionStorage.getItem(CULTURE_POPUP_SESSION_KEY) === 'true';
-    const hideUntil = Number(localStorage.getItem(CULTURE_POPUP_DAY_KEY) || 0);
-
-    if (hideUntil && hideUntil <= Date.now()) {
-        localStorage.removeItem(CULTURE_POPUP_DAY_KEY);
-    }
-
-    if (closedThisVisit || hideUntil > Date.now()) {
-        popup.style.setProperty('display','none','important');
-    } else {
-        /* PC와 모바일 CSS가 각자 flex/block을 결정하도록 inline important 제거 */
-        popup.style.removeProperty('display');
-    }
-}
-
-/* 사이트 내부 링크를 누른 경우에만 다음 페이지에서 닫힘 상태 유지 */
-document.addEventListener('click', function(e){
-    const a=e.target.closest && e.target.closest('a[href]');
-    if(!a) return;
-    try{
-        const u=new URL(a.href,location.href);
-        if(u.origin===location.origin){
-            sessionStorage.setItem(CULTURE_POPUP_INTERNAL_KEY,'1');
-        } else {
-            sessionStorage.removeItem(CULTURE_POPUP_INTERNAL_KEY);
-            sessionStorage.removeItem(CULTURE_POPUP_SESSION_KEY);
-        }
-    }catch(_){}
-}, true);
-
-initializeCulturePopup();
-</script>
 <!-- 여기부터 원래 홈페이지 내용 -->
 <!-- 헤더 -->
 <header>
@@ -2503,63 +2451,6 @@ initializeCulturePopup();
 })();
 </script>
 
-<script id="ce-popup-bottom-controls-final">
-(function(){
-  const wrap=document.getElementById('popup');
-  if(!wrap) return;
-
-  // 기존에 코드로 추가했던 동그란 X 버튼은 제거
-  wrap.querySelectorAll('.ce-individual-close').forEach(el=>el.remove());
-
-  function visibleCards(){
-    return [...wrap.querySelectorAll('.ce-individual-popup')].filter(el=>el.style.display!=='none');
-  }
-  function closeCard(card){
-    if(card) card.style.display='none';
-    if(visibleCards().length===0){
-      wrap.style.setProperty('display','none','important');
-      sessionStorage.setItem('culturePopupClosed','true');
-    }
-  }
-  function hideCardToday(card, index){
-    const until=Date.now() + 24*60*60*1000;
-    localStorage.setItem('culturePopupHideToday_'+index, String(until));
-    closeCard(card);
-  }
-
-  wrap.querySelectorAll('.ce-individual-popup').forEach(function(card, i){
-    const index=i+1;
-
-    // 오늘 하루 숨김 기록이 있으면 해당 팝업만 표시하지 않음
-    const until=Number(localStorage.getItem('culturePopupHideToday_'+index)||0);
-    if(until>Date.now()){
-      card.style.display='none';
-      return;
-    } else if(until){
-      localStorage.removeItem('culturePopupHideToday_'+index);
-    }
-
-    // 이미지 안에 이미 그려져 있는 하단 버튼 영역 위에 투명 클릭영역만 얹음
-    let controls=card.querySelector('.ce-image-bottom-controls');
-    if(!controls){
-      controls=document.createElement('div');
-      controls.className='ce-image-bottom-controls';
-      controls.innerHTML=
-        '<button type="button" class="ce-hide-today" aria-label="오늘 하루 열지 않음"></button>'+
-        '<button type="button" class="ce-close-popup" aria-label="닫기"></button>';
-      card.appendChild(controls);
-    }
-    controls.querySelector('.ce-hide-today').addEventListener('click',()=>hideCardToday(card,index));
-    controls.querySelector('.ce-close-popup').addEventListener('click',()=>closeCard(card));
-  });
-
-  if(visibleCards().length===0){
-    wrap.style.setProperty('display','none','important');
-  }
-})();
-</script>
-
-
 <script id="ce-popup-layout-drag-controller-v2">
 (function(){
   const wrap=document.getElementById('popup');
@@ -2650,195 +2541,98 @@ initializeCulturePopup();
 </script>
 
 
-<script id="ce-popup-x-click-controller-final">
+<script id="ce-popup-unified-final">
 (function(){
   const wrap=document.getElementById('popup');
   if(!wrap) return;
 
-  const cards=[...wrap.querySelectorAll('.ce-individual-popup')];
-
-  function closeCard(card){
-    if(!card) return;
-    card.style.setProperty('display','none','important');
-    const anyVisible=cards.some(c=>getComputedStyle(c).display!=='none');
-    if(!anyVisible){
-      wrap.style.setProperty('display','none','important');
-      sessionStorage.setItem('culturePopupClosed','true');
-    }
-  }
-
-  cards.forEach(function(card){
-    let btn=card.querySelector('.ce-image-x-close');
-    if(!btn){
-      btn=document.createElement('button');
-      btn.type='button';
-      btn.className='ce-image-x-close';
-      btn.setAttribute('aria-label','팝업 닫기');
-      card.appendChild(btn);
-    }
-
-    /* 드래그 이벤트로 전달되지 않도록 X가 먼저 잡음 */
-    ['pointerdown','mousedown','touchstart'].forEach(function(type){
-      btn.addEventListener(type,function(e){
-        e.stopPropagation();
-      },{passive:false});
-    });
-
-    btn.addEventListener('click',function(e){
-      e.preventDefault();
-      e.stopPropagation();
-      closeCard(card);
-    });
-  });
-})();
-</script>
-
-<script id="ce-popup-persistence-final">
-(function(){
-  const SESSION_KEY='culturePopupClosed';
-  const DAY_KEY='culturePopupHideUntil_v2';
+  const SESSION='culturePopupClosed';
+  const DAY='culturePopupHideUntil_v3';
+  const INTERNAL='culturePopupInternalMove';
   const DAY_MS=24*60*60*1000;
 
-  const wrap=document.getElementById('popup');
-  if(!wrap) return;
+  /* 과거 버전의 개별 팝업 하루숨김 기록 제거:
+     이것이 모바일 첫 진입에서 카드가 사라지던 충돌 원인 중 하나 */
+  for(let i=1;i<=3;i++) localStorage.removeItem('culturePopupHideToday_'+i);
+  localStorage.removeItem('culturePopupHideUntil_v2');
+
+  /* 내부 메뉴 클릭으로 넘어온 경우만 일반 닫기 상태 유지.
+     새로고침/주소 직접입력/외부 재방문이면 일반 닫기 상태 해제. */
+  const internalMove=sessionStorage.getItem(INTERNAL)==='1';
+  sessionStorage.removeItem(INTERNAL);
+  if(!internalMove) sessionStorage.removeItem(SESSION);
+
+  let hideUntil=Number(localStorage.getItem(DAY)||0);
+  if(hideUntil && hideUntil<=Date.now()){
+    localStorage.removeItem(DAY);
+    hideUntil=0;
+  }
+
+  const cards=[...wrap.querySelectorAll('.ce-individual-popup')];
 
   function hideAll(){
     wrap.style.setProperty('display','none','important');
   }
-
-  /* 페이지를 옮겨도 같은 탭/사이트 이용 중이면 닫힌 상태 유지 */
-  const sessionClosed=sessionStorage.getItem(SESSION_KEY)==='true';
-  const hideUntil=Number(localStorage.getItem(DAY_KEY)||0);
-
-  if(sessionClosed || hideUntil>Date.now()){
-    hideAll();
-    return;
+  function showAll(){
+    wrap.style.removeProperty('display');
+    cards.forEach(c=>c.style.removeProperty('display'));
   }
-  if(hideUntil && hideUntil<=Date.now()){
-    localStorage.removeItem(DAY_KEY);
-  }
-
-  /* 일반 닫기와 이미지 X:
-     현재 탭을 닫기 전까지 모든 카테고리에서 다시 뜨지 않음 */
-  function closeForSession(){
-    sessionStorage.setItem(SESSION_KEY,'true');
-  }
-
-  /* 오늘 하루 열지 않음:
-     브라우저/사이트를 닫았다 다시 들어와도 24시간 동안 숨김 */
-  function closeForDay(){
-    localStorage.setItem(DAY_KEY,String(Date.now()+DAY_MS));
-    sessionStorage.setItem(SESSION_KEY,'true');
-  }
-
-  /* 기존 함수가 호출되는 경우도 저장 정책을 동일하게 보강 */
-  window.closeMainPopup=function(){
-    closeForSession();
-    hideAll();
-  };
-  window.hideMainPopupForDay=function(){
-    closeForDay();
-    hideAll();
-  };
-  window.hideMainPopupForWeek=window.hideMainPopupForDay;
-
-  /* 동적으로 생성되는 X와 하단 버튼까지 잡기 위해 이벤트 위임 */
-  document.addEventListener('click',function(e){
-    const x=e.target.closest && e.target.closest('.ce-image-x-close');
-    if(x && wrap.contains(x)){
-      closeForSession();
-      return; /* 기존 개별 닫기 UI는 그대로 실행 */
-    }
-
-    const controls=e.target.closest && e.target.closest('.ce-image-bottom-controls');
-    if(!controls || !wrap.contains(controls)) return;
-
-    const target=e.target.closest('button,a,[role="button"]') || e.target;
-    const txt=(target.textContent||'').replace(/\s+/g,' ').trim();
-
-    if(txt.includes('오늘 하루') || txt.includes('하루 동안') || txt.includes('열지 않음')){
-      closeForDay();
-    }else if(txt==='닫기' || txt.includes('닫기')){
-      closeForSession();
-    }
-  },true);
-
-  /* 혹시 하단 버튼이 이미지 위 투명영역이라 text가 없는 구조도 처리 */
-  wrap.addEventListener('pointerdown',function(e){
-    const card=e.target.closest && e.target.closest('.ce-individual-popup');
-    if(!card) return;
-    const rect=card.getBoundingClientRect();
-    const y=(e.clientY-rect.top)/rect.height;
-    const x=(e.clientX-rect.left)/rect.width;
-
-    /* 이미지 하단 약 10% 영역: 왼쪽=오늘 하루, 오른쪽=닫기 */
-    if(y>=0.90){
-      if(x<0.68) closeForDay();
-      else closeForSession();
-    }
-  },true);
-})();
-</script>
-
-
-<script id="ce-mobile-popup-tap-final">
-(function(){
-  const wrap=document.getElementById('popup');
-  if(!wrap) return;
-
-  function visibleCards(){
-    return [...wrap.querySelectorAll('.ce-individual-popup')]
-      .filter(c=>getComputedStyle(c).display!=='none');
-  }
-  function hideCard(card){
-    if(!card) return;
+  function closeCard(card){
+    sessionStorage.setItem(SESSION,'true');
     card.style.setProperty('display','none','important');
-    if(!visibleCards().length){
-      wrap.style.setProperty('display','none','important');
+    if(cards.every(c=>getComputedStyle(c).display==='none')) hideAll();
+  }
+  function hideForDay(){
+    localStorage.setItem(DAY,String(Date.now()+DAY_MS));
+    sessionStorage.setItem(SESSION,'true');
+    hideAll();
+  }
+
+  /* 최초 표시 판정은 이 한 곳에서만 함 */
+  if(hideUntil>Date.now() || (internalMove && sessionStorage.getItem(SESSION)==='true')){
+    hideAll();
+  }else{
+    showAll();
+  }
+
+  /* 이미지에 인쇄된 X + 하단 투명 버튼을 한 번만 생성 */
+  cards.forEach(card=>{
+    let x=card.querySelector('.ce-image-x-close');
+    if(!x){
+      x=document.createElement('button');
+      x.type='button'; x.className='ce-image-x-close';
+      x.setAttribute('aria-label','팝업 닫기');
+      card.appendChild(x);
     }
-  }
-  function sessionClose(card){
-    sessionStorage.setItem('culturePopupClosed','true');
-    hideCard(card);
-  }
-  function dayClose(card){
-    localStorage.setItem('culturePopupHideUntil_v2',
-      String(Date.now()+24*60*60*1000));
-    sessionStorage.setItem('culturePopupClosed','true');
-    hideCard(card);
-  }
+    let controls=card.querySelector('.ce-image-bottom-controls');
+    if(!controls){
+      controls=document.createElement('div');
+      controls.className='ce-image-bottom-controls';
+      controls.innerHTML='<button type="button" class="ce-hide-today" aria-label="오늘 하루 열지 않음"></button><button type="button" class="ce-close-popup" aria-label="닫기"></button>';
+      card.appendChild(controls);
+    }
 
-  /* click + touchend 둘 다 지원하되 한 번만 실행 */
-  function bindTap(el, fn){
-    if(!el || el.dataset.mobileTapBound==='1') return;
-    el.dataset.mobileTapBound='1';
-    let touched=false;
-    el.addEventListener('touchend',function(e){
-      touched=true;
-      e.preventDefault();
-      e.stopPropagation();
-      fn();
-      setTimeout(()=>{touched=false},500);
-    },{passive:false});
-    el.addEventListener('click',function(e){
-      e.preventDefault();
-      e.stopPropagation();
-      if(!touched) fn();
-    });
-  }
+    x.addEventListener('click',e=>{e.preventDefault();e.stopPropagation();closeCard(card)});
+    controls.querySelector('.ce-hide-today').addEventListener('click',e=>{e.preventDefault();e.stopPropagation();hideForDay()});
+    controls.querySelector('.ce-close-popup').addEventListener('click',e=>{e.preventDefault();e.stopPropagation();closeCard(card)});
+  });
 
-  function bindAll(){
-    wrap.querySelectorAll('.ce-individual-popup').forEach(card=>{
-      bindTap(card.querySelector('.ce-image-x-close'), ()=>sessionClose(card));
-      const buttons=card.querySelectorAll('.ce-image-bottom-controls button');
-      if(buttons[0]) bindTap(buttons[0], ()=>dayClose(card));
-      if(buttons[1]) bindTap(buttons[1], ()=>sessionClose(card));
-    });
-  }
-  bindAll();
-  new MutationObserver(bindAll).observe(wrap,{childList:true,subtree:true});
+  /* 사이트 내부 링크에서만 다음 페이지까지 일반 닫기 상태 유지 */
+  document.addEventListener('click',function(e){
+    const a=e.target.closest && e.target.closest('a[href]');
+    if(!a) return;
+    try{
+      const u=new URL(a.href,location.href);
+      if(u.origin===location.origin && u.pathname!==location.pathname){
+        sessionStorage.setItem(INTERNAL,'1');
+      }
+    }catch(_){}
+  },true);
+
+  window.closeMainPopup=function(){sessionStorage.setItem(SESSION,'true');hideAll()};
+  window.hideMainPopupForDay=hideForDay;
+  window.hideMainPopupForWeek=hideForDay;
 })();
 </script>
-
 </body>
 </html>
