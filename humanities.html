@@ -1220,6 +1220,32 @@ html body #popup.ce-multi-popup-wrap{
   #popup .ce-individual-popup{cursor:default!important}
 }
 </style>
+
+<style id="ce-popup-top-safe-final">
+@media (min-width:701px){
+  #popup.ce-multi-popup-wrap{
+    padding-top:16px!important;
+    overflow:visible!important;
+  }
+  #popup .ce-individual-popup{
+    top:16px;
+    max-height:calc(100vh - 32px)!important;
+  }
+  #popup .ce-individual-popup img{
+    max-height:calc(100vh - 32px)!important;
+    object-fit:contain!important;
+  }
+}
+@media (max-width:700px){
+  html body #popup.ce-multi-popup-wrap{
+    padding-top:10px!important;
+    scroll-padding-top:10px!important;
+  }
+  #popup .ce-individual-popup:first-child{
+    margin-top:0!important;
+  }
+}
+</style>
 </head>
 <body>
 <!-- CULTUREEUM THREE INDIVIDUAL POPUPS -->
@@ -2339,7 +2365,7 @@ initializeCulturePopup();
     visible.forEach((c,i)=>{
       if(!c.dataset.dragPositioned){
         c.style.left=x+'px';
-        c.style.top='18px';
+        c.style.top='16px';
         c.dataset.dragPositioned='1';
       }
       x+=widths[i]+gap;
@@ -2369,7 +2395,7 @@ initializeCulturePopup();
         let top=startT+(ev.clientY-startY);
         const w=card.offsetWidth, h=card.offsetHeight;
         left=Math.min(Math.max(0,left),Math.max(0,window.innerWidth-w));
-        top=Math.min(Math.max(0,top),Math.max(0,window.innerHeight-Math.min(h,window.innerHeight)));
+        top=Math.min(Math.max(8,top),Math.max(8,window.innerHeight-Math.min(h,window.innerHeight)));
         card.style.left=left+'px';
         card.style.top=top+'px';
       }
