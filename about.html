@@ -1,2557 +1,654 @@
 <!DOCTYPE html>
-
 <html lang="ko">
 <head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>문화 이음 플랫폼 소개 | 문화 이음 플랫폼</title>
-<style>
-        @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
-@font-face {
-            font-family: 'Cafe24Dongdong';
-            src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_twelve@1.1/Cafe24Dongdong.woff') format('woff');
-            font-weight: normal;
-            font-style: normal;
-        }
-        /* 폰트 및 기본 리셋 */
-        
-        
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>소개 | 위드 아카데미</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <style>
+        .page-main { padding-top: 80px; min-height: calc(100vh - 160px); }
+        .page-main > section { scroll-margin-top: 80px; }
+
+        /* 커스텀 컬러 정의 */
         :root {
-            --primary-purple: #5c2483;
-            --light-purple: #f8f3fc;
-            --dark-bg: #1a1025;
-            --text-dark: #222;
-            --text-gray: #666;
-            --white: #ffffff;
+            --brand-green: #053b28;
+            --brand-gold: #cfaa56;
+            --brand-gold-light: #e6c87e;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
-            font-family: 'Pretendard', sans-serif;
-            color: var(--text-dark);
-            line-height: 1.6;
-            overflow-x: hidden;
-            scroll-behavior: smooth; 
-        }
-        a { text-decoration: none; color: inherit; }
-        ul { list-style: none; }
-        .container { width: 90%; max-width: 1200px; margin: 0 auto;}
-
-        /* 상단 헤더 */
-        header {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100px;
-            display: flex;
-            align-items: center;
-            padding: 0;
-            z-index: 100;
-            color: var(--white);
-            background: linear-gradient(
-                180deg,
-                rgba(15, 10, 20, 0.42) 0%,
-                rgba(15, 10, 20, 0.18) 70%,
-                rgba(15, 10, 20, 0) 100%
-            );
-            border-bottom: 1px solid rgba(255,255,255,0.18);
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: #f8f9fa;
+            color: #1f2937;
         }
 
-        .header-inner {
-            width: 94%;
-            max-width: 1500px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: flex-start;
-            align-items: center;
+        .font-serif {
+            font-family: 'Playfair Display', serif;
         }
 
-        .logo {
-            flex-shrink: 0;
-            font-size: 30px;
-            font-weight: 800;
-            letter-spacing: -1.2px;
-            line-height: 1;
+        .bg-brand-green { background-color: var(--brand-green); }
+        .text-brand-gold { color: var(--brand-gold); }
+        .border-brand-gold { border-color: var(--brand-gold); }
+        .bg-brand-gold { background-color: var(--brand-gold); }
+
+        /* 애니메이션 */
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+        
+        .compass-float {
+            animation: float 4s ease-in-out infinite;
         }
 
-        .logo a {
-            color: #fff;
+        .text-gradient-gold {
+            background: linear-gradient(to right, #cfaa56, #e6c87e, #cfaa56);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-size: 200% auto;
+            transition: 0.5s;
+        }
+
+        /* 텍스트 샤인 애니메이션 (섹션 타이틀용) */
+        @keyframes shine-flow {
+            0% { background-position: 200% center; }
+            100% { background-position: -200% center; }
+        }
+        
+        .animate-shine-text {
+            background: linear-gradient(to right, #053b28 30%, #cfaa56 50%, #053b28 70%);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: shine-flow 4s linear infinite;
+        }
+
+        /* 히어로 텍스트 샤인 애니메이션 (메인 타이틀용 - 화이트&골드) */
+        @keyframes hero-shine {
+            0% { background-position: -200% center; }
+            100% { background-position: 200% center; }
+        }
+        
+        .hero-shine-text {
+            background: linear-gradient(to right, #ffffff 20%, #cfaa56 50%, #ffffff 80%);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: hero-shine 3s linear infinite;
             display: inline-block;
-            transition: opacity 0.25s ease;
         }
 
-        .logo a:hover { opacity: 0.82; }
-
-        nav {
-            margin-left: auto;
-            margin-right: 0;
+        /* 멘토진 타이틀 그라데이션 애니메이션 */
+        @keyframes gradient-flow {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
 
-        nav > ul {
-            display: flex;
-            align-items: center;
-            gap: 44px;
-            font-size: 18px;
-            font-weight: 600;
-            letter-spacing: -0.4px;
+        .animate-gradient-text {
+            background: linear-gradient(to right, #111827, #053b28, #cfaa56, #053b28, #111827);
+            background-size: 300% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: gradient-flow 3s ease infinite;
         }
 
-        nav > ul > li > a {
-            position: relative;
-            display: block;
-            padding: 36px 0;
-            color: rgba(255,255,255,0.95);
-            transition: color 0.25s ease;
+        /* 텍스트 부유 애니메이션 */
+        @keyframes float-quote {
+            0%, 100% { transform: translateY(0); opacity: 1; }
+            50% { transform: translateY(-5px); opacity: 0.7; }
         }
 
-        nav > ul > li > a:hover {
-            color: #e8c8f2;
-        }
-
-        nav > ul > li > a::after {
-            content: '';
-            position: absolute;
-            left: 50%;
-            bottom: 25px;
-            width: 0;
-            height: 2px;
-            background: #e0b6ee;
-            border-radius: 10px;
-            transform: translateX(-50%);
-            transition: width 0.25s ease;
-        }
-
-        nav > ul > li > a:hover::after {
-            width: 100%;
-        }
-
-        .util-menu {
-            margin-left: 35px;
-            font-size: 22px;
-            font-weight: 700;
-            cursor: pointer;
-        }
-
-        /* 메인 히어로 섹션 */
-        .hero {
-            height: 85vh;
-            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.8)), url('메인사진.jpg') center/cover;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            color: var(--white);
-            position: relative;
-        }
-        .hero h2 { font-size: 18px; font-weight: 400; letter-spacing: 2px; margin-bottom: 15px; text-transform: uppercase; }
-        .hero h1 { font-size: 52px; font-weight: 800; line-height: 1.3; text-shadow: 0 4px 15px rgba(0,0,0,0.5); }
-        .hero h1 span { color: #d8b4e2; }
-
-        /* 퀵 링크 바 */
-        .quick-links {
-            background-color: var(--light-purple);
-            padding: 30px 0;
-            border-bottom: 1px solid #eaeaea;
-        }
-        .quick-inner {
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-            max-width: 900px;
-            margin: 0 auto;
-        }
-        .quick-item { text-align: center; 
-            color: var(--primary-purple); 
-            font-family: 'Cafe24Dongdong', sans-serif; 
-            font-size: 20px; 
-            transition: transform 0.3s}
-        .quick-item:hover { transform: translateY(-5px); }
-        .quick-icon { font-size: 32px; margin-bottom: 10px; display: block; }
-
-        /* 프로그램 포스터 그리드 섹션 */
-        .programs { padding: 80px 0; text-align: center; scroll-margin-top: 100px; }
-        
-        .tabs { margin-bottom: 40px; display: flex; justify-content: center; align-items: center; gap: 20px; }
-        .tabs > span, .tab-dropdown > span { 
-            font-size: 16px; 
-            font-weight: 600; 
-            color: #aaa; 
-            cursor: pointer; 
-            padding: 5px 10px; 
-            border-bottom: 2px solid transparent; 
-            transition: 0.2s; 
-        }
-        .tabs > span.active, .tab-dropdown.active > span { 
-            color: var(--primary-purple); 
-            border-bottom: 2px solid var(--primary-purple); 
-        }
-
-        .tab-dropdown { position: relative; display: inline-block; }
-        .tab-dropdown-menu {
-            position: absolute;
-            top: calc(100% + 5px);
-            left: 50%;
-            transform: translateX(-50%) translateY(10px);
-            background: #fff;
-            border: 1px solid #eaeaea;
-            border-radius: 12px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
-            padding: 10px 0;
-            min-width: 140px;
-            opacity: 0;
-            visibility: hidden;
-            pointer-events: none;
-            transition: all 0.25s ease;
-            z-index: 50;
-            text-align: center;
-        }
-        .tab-dropdown.open .tab-dropdown-menu {
-            opacity: 1;
-            visibility: visible;
-            pointer-events: auto;
-            transform: translateX(-50%) translateY(0);
-        }
-        .tab-dropdown.open > span { color: var(--primary-purple); }
-        .tab-dropdown-menu li {
-            padding: 10px 15px;
-            font-size: 14px;
-            color: var(--text-gray);
-            cursor: pointer;
-            transition: background 0.2s, color 0.2s;
-            font-weight: 500;
-        }
-        .tab-dropdown-menu li:hover {
-            color: var(--primary-purple);
-            background: rgba(216, 180, 226, 0.15);
-            font-weight: 700;
+        .animate-float-quote {
+            animation: float-quote 3s ease-in-out infinite;
         }
         
-        .poster-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 25px;
+        /* 아이콘 펄스 애니메이션 */
+        @keyframes soft-pulse {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(207, 170, 86, 0.2); transform: scale(1); }
+            50% { box-shadow: 0 0 0 10px rgba(207, 170, 86, 0); transform: scale(1.05); }
         }
-        .poster-card {
-            position: relative;
-            border-radius: 12px;
+        
+        .animate-soft-pulse {
+            animation: soft-pulse 3s infinite;
+        }
+
+        /* BUSAN 타이핑 애니메이션 */
+        .typing-container {
+            display: inline-block;
+        }
+        .typing-text {
+            display: inline-block;
             overflow: hidden;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.08);
-            transition: 0.3s;
-            background: #fff;
-            text-align: left;
+            border-right: 0.1em solid white; /* 커서 */
+            white-space: nowrap;
+            margin: 0;
+            animation: 
+                typing 2.5s steps(10, end) forwards,
+                blink-caret 0.75s step-end infinite;
+            max-width: 0;
         }
-        .poster-card:hover { transform: translateY(-10px); box-shadow: 0 15px 30px rgba(92, 36, 131, 0.2); }
-        .poster-img {
-            height: 350px;
-            background-color: #eee;
-            background-size: cover;
-            background-position: center;
+        @keyframes typing {
+            from { max-width: 0 }
+            to { max-width: 100% }
         }
-        .poster-badge {
-            position: absolute;
-            top: 15px; left: 15px;
-            background: var(--primary-purple);
-            color: #fff;
-            padding: 5px 12px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: bold;
+        @keyframes blink-caret {
+            from, to { border-color: transparent }
+            50% { border-color: white }
         }
-        .poster-info { padding: 20px; }
-        .poster-info h3 { font-size: 18px; margin-bottom: 8px; color: var(--text-dark); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        .poster-info p { font-size: 13px; color: var(--text-gray); }
 
-        /* 심리상담 코칭 프로그램 상세 */
-        .counseling-section { background: linear-gradient(
-        135deg,
-        #211925 0%,
-        #2b2030 55%,
-        #241b29 100%
-    ); padding: 100px 0; }
-        .counseling-container { max-width: 1000px; margin: 0 auto; display: flex; flex-direction: column; gap: 30px; }
-        .counseling-card { display: flex; background: #fff; border-radius: 20px; overflow: hidden; box-shadow: 0 15px 35px rgba(0,0,0,0.2); scroll-margin-top: 110px; }
-        .counseling-card.reverse { flex-direction: row-reverse; }
-        .counseling-img-wrap { width: 45%; background-size: cover; background-position: center; min-height: 280px; }
-        .counseling-content { width: 55%; padding: 45px 55px; position: relative; display: flex; flex-direction: column; justify-content: center; }
-        .counseling-title-badge { position: absolute; top: 50px; background: #fff; color: #222; padding: 10px 30px; border-radius: 30px; font-size: 20px; font-weight: 800; box-shadow: 0 5px 15px rgba(0,0,0,0.1); z-index: 10; }
-        .counseling-card .counseling-title-badge { left: -45px; }
-        .counseling-card.reverse .counseling-title-badge { right: -45px; left: auto; }
-        .counseling-list { margin-top: 50px; list-style: none; }
-        .counseling-list .list-title { font-weight: 800; font-size: 16px; color: #111; margin-bottom: 12px; padding-left: 12px; border-left: 3px solid #222; }
-        .counseling-list li:not(.list-title) { position: relative; padding-left: 15px; margin-bottom: 6px; font-size: 14px; color: #555; line-height: 1.5; }
-        .counseling-list li:not(.list-title)::before { content: '·'; position: absolute; left: 5px; font-weight: bold; }
-
-        /* 취미원정대 원데이 클래스 섹션 */
-        .hobby-section { padding: 100px 0; background: #fff; scroll-margin-top: 100px; }
-        .hobby-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 20px; flex-wrap: wrap; gap: 20px; }
-        .hobby-title h2 { font-size: 32px; font-weight: 800; color: #000; letter-spacing: -1px; }
-        .hobby-search-area { display: flex; gap: 10px; align-items: center; }
-        .hobby-search-area select, .hobby-search-area input { padding: 10px 15px; border: 1px solid #ddd; border-radius: 4px; font-size: 14px; outline: none; color: #333; }
-        .hobby-search-area button { background: #333; color: #fff; border: none; padding: 10px 18px; border-radius: 4px; cursor: pointer; font-weight: bold; }
-        .hobby-count { font-size: 13px; color: #666; margin-bottom: 25px; display: flex; align-items: center; }
-        .hobby-count::before { content: '▶'; font-size: 10px; color: #aaa; margin-right: 5px; }
-        .hobby-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 25px; }
-        .hobby-card { background: #fff; border-radius: 12px; overflow: hidden; border: 1px solid #eee; box-shadow: 0 5px 15px rgba(0,0,0,0.03); transition: 0.3s; }
-        .hobby-card:hover { transform: translateY(-5px); box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
-        .hobby-img-wrap { position: relative; height: 360px; background-size: cover; background-position: center; background-color: #fafafa; }
-        .hobby-badges { position: absolute; top: 15px; right: 15px; display: flex; gap: 5px; }
-        .hobby-badge-year { background: #000; color: #fff; padding: 5px 10px; font-size: 12px; font-weight: 700; border-radius: 6px; }
-        .hobby-badge-cat { background: #9c27b0; color: #fff; padding: 5px 10px; font-size: 12px; font-weight: 700; border-radius: 6px; }
-        .hobby-info { padding: 20px; text-align: center; }
-        .hobby-info h3 { font-size: 18px; color: #222; font-weight: 700; word-break: keep-all; }
-
-
-        /* 신규: 수강 신청서 섹션 */
-        .enrollment-section {
-            padding: 100px 0;
-            background: #f8f9fa; /* 은은한 밝은 회색 배경 */
-            scroll-margin-top: 80px;
-        }
-        .enrollment-wrapper {
-            max-width: 540px;
+        /* '그럼에도 불구하고' 타이핑 루프 애니메이션 */
+        .animate-typing-loop {
+            display: inline-block;
+            overflow: hidden;
+            border-right: 3px solid var(--brand-gold);
+            white-space: nowrap;
             margin: 0 auto;
-            background: #fff;
-            padding: 50px 45px;
-            border-radius: 20px;
-            box-shadow: 0 15px 40px rgba(0,0,0,0.06);
-        }
-        .enrollment-header {
-            text-align: center;
-            margin-bottom: 40px;
-        }
-        .enrollment-header h2 {
-            font-size: 30px;
-            color: #111;
-            font-weight: 800;
-            margin-bottom: 12px;
-        }
-        .enrollment-header p {
-            color: #666;
-            font-size: 15px;
+            max-width: 0;
+            animation: typing-loop 6s steps(40, end) infinite;
         }
 
-        .form-group {
-            margin-bottom: 24px;
+        @keyframes typing-loop {
+            0% { max-width: 0; }
+            40% { max-width: 100%; } /* 타이핑 완료 */
+            80% { max-width: 100%; } /* 유지 */
+            90% { max-width: 0; opacity: 1;} /* 빠르게 지움 */
+            100% { max-width: 0; opacity: 0;}
         }
-        .form-group label {
-            display: block;
-            margin-bottom: 10px;
-            font-size: 14px;
-            font-weight: 700;
-            color: #222;
-        }
-        .form-control {
-            width: 100%;
-            padding: 15px 18px;
-            border: 1px solid #eaeaea;
-            border-radius: 10px;
-            font-size: 15px;
-            transition: all 0.3s ease;
-            background: #fafafa;
-            color: #333;
-        }
-        .form-control::placeholder { color: #aaa; }
-        .form-control:focus {
-            border-color: var(--primary-purple);
-            background: #fff;
-            outline: none;
-            box-shadow: 0 0 0 3px rgba(92, 36, 131, 0.1);
-        }
-
-        /* 성별 선택 버튼 스타일 */
-        .gender-group { display: flex; gap: 12px; }
-        .gender-option { flex: 1; position: relative; }
-        .gender-option input { display: none; }
-        .gender-option span {
-            display: block;
-            text-align: center;
-            padding: 15px;
-            border: 1px solid #eaeaea;
-            border-radius: 10px;
-            font-size: 15px;
-            font-weight: 600;
-            cursor: pointer;
-            color: #666;
-            background: #fafafa;
-            transition: all 0.3s ease;
-        }
-        .gender-option input:checked + span {
-            border-color: var(--primary-purple);
-            color: var(--primary-purple);
-            background: rgba(92, 36, 131, 0.05);
-        }
-
-        /* 생년월일 그룹 */
-        .birth-group { display: flex; gap: 12px; }
-        .birth-group .form-control { flex: 1; text-align: center; padding: 15px 10px; }
-
-        /* 약관 동의 체크박스 */
-        .terms-group {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 35px;
-            margin-top: 15px;
-        }
-        .terms-group input[type="checkbox"] {
-            width: 20px;
-            height: 20px;
-            accent-color: var(--primary-purple);
-            cursor: pointer;
-        }
-        .terms-group label {
-            font-size: 15px;
-            color: #444;
-            cursor: pointer;
-            font-weight: 500;
-        }
-
-        /* 신청 완료 버튼 */
-        .submit-btn {
-            width: 100%;
-            padding: 18px;
-            background: var(--primary-purple);
-            color: #fff;
-            border: none;
-            border-radius: 10px;
-            font-size: 18px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        .submit-btn:hover {
-            background: #4a1d6e;
-            box-shadow: 0 8px 20px rgba(92, 36, 131, 0.25);
-            transform: translateY(-2px);
-        }
-
-
-        /* 소식 섹션 */
-        .notices { padding: 80px 0; background: #fbfbfc; }
-        .section-title { text-align: center; margin-bottom: 50px; }
-        .section-title h2 { font-size: 28px; color: var(--text-dark); font-weight: 700; }
-        .section-title h2 span { color: var(--primary-purple); }
-        .section-title.white h2 { color: #fff; }
-        
-        .notice-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
-        .notice-card { background: var(--white); padding: 30px; border: 1px solid #eee; border-top: 3px solid var(--primary-purple); border-radius: 8px; transition: 0.2s; }
-        .notice-card:hover { border-color: var(--primary-purple); box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
-        .notice-card .tag { font-size: 12px; color: var(--primary-purple); font-weight: bold; margin-bottom: 10px; display: inline-block; }
-        .notice-card h4 { font-size: 16px; margin-bottom: 15px; line-height: 1.4; }
-        .notice-card .date { font-size: 13px; color: #999; }
-
-        /* 다크 갤러리 섹션 */
-        .dark-gallery { background: linear-gradient(135deg, #32154a 0%, var(--dark-bg) 100%); padding: 100px 0; color: var(--white); }
-        .gallery-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 40px; }
-        .gallery-header h2 { font-size: 28px; font-weight: 700; }
-        .gallery-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
-        .gallery-item { height: 250px; border-radius: 8px; background-size: cover; background-position: center; position: relative; overflow: hidden; border: 1px solid rgba(255,255,255,0.1); }
-        .gallery-item::before { content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 50%; background: linear-gradient(transparent, rgba(0,0,0,0.9)); }
-        .gallery-text { position: absolute; bottom: 20px; left: 20px; right: 20px; z-index: 1; }
-        .gallery-text h4 { font-size: 16px; margin-bottom: 5px; }
-        .gallery-text p { font-size: 12px; color: #ccc; }
-
-
-        /* 메인 GNB 드롭다운 메뉴 */
-        nav > ul > li.dropdown { position: relative; }
-        nav > ul > li.dropdown > a { display: block; cursor: pointer; }
-        .dropdown-menu { display: block; position: absolute; top: calc(100% + 18px); left: 50%; transform: translateX(-50%) translateY(-8px); min-width: 220px; padding: 10px 0; background: rgba(20, 12, 28, 0.97); border: 1px solid rgba(255,255,255,0.18); border-radius: 12px; box-shadow: 0 15px 35px rgba(0,0,0,0.28); opacity: 0; visibility: hidden; pointer-events: none; transition: opacity .25s ease, transform .25s ease, visibility .25s ease; z-index: 200; }
-        .dropdown-menu::before { content: ''; position: absolute; top: -7px; left: 50%; width: 13px; height: 13px; background: rgba(20, 12, 28, 0.97); border-left: 1px solid rgba(255,255,255,0.18); border-top: 1px solid rgba(255,255,255,0.18); transform: translateX(-50%) rotate(45deg); }
-        .dropdown-menu li { width: 100%; }
-        .dropdown-menu a { display: block; padding: 13px 22px; color: #fff; font-size: 15px; font-weight: 500; white-space: nowrap; transition: background .2s ease, color .2s ease, padding-left .2s ease; }
-        .dropdown-menu a:hover { color: #d8b4e2; background: rgba(216,180,226,0.10); padding-left: 28px; }
-        nav > ul > li.dropdown.open .dropdown-menu { opacity: 1; visibility: visible; pointer-events: auto; transform: translateX(-50%) translateY(0); }
-        nav > ul > li.dropdown.open > a { color: #d8b4e2; }
-
-        @media(max-width: 900px) {
-            nav > ul { gap: 18px; font-size: 14px; }
-            .dropdown-menu { min-width: 200px; }
-            .instructor-grid { grid-template-columns: repeat(2, 1fr); }
-            .gallery-grid { grid-template-columns: repeat(2, 1fr); }
-            .hobby-header { flex-direction: column; align-items: flex-start; }
-            .hobby-search-area { width: 100%; flex-wrap: wrap; }
-        }
-        @media(max-width: 768px) {
-            .counseling-card, .counseling-card.reverse { flex-direction: column; }
-            .counseling-img-wrap { width: 100%; min-height: 220px; }
-            .counseling-content { width: 100%; padding: 30px; }
-            .counseling-title-badge { position: relative; top: 0; left: 0 !important; right: 0 !important; display: inline-block; margin-bottom: 20px; text-align: center; align-self: flex-start; }
-            .counseling-list { margin-top: 0; }
-            .enrollment-wrapper { padding: 40px 25px; }
-        }
-
-        /* 강사 소개 페이지 */
-        .instructor-section { padding: 95px 0 110px; background: linear-gradient(180deg, #fff 0%, #faf7fc 100%); }
-        .instructor-intro { max-width: 760px; margin: -25px auto 50px; text-align: center; color: #777; font-size: 16px; }
-        .instructor-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; }
-        .instructor-card { background: #fff; border: 1px solid #eee; border-radius: 18px; overflow: hidden; box-shadow: 0 12px 30px rgba(0,0,0,0.07); transition: transform .3s ease, box-shadow .3s ease; scroll-margin-top: 110px; }
-        .instructor-card:hover { transform: translateY(-8px); box-shadow: 0 18px 38px rgba(92,36,131,0.16); }
-        .instructor-photo { width: 100%; height: 300px; background: #eee; background-size: cover; background-position: center; display: flex; align-items: center; justify-content: center; color: #aaa; font-size: 14px; }
-        .instructor-photo span { background: rgba(255,255,255,.86); padding: 9px 15px; border-radius: 30px; }
-        .instructor-info { padding: 24px 25px 27px; }
-        .instructor-role { display: inline-block; color: var(--primary-purple); font-size: 12px; font-weight: 700; margin-bottom: 7px; letter-spacing: .2px; }
-        .instructor-info h3 { font-size: 21px; margin-bottom: 8px; color: #222; }
-        .instructor-info p { color: #777; font-size: 14px; }
-
-        @media(max-width: 600px) {
-            .instructor-grid { grid-template-columns: 1fr; }
-            .instructor-photo { height: 330px; }
-        }
-
-        /* 하단 푸터 */
-        footer { background: #111; color: #888; padding: 60px 0; font-size: 14px; }
-        .footer-inner { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 30px; }
-        .footer-logo { font-size: 24px; color: #fff; font-weight: 800; margin-bottom: 20px; }
-        .footer-info p { margin-bottom: 8px; }
-    
-/* ===== 모바일 최적화 ===== */
-html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
-body,button,input,select,textarea{font-family:'Pretendard',-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Noto Sans KR','Malgun Gothic',sans-serif}
-body{word-break:keep-all;overflow-wrap:break-word}
-img{max-width:100%;height:auto}
-
-@media(max-width:768px){
- .container{width:92%;max-width:100%}
- header{height:auto;min-height:72px;padding:14px 0}
- .header-inner{width:92%;flex-direction:column;align-items:center;gap:12px}
- .logo{font-size:24px;letter-spacing:-.8px;text-align:center}
- nav{width:100%;margin:0;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
- nav::-webkit-scrollbar{display:none}
- nav>ul{width:max-content;min-width:100%;justify-content:flex-start;gap:18px;padding:0 4px;font-size:14px}
- nav>ul>li>a{padding:9px 0;white-space:nowrap}
- nav>ul>li>a::after{bottom:2px}
- .dropdown-menu{position:fixed;top:118px;left:50%;width:min(88vw,320px);min-width:0;max-height:55vh;overflow-y:auto;transform:translateX(-50%) translateY(-8px)}
- nav>ul>li.dropdown.open .dropdown-menu{transform:translateX(-50%) translateY(0)}
- .hero{height:72vh;min-height:520px;padding-top:115px}
- .hero h2{font-size:13px;letter-spacing:1.4px;margin-bottom:12px}
- .hero h1{font-size:clamp(30px,8.5vw,40px);line-height:1.35;letter-spacing:-1.2px}
- .programs,.hobby-section,.notices,.dark-gallery,.instructor-section,.enrollment-section{padding-top:65px;padding-bottom:65px}
- .tabs{gap:10px;flex-wrap:wrap}
- .poster-grid,.hobby-grid,.notice-grid,.gallery-grid,.instructor-grid{grid-template-columns:1fr}
- .poster-img{height:300px}
- .poster-info h3{white-space:normal}
- .counseling-section{padding:70px 0}
- .counseling-container{width:100%}
- .counseling-content{padding:28px 22px}
- .counseling-title-badge{font-size:18px;transform:none!important;margin-bottom:15px!important}
- .counseling-content p,.counseling-list li,.hobby-info p,.notice-card,.instructor-info p{overflow-wrap:break-word;word-break:keep-all}
- .hobby-header{align-items:stretch}
- .hobby-title h2{font-size:26px;line-height:1.35}
- .hobby-search-area{display:grid;grid-template-columns:1fr 1fr;width:100%}
- .hobby-search-area input,.hobby-search-area button{grid-column:1/-1;width:100%;min-width:0}
- .hobby-img-wrap{height:320px}
- .enrollment-wrapper{width:100%;padding:34px 20px;border-radius:16px}
- .enrollment-header h2{font-size:26px}
- .birth-group{gap:7px}
- .birth-group .form-control{min-width:0;padding:14px 5px;font-size:14px}
- .gallery-header,.footer-inner{flex-direction:column;align-items:flex-start}
- .gallery-item{height:260px}
- footer{padding:45px 0}
- #popup>div{width:min(94vw,500px)!important;max-height:92vh}
- #popup img{max-height:calc(92vh - 58px);object-fit:contain}
-}
-@media(max-width:390px){
- .logo{font-size:22px}
- nav>ul{font-size:13px;gap:15px}
- .hero h1{font-size:29px}
- .hero h2{font-size:12px}
- .section-title h2{font-size:24px}
- .hobby-title h2{font-size:23px}
- .poster-img{height:270px}
- .hobby-img-wrap{height:285px}
-}
-
-
-        /* 수강신청서 입력 검증 */
-        .form-error-label {
-            color: #d93025 !important;
-        }
-        .form-control.input-error {
-            border-color: #d93025 !important;
-            background: #fff7f7 !important;
-            box-shadow: 0 0 0 3px rgba(217,48,37,0.08) !important;
-        }
-        .gender-group.input-error .gender-option span {
-            border-color: #d93025 !important;
-            color: #d93025 !important;
-            background: #fff7f7 !important;
-        }
-        .terms-group.input-error label {
-            color: #d93025 !important;
-            font-weight: 700;
-        }
-        .enrollment-success {
-            display: none;
-            margin-top: 18px;
-            padding: 16px 18px;
-            border-radius: 10px;
-            background: #f3eaf8;
-            color: #5c2483;
-            font-size: 17px;
-            font-weight: 800;
-            text-align: center;
-        }
-        .enrollment-success.show {
-            display: block;
-        }
-
     </style>
-<style>
-/* ===== 심리상담 코칭 프로그램 FINAL DESIGN ===== */
-.counseling-section {
-    position: relative;
-    overflow: hidden;
-    background:
-        radial-gradient(circle at 14% 18%, rgba(137, 101, 145, 0.08), transparent 31%),
-        radial-gradient(circle at 88% 82%, rgba(193, 170, 155, 0.10), transparent 34%),
-        linear-gradient(135deg, #FAF8F5 0%, #F7F3F7 52%, #F3EEF4 100%) !important;
-    padding: 110px 0 120px !important;
-}
-
-.counseling-section::before {
-    content: "";
-    position: absolute;
-    width: 340px;
-    height: 340px;
-    border-radius: 50%;
-    top: -190px;
-    right: -90px;
-    background: rgba(121, 82, 130, 0.045);
-    pointer-events: none;
-}
-
-.counseling-section .container {
-    position: relative;
-    z-index: 1;
-}
-
-.counseling-section .section-title {
-    color: #29252B !important;
-    font-size: clamp(30px, 3vw, 42px) !important;
-    font-weight: 800 !important;
-    letter-spacing: -1.4px !important;
-    margin-bottom: 58px !important;
-}
-
-.counseling-section .section-title span {
-    color: #795282 !important;
-    font-weight: 800 !important;
-}
-
-/* 상담 프로그램 메인 카드 */
-.counseling-card,
-.counseling-content,
-.counseling-item {
-    border-radius: 26px !important;
-}
-
-/* 상담 영역 안의 흰색 콘텐츠 박스에 자연스러운 깊이감 */
-.counseling-section [style*="background-color: white"],
-.counseling-section [style*="background: white"],
-.counseling-section [style*="background:#fff"],
-.counseling-section [style*="background: #fff"] {
-    box-shadow: 0 20px 55px rgba(53, 42, 56, 0.10) !important;
-}
-
-/* 이미지가 카드와 자연스럽게 이어지도록 */
-.counseling-section img {
-    display: block;
-}
-
-/* TCI & DISC 등 배지/제목의 톤 정리 */
-.counseling-section .badge,
-.counseling-section .program-tag,
-.counseling-section .counseling-badge {
-    background: rgba(255,255,255,0.96) !important;
-    color: #2D2830 !important;
-    box-shadow: 0 8px 24px rgba(57, 43, 60, 0.10) !important;
-}
-
-/* 설명 박스의 보라 포인트를 채도 낮은 모브로 통일 */
-.counseling-section blockquote,
-.counseling-section .description-box,
-.counseling-section .program-description {
-    border-color: #795282 !important;
-}
-
-/* 모바일 */
-@media (max-width: 768px) {
-    .counseling-section {
-        padding: 72px 0 82px !important;
-    }
-
-    .counseling-section .section-title {
-        font-size: 30px !important;
-        line-height: 1.25 !important;
-        margin-bottom: 36px !important;
-    }
-
-    .counseling-card,
-    .counseling-content,
-    .counseling-item {
-        border-radius: 20px !important;
-    }
-}
-</style>
-<style>
-/* ===== 강사진 사진 프레임 최종 정렬 ===== */
-.instructor-photo {
-    width: 100% !important;
-    height: 300px !important;
-    overflow: hidden !important;
-    background-repeat: no-repeat !important;
-    background-size: cover !important;
-    background-color: #f3f3f3 !important;
-}
-
-/* 가로 사진은 얼굴이 중앙에 오도록, 세로 사진은 상단 얼굴 중심으로 개별 조정 */
-.photo-kang .instructor-photo { background-position: center 22% !important; }
-.photo-seo  .instructor-photo { background-position: center 34% !important; }
-.photo-yoon .instructor-photo { background-position: center 25% !important; }
-.photo-kim  .instructor-photo { background-position: center 30% !important; }
-.photo-choi .instructor-photo { background-position: center 18% !important; }
-.photo-park .instructor-photo { background-position: center 30% !important; }
-.photo-jung .instructor-photo { background-position: center 18% !important; }
-.photo-lee  .instructor-photo { background-position: center 16% !important; }
-
-/* 카드 비율과 하단 정보 영역도 일정하게 */
-.instructor-card {
-    display: flex !important;
-    flex-direction: column !important;
-    min-height: 0 !important;
-}
-.instructor-info {
-    flex: 1;
-}
-
-/* 모바일에서도 동일한 인물 중심 유지 */
-@media (max-width: 768px) {
-    .instructor-photo {
-        height: 320px !important;
-    }
-}
-</style>
-<style>
-html { scroll-behavior:smooth; }
-section[id], article[id], div[id] { scroll-margin-top:110px; }
-
-@media (min-width:901px){
-  nav > ul > li.dropdown:hover > .dropdown-menu,
-  nav > ul > li.dropdown.open > .dropdown-menu {
-    opacity:1 !important;
-    visibility:visible !important;
-    pointer-events:auto !important;
-    transform:translateX(-50%) translateY(0) !important;
-  }
-}
-</style><style>#programs-grid{display:none!important;}
-.counseling-section{display:none!important;}
-#hobby-section{display:none!important;}
-#enrollment-section{display:none!important;}
-.notices{display:none!important;}
-#instructors{display:none!important;}
-.dark-gallery{display:none!important;}
-body { padding-top:95px; }
-#instructors.instructor-section { display:block !important; padding-top:55px !important; }
-</style>
-<style id="cultureeum-premium-header-v2">
-@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@500;600;700&display=swap');
-header{height:108px!important;background:radial-gradient(ellipse at 3% 110%,rgba(86,105,61,.18),transparent 24%),radial-gradient(ellipse at 97% -15%,rgba(190,145,70,.17),transparent 26%),linear-gradient(100deg,#f3ecdd 0%,#fffaf0 39%,#fbf5e9 70%,#f3ead8 100%)!important;border-bottom:1px solid rgba(171,128,60,.26)!important;box-shadow:0 8px 26px rgba(59,48,31,.075)!important;color:#123f37!important;overflow:visible}
-header::before,header::after{content:"";position:absolute;pointer-events:none;z-index:0;border:1px solid rgba(178,129,48,.52);border-radius:50%}header::before{width:370px;height:185px;left:-205px;top:-118px;transform:rotate(-9deg)}header::after{width:420px;height:205px;right:-225px;bottom:-132px;transform:rotate(-11deg)}
-.header-inner{width:94%!important;max-width:1720px!important;position:relative;z-index:1;gap:30px!important}.logo{font-size:inherit!important;letter-spacing:0!important;min-width:455px}.logo a{display:grid!important;grid-template-columns:94px auto;grid-template-rows:auto auto;column-gap:17px!important;row-gap:2px;align-items:center!important;color:#143f37!important;opacity:1!important;font-size:0!important}.logo a::before{content:"";grid-row:1/3;width:94px;height:76px;background:url('images/cultureeum-logo-mark.jpg') center/cover no-repeat;border-radius:17px;box-shadow:0 7px 20px rgba(50,66,46,.13),inset 0 0 0 1px rgba(255,255,255,.42)}.logo a::after{content:"문화 이음 플랫폼\A Culture, Education, Connection";white-space:pre;font-family:'Noto Serif KR','Batang',serif;font-size:27px;font-weight:700;line-height:1.32;letter-spacing:-1.15px;background:linear-gradient(90deg,#123f37 0 61%,#a9792f 61% 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
-nav{margin-left:auto!important;margin-right:0!important}nav>ul{gap:clamp(20px,2.05vw,40px)!important;font-family:'Noto Serif KR','Batang',serif!important;font-size:15px!important;font-weight:600!important;letter-spacing:-.5px!important}nav>ul>li>a{padding:41px 0 38px!important;color:#243c36!important;white-space:nowrap;text-shadow:none!important}nav>ul>li>a:hover,nav>ul>li.dropdown.open>a{color:#a4742d!important}nav>ul>li>a::after{bottom:31px!important;height:1px!important;background:linear-gradient(90deg,#315d4c,#bd8b3d)!important}.dropdown-menu{top:calc(100% + 7px)!important;background:rgba(255,251,243,.985)!important;border:1px solid rgba(171,129,64,.24)!important;box-shadow:0 18px 42px rgba(50,42,31,.14)!important}.dropdown-menu::before{background:#fffaf2!important;border-left:1px solid rgba(171,129,64,.24)!important;border-top:1px solid rgba(171,129,64,.24)!important}.dropdown-menu a{font-family:'Pretendard',sans-serif!important;color:#31423d!important}.dropdown-menu a:hover{color:#986a29!important;background:rgba(184,139,66,.08)!important}
-@media(max-width:1250px) and (min-width:769px){.logo{min-width:350px}.logo a{grid-template-columns:76px auto;column-gap:12px!important}.logo a::before{width:76px;height:64px}.logo a::after{font-size:21px}nav>ul{gap:15px!important;font-size:13px!important}}
-@media(max-width:768px){header{min-height:92px!important;height:auto!important;padding:10px 0!important;overflow:visible!important}.header-inner{width:94%!important;align-items:flex-start!important;gap:8px!important}.logo{min-width:0;width:100%}.logo a{grid-template-columns:66px auto;column-gap:10px!important}.logo a::before{width:66px;height:56px;border-radius:12px}.logo a::after{font-size:19px;letter-spacing:-.8px}nav{width:100%!important}nav>ul{font-family:'Pretendard',sans-serif!important;font-size:13px!important;gap:18px!important}nav>ul>li>a{padding:7px 0!important}nav>ul>li>a::after{bottom:0!important}.dropdown-menu{top:122px!important}}
-</style>
-
-<style id="cultureeum-nav-size-final">
-/* 2026-09 final: navigation typography enlarged on all screen sizes */
-@media (min-width: 1251px) {
-  nav > ul { font-size: 18px !important; font-weight: 650 !important; gap: clamp(24px, 2.15vw, 44px) !important; }
-  nav > ul > li > a { letter-spacing: -0.55px !important; }
-}
-@media (min-width: 769px) and (max-width: 1250px) {
-  nav > ul { font-size: 15.5px !important; font-weight: 650 !important; gap: 17px !important; }
-  nav > ul > li > a { letter-spacing: -0.45px !important; }
-}
-@media (max-width: 768px) {
-  nav { overflow-x: auto !important; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
-  nav::-webkit-scrollbar { display: none; }
-  nav > ul { font-size: 15.5px !important; font-weight: 650 !important; gap: 21px !important; width: max-content !important; min-width: 100% !important; }
-  nav > ul > li { flex: 0 0 auto !important; }
-  nav > ul > li > a { font-size: 15.5px !important; line-height: 1.35 !important; letter-spacing: -0.45px !important; padding: 9px 0 10px !important; }
-}
-@media (max-width: 420px) {
-  nav > ul { font-size: 15px !important; gap: 18px !important; }
-  nav > ul > li > a { font-size: 15px !important; }
-}
-</style>
-
-<style id="cultureeum-mobile-width-hotfix">
-/* Mobile viewport hotfix: force the site to use the full device width. */
-@media (max-width: 768px) {
-  html, body { width:100% !important; max-width:100% !important; min-width:0 !important; margin:0 !important; overflow-x:hidden !important; }
-  header { left:0 !important; right:0 !important; width:100% !important; max-width:none !important; box-sizing:border-box !important; }
-  .header-inner { width:100% !important; max-width:none !important; padding-left:14px !important; padding-right:14px !important; box-sizing:border-box !important; }
-  .logo { width:100% !important; max-width:100% !important; }
-  nav { width:100% !important; max-width:100% !important; overflow-x:auto !important; overflow-y:visible !important; }
-  nav > ul { min-width:max-content !important; width:max-content !important; font-size:16px !important; gap:22px !important; padding-right:18px !important; }
-  nav > ul > li > a { font-size:16px !important; font-weight:700 !important; }
-  main, section, .premium-main { max-width:100% !important; }
-  .cm-slider { width:100vw !important; max-width:100vw !important; margin:0 !important; overflow:hidden !important; }
-  .cm-track { width:200vw !important; max-width:none !important; }
-  .cm-slide, .cm-slide-programs { flex:0 0 100vw !important; width:100vw !important; max-width:100vw !important; }
-}
-</style>
-<style id="cultureeum-viewport-width-final-fix">
-/* Final viewport-width fix: detach the visible shell from any inherited/container width. */
-html, body { margin:0 !important; padding:0 !important; width:100% !important; min-width:0 !important; max-width:none !important; overflow-x:hidden !important; }
-body { position:relative !important; }
-header, .premium-main, .cm-slider {
-  width:100vw !important;
-  max-width:100vw !important;
-  box-sizing:border-box !important;
-}
-header { left:0 !important; right:auto !important; overflow:hidden !important; }
-.premium-main, .cm-slider {
-  position:relative !important;
-  left:50% !important;
-  right:50% !important;
-  margin-left:-50vw !important;
-  margin-right:-50vw !important;
-}
-.cm-track { display:flex !important; width:200vw !important; max-width:none !important; }
-.cm-slide, .cm-slide-programs { flex:0 0 100vw !important; width:100vw !important; max-width:100vw !important; box-sizing:border-box !important; }
-@media (max-width:768px){
-  header { min-height:0 !important; height:auto !important; padding:10px 0 8px !important; }
-  .header-inner { width:100% !important; max-width:none !important; padding:0 16px !important; margin:0 !important; box-sizing:border-box !important; }
-  .logo { width:100% !important; min-width:0 !important; }
-  nav { width:100% !important; max-width:100vw !important; overflow-x:auto !important; overflow-y:hidden !important; }
-  nav>ul { width:max-content !important; min-width:max-content !important; flex-wrap:nowrap !important; gap:22px !important; padding:0 18px 0 0 !important; font-size:16px !important; font-weight:700 !important; }
-  nav>ul>li, nav>ul>li>a { flex:0 0 auto !important; white-space:nowrap !important; }
-  .cm-slider { min-height:calc(100svh - 120px) !important; }
-}
-</style>
-
-
-<style id="cultureeum-pc-dropdown-final-fix">
-/* PC category dropdown: keep dropdown above hero and remove hover dead-zone */
-@media (min-width: 901px) {
-  header { z-index: 100000 !important; overflow: visible !important; }
-  .header-inner, nav, nav > ul, nav > ul > li.dropdown { overflow: visible !important; }
-  nav > ul > li.dropdown { position: relative !important; }
-  nav > ul > li.dropdown::after {
-    content: "";
-    position: absolute;
-    left: -12px; right: -12px;
-    top: 100%; height: 18px;
-    background: transparent;
-    pointer-events: auto;
-  }
-  nav > ul > li.dropdown > .dropdown-menu {
-    position: absolute !important;
-    top: 100% !important;
-    left: 50% !important;
-    z-index: 100001 !important;
-    margin-top: 0 !important;
-  }
-  nav > ul > li.dropdown:hover > .dropdown-menu,
-  nav > ul > li.dropdown:focus-within > .dropdown-menu,
-  nav > ul > li.dropdown.open > .dropdown-menu {
-    opacity: 1 !important;
-    visibility: visible !important;
-    pointer-events: auto !important;
-    transform: translateX(-50%) translateY(0) !important;
-  }
-}
-</style>
-
-<style id="cultureeum-new-menu-fit">
-@media (min-width:901px){
-  .header-inner{gap:18px!important;width:97%!important;max-width:1860px!important}
-  .logo{min-width:390px!important}
-  nav>ul{gap:18px!important;flex-wrap:nowrap!important}
-  nav>ul>li>a{font-size:15.5px!important;white-space:nowrap!important}
-  nav>ul>li>a.new-top-menu{font-weight:700!important;color:#143f37!important}
-}
-@media (max-width:900px){nav>ul>li>a.new-top-menu{font-weight:700!important}}
-</style>
-
-
-<style id="cultureeum-header-exact-final">
-/* Approved compact header: original logo artwork retained; no brand/nav overlap. */
-@media (min-width: 1351px){
-  .header-inner{width:100%!important;max-width:none!important;padding:0 28px!important;gap:18px!important;box-sizing:border-box!important;display:flex!important;align-items:center!important}
-  .logo{min-width:365px!important;width:365px!important;flex:0 0 365px!important;overflow:hidden!important}
-  .logo a{grid-template-columns:72px minmax(0,1fr)!important;column-gap:12px!important;width:100%!important}
-  .logo a::before{width:72px!important;height:62px!important;border-radius:14px!important}
-  .logo a::after{font-size:20px!important;line-height:1.28!important;letter-spacing:-.9px!important}
-  nav{margin:0!important;min-width:0!important;flex:1 1 auto!important;overflow:visible!important}
-  nav>ul{gap:0!important;justify-content:flex-start!important;flex-wrap:nowrap!important}
-  nav>ul>li{position:relative!important;padding:0 11px!important;flex:0 0 auto!important}
-  nav>ul>li+li::before{content:""!important;position:absolute!important;left:0!important;top:50%!important;transform:translateY(-50%)!important;width:1px!important;height:24px!important;background:rgba(178,135,68,.48)!important;pointer-events:none!important}
-  nav>ul>li>a{font-size:14px!important;letter-spacing:-.45px!important;white-space:nowrap!important}
-}
-@media (min-width: 1101px) and (max-width:1350px){
-  .header-inner{width:100%!important;max-width:none!important;padding:0 16px!important;gap:10px!important;box-sizing:border-box!important}
-  .logo{min-width:275px!important;width:275px!important;flex:0 0 275px!important;overflow:hidden!important}
-  .logo a{grid-template-columns:58px minmax(0,1fr)!important;column-gap:8px!important;width:100%!important}
-  .logo a::before{width:58px!important;height:50px!important;border-radius:11px!important}
-  .logo a::after{font-size:15.5px!important;line-height:1.25!important;letter-spacing:-.7px!important}
-  nav{margin:0!important;min-width:0!important;flex:1 1 auto!important}
-  nav>ul{gap:0!important;flex-wrap:nowrap!important}
-  nav>ul>li{position:relative!important;padding:0 6px!important;flex:0 0 auto!important}
-  nav>ul>li+li::before{content:""!important;position:absolute!important;left:0!important;top:50%!important;transform:translateY(-50%)!important;width:1px!important;height:18px!important;background:rgba(178,135,68,.45)!important;pointer-events:none!important}
-  nav>ul>li>a{font-size:11.5px!important;letter-spacing:-.5px!important;white-space:nowrap!important}
-}
-/* Narrow desktop/tablet: use a clean second navigation row instead of ever overlapping the logo. */
-@media (min-width:901px) and (max-width:1100px){
-  header{height:auto!important;min-height:116px!important}
-  .header-inner{width:100%!important;max-width:none!important;padding:10px 16px 0!important;box-sizing:border-box!important;display:flex!important;flex-wrap:wrap!important;gap:4px 0!important}
-  .logo{min-width:0!important;width:100%!important;flex:0 0 100%!important;overflow:visible!important}
-  .logo a{grid-template-columns:58px auto!important;column-gap:9px!important;width:max-content!important}
-  .logo a::before{width:58px!important;height:50px!important;border-radius:11px!important}
-  .logo a::after{font-size:16px!important;line-height:1.24!important;letter-spacing:-.7px!important}
-  nav{width:100%!important;flex:0 0 100%!important;margin:0!important;overflow-x:auto!important;overflow-y:visible!important;scrollbar-width:none!important}
-  nav::-webkit-scrollbar{display:none!important}
-  nav>ul{width:max-content!important;min-width:100%!important;gap:0!important;justify-content:flex-start!important;flex-wrap:nowrap!important}
-  nav>ul>li{position:relative!important;padding:0 9px!important;flex:0 0 auto!important}
-  nav>ul>li+li::before{content:""!important;position:absolute!important;left:0!important;top:50%!important;transform:translateY(-50%)!important;width:1px!important;height:17px!important;background:rgba(178,135,68,.45)!important;pointer-events:none!important}
-  nav>ul>li>a{font-size:12.5px!important;white-space:nowrap!important;padding:9px 0 12px!important}
-}
-@media (max-width:900px){nav>ul>li+li::before{display:none!important}}
-</style>
-
-
-<style id="cultureeum-nav-balance-final">
-/* Final desktop balance: keep the approved logo untouched and use the right-side space naturally. */
-@media (min-width:1351px){
-  .header-inner{padding-left:28px!important;padding-right:22px!important;}
-  nav>ul{justify-content:flex-end!important;width:100%!important;}
-  nav>ul>li{padding-left:12px!important;padding-right:12px!important;}
-}
-@media (min-width:1101px) and (max-width:1350px){
-  .header-inner{padding-left:16px!important;padding-right:14px!important;}
-  nav>ul{justify-content:flex-end!important;width:100%!important;}
-  nav>ul>li{padding-left:7px!important;padding-right:7px!important;}
-}
-@media (min-width:901px) and (max-width:1100px){
-  nav>ul{justify-content:flex-start!important;}
-}
-</style>
-
-<style id="cultureeum-desktop-100-final">
-/* 100% browser zoom: same visual balance that previously appeared around 90%. */
-@media (min-width:1351px){
-  .header-inner{padding-left:18px!important;padding-right:18px!important;gap:12px!important;}
-  .logo{min-width:330px!important;width:330px!important;flex:0 0 330px!important;}
-  .logo a{grid-template-columns:65px minmax(0,1fr)!important;column-gap:10px!important;}
-  .logo a::before{width:65px!important;height:56px!important;border-radius:13px!important;}
-  .logo a::after{font-size:18px!important;line-height:1.27!important;letter-spacing:-.82px!important;}
-  nav>ul{justify-content:flex-end!important;width:100%!important;}
-  nav>ul>li{padding-left:10px!important;padding-right:10px!important;}
-  nav>ul>li>a{font-size:13px!important;letter-spacing:-.48px!important;}
-  nav>ul>li+li::before{height:22px!important;}
-}
-@media (min-width:1101px) and (max-width:1350px){
-  .header-inner{padding-left:14px!important;padding-right:12px!important;gap:8px!important;}
-  .logo{min-width:248px!important;width:248px!important;flex:0 0 248px!important;}
-  .logo a{grid-template-columns:52px minmax(0,1fr)!important;column-gap:7px!important;}
-  .logo a::before{width:52px!important;height:45px!important;}
-  .logo a::after{font-size:14px!important;}
-  nav>ul>li{padding-left:5px!important;padding-right:5px!important;}
-  nav>ul>li>a{font-size:10.8px!important;}
-}
-</style>
-
-<style id="cultureeum-4060-nav-readable">
-@media (min-width:1351px){
-  .header-inner{padding-left:22px!important;padding-right:22px!important;gap:14px!important}
-  .logo{min-width:340px!important;width:340px!important;flex-basis:340px!important}
-  nav>ul>li{padding-left:9px!important;padding-right:9px!important}
-  nav>ul>li>a{font-size:16px!important;font-weight:800!important;letter-spacing:-.55px!important}
-}
-@media (min-width:1101px) and (max-width:1350px){
-  .logo{min-width:255px!important;width:255px!important;flex-basis:255px!important}
-  nav>ul>li{padding-left:5px!important;padding-right:5px!important}
-  nav>ul>li>a{font-size:13.5px!important;font-weight:800!important}
-}
-</style>
-
-
-
-
-<style id="ce-three-individual-popup-final">
-/* 세 팝업을 각각 독립된 창으로 동시에 표시 */
-html body #popup.ce-multi-popup-wrap{
- position:fixed!important;inset:0!important;z-index:2147483000!important;
- display:flex!important;align-items:flex-start!important;justify-content:center!important;
- gap:22px!important;padding:18px 24px!important;margin:0!important;
- width:100vw!important;height:100vh!important;box-sizing:border-box!important;
- background:transparent!important;backdrop-filter:none!important;
- pointer-events:none!important;overflow:auto!important;
-}
-#popup .ce-individual-popup{
- position:relative!important;flex:0 1 430px!important;width:min(430px,30.5vw)!important;
- max-height:calc(100vh - 36px)!important;margin:0!important;padding:0!important;
- border-radius:15px!important;overflow:hidden!important;background:#fff!important;
- box-shadow:0 12px 34px rgba(20,40,35,.24)!important;pointer-events:auto!important;
-}
-#popup .ce-individual-popup img{
- display:block!important;width:100%!important;height:auto!important;
- max-height:calc(100vh - 36px)!important;object-fit:contain!important;margin:0!important;padding:0!important;
-}
-#popup .ce-individual-close{
- position:absolute!important;top:9px!important;right:10px!important;z-index:8!important;
- width:38px!important;height:38px!important;border:0!important;border-radius:50%!important;
- background:rgba(20,40,45,.68)!important;color:#fff!important;
- font:700 27px/38px Arial,sans-serif!important;text-align:center!important;
- padding:0!important;margin:0!important;cursor:pointer!important;
-}
-/* 작은 PC/태블릿에서는 2열 또는 1열로 자연스럽게 내려감 */
-@media(max-width:1100px){
- html body #popup.ce-multi-popup-wrap{flex-wrap:wrap!important;align-content:flex-start!important}
- #popup .ce-individual-popup{width:min(430px,44vw)!important}
-}
-@media(max-width:700px){
- html body #popup.ce-multi-popup-wrap{
-   display:block!important;padding:10px!important;overflow-y:auto!important;
- }
- #popup .ce-individual-popup{
-   width:min(92vw,430px)!important;margin:0 auto 14px!important;
-   max-height:none!important;
- }
- #popup .ce-individual-popup img{max-height:none!important}
-}
-</style>
-
-<style id="ce-mobile-optimization-final">
-/* ===== 모바일 전체 최적화 ===== */
-@media (max-width:700px){
-  html,body{width:100%!important;max-width:100%!important;overflow-x:hidden!important}
-  body{font-size:16px!important}
-  img,video,iframe{max-width:100%!important}
-
-  /* 헤더: 기존 로고 유지, 모바일에서는 메뉴 버튼/기존 모바일 내비가 화면 밖으로 나가지 않게 */
-  header,.header-inner{max-width:100vw!important;box-sizing:border-box!important}
-  .header-inner{padding-left:12px!important;padding-right:12px!important}
-  .logo{max-width:calc(100vw - 70px)!important;min-width:0!important}
-  .logo a{max-width:100%!important}
-
-  /* 본문 공통 여백 */
-  main,section,.section,.container,.content-wrap{
-    max-width:100%!important;
-    box-sizing:border-box!important;
-  }
-
-  /* 팝업: 세 장을 한 화면에 억지로 나열하지 않고 각각 큰 카드로 세로 배치 */
-  html body #popup.ce-multi-popup-wrap{
-    position:fixed!important;
-    inset:0!important;
-    z-index:2147483000!important;
-    display:block!important;
-    width:100vw!important;
-    height:100dvh!important;
-    padding:12px 10px 24px!important;
-    margin:0!important;
-    overflow-x:hidden!important;
-    overflow-y:auto!important;
-    background:rgba(250,247,240,.90)!important;
-    -webkit-overflow-scrolling:touch!important;
-    box-sizing:border-box!important;
-  }
-  #popup .ce-individual-popup{
-    position:relative!important;
-    display:block!important;
-    width:min(94vw,430px)!important;
-    max-width:430px!important;
-    max-height:none!important;
-    margin:0 auto 16px!important;
-    padding:0!important;
-    border-radius:14px!important;
-    overflow:hidden!important;
-    background:#fff!important;
-    box-shadow:0 8px 24px rgba(20,40,35,.18)!important;
-  }
-  #popup .ce-individual-popup img{
-    display:block!important;
-    width:100%!important;
-    height:auto!important;
-    max-height:none!important;
-    object-fit:contain!important;
-    margin:0!important;
-  }
-  #popup .ce-individual-close{
-    position:absolute!important;
-    top:8px!important;
-    right:8px!important;
-    width:38px!important;
-    height:38px!important;
-    min-width:38px!important;
-    min-height:38px!important;
-    border-radius:50%!important;
-    font-size:26px!important;
-    line-height:38px!important;
-    z-index:20!important;
-  }
-}
-
-/* 아주 작은 휴대폰 */
-@media (max-width:390px){
-  html body #popup.ce-multi-popup-wrap{padding:8px 7px 20px!important}
-  #popup .ce-individual-popup{width:96vw!important;margin-bottom:12px!important}
-  #popup .ce-individual-close{
-    width:36px!important;height:36px!important;min-width:36px!important;min-height:36px!important;
-    font-size:24px!important;line-height:36px!important;
-  }
-}
-</style>
-
-<style id="ce-popup-bottom-controls-style-final">
-/* 이미지에 인쇄된 X 위에 별도 동그란 X를 추가하지 않음 */
-#popup .ce-individual-close{display:none!important}
-
-/* 이미지 하단의 '오늘 하루 열지 않음 / 닫기' 위치만 실제 버튼으로 활성화 */
-#popup .ce-individual-popup{position:relative!important}
-#popup .ce-image-bottom-controls{
-  position:absolute!important;
-  left:0!important;right:0!important;bottom:0!important;
-  height:8.8%!important;
-  min-height:42px!important;
-  display:grid!important;
-  grid-template-columns:82% 18%!important;
-  z-index:30!important;
-  pointer-events:auto!important;
-}
-#popup .ce-image-bottom-controls button{
-  display:block!important;
-  width:100%!important;height:100%!important;
-  margin:0!important;padding:0!important;border:0!important;
-  background:transparent!important;
-  cursor:pointer!important;
-  -webkit-tap-highlight-color:transparent!important;
-}
-@media(max-width:700px){
-  #popup .ce-image-bottom-controls{min-height:40px!important}
-}
-</style>
-<style id="ce-popup-header-overlap-fix-final">
-/* 헤더가 팝업 위를 덮던 문제 해결: 팝업을 페이지 최상단 레이어로 고정 */
-html body #popup.ce-multi-popup-wrap{
-  position:fixed!important;
-  inset:0!important;
-  z-index:2147483647!important;
-  isolation:isolate!important;
-}
-html body #popup .ce-individual-popup{
-  z-index:2147483647!important;
-}
-@media (min-width:701px){
-  html body #popup .ce-individual-popup{
-    top:16px!important;
-  }
-}
-</style>
-
-
-
-<style id="ce-popup-layout-drag-v2">
-/* PC: 처음 열릴 때 3개가 반드시 나란히 모두 보이도록 배치 */
-@media (min-width:701px){
-  html body #popup.ce-multi-popup-wrap{
-    position:fixed!important;
-    inset:0!important;
-    display:block!important;
-    width:100vw!important;
-    height:100vh!important;
-    padding:0!important;
-    margin:0!important;
-    overflow:visible!important;
-    pointer-events:none!important;
-    z-index:2147483647!important;
-  }
-
-  html body #popup .ce-individual-popup{
-    position:absolute!important;
-    top:16px!important;
-    width:min(30.2vw,430px)!important;
-    max-width:430px!important;
-    max-height:calc(100vh - 32px)!important;
-    margin:0!important;
-    pointer-events:auto!important;
-    cursor:grab!important;
-    touch-action:none!important;
-    user-select:none!important;
-    -webkit-user-select:none!important;
-  }
-
-  /* JS가 뜨기 전에도 겹치지 않는 안전한 초기 위치 */
-  html body #popup .ce-individual-popup:nth-of-type(1){left:2%!important}
-  html body #popup .ce-individual-popup:nth-of-type(2){left:34.9%!important}
-  html body #popup .ce-individual-popup:nth-of-type(3){left:67.8%!important}
-
-  html body #popup .ce-individual-popup.ce-drag-ready{
-    left:var(--drag-left)!important;
-    top:var(--drag-top)!important;
-  }
-
-  html body #popup .ce-individual-popup.ce-dragging{
-    cursor:grabbing!important;
-    z-index:2147483647!important;
-  }
-
-  #popup .ce-individual-popup img{
-    display:block!important;
-    width:100%!important;
-    height:auto!important;
-    max-height:calc(100vh - 32px)!important;
-    object-fit:contain!important;
-    pointer-events:none!important;
-    -webkit-user-drag:none!important;
-  }
-
-  /* 클릭 기능이 있는 부분은 드래그보다 우선 */
-  #popup .ce-image-bottom-controls,
-  #popup .ce-image-bottom-controls button,
-  #popup .ce-image-x-close{
-    pointer-events:auto!important;
-  }
-}
-
-/* 모바일은 기존 한 열 최적화 유지 */
-@media (max-width:700px){
-  html body #popup.ce-multi-popup-wrap{
-    display:block!important;
-    overflow-y:auto!important;
-  }
-  html body #popup .ce-individual-popup{
-    position:relative!important;
-    left:auto!important;
-    top:auto!important;
-  }
-}
-</style>
-
-
-<style id="ce-popup-x-click-final">
-#popup .ce-individual-popup{position:absolute!important}
-#popup .ce-image-x-close{
-  display:block!important;
-  position:absolute!important;
-  top:0!important;
-  right:0!important;
-  width:18%!important;
-  height:10%!important;
-  min-width:54px!important;
-  min-height:48px!important;
-  z-index:2147483647!important;
-  border:0!important;
-  outline:0!important;
-  margin:0!important;
-  padding:0!important;
-  background:transparent!important;
-  cursor:pointer!important;
-  pointer-events:auto!important;
-  touch-action:manipulation!important;
-  -webkit-tap-highlight-color:transparent!important;
-}
-</style>
-
-<style id="ce-mobile-hero-popup-click-final">
-/* ===== 모바일 메인 첫 화면 ===== */
-@media (max-width:700px){
-  /* 뒤쪽의 PC용 큰 글자 규칙보다 우선하여 제목이 잘리지 않게 */
-  html body .trust-hero{
-    min-height:auto!important;
-    background-position:64% center!important;
-  }
-  html body .trust-hero-inner{
-    width:92%!important;
-    padding:52px 0 58px!important;
-  }
-  html body .trust-eyebrow{
-    font-size:14px!important;
-    margin-bottom:14px!important;
-  }
-  html body .trust-hero h1{
-    max-width:100%!important;
-    font-size:clamp(36px,10.4vw,44px)!important;
-    line-height:1.20!important;
-    letter-spacing:-.055em!important;
-    word-break:keep-all!important;
-    overflow-wrap:normal!important;
-  }
-  html body .trust-hero h1 br{display:block!important}
-  html body .trust-hero p{
-    font-size:16px!important;
-    line-height:1.72!important;
-    margin-top:20px!important;
-    word-break:keep-all!important;
-  }
-  html body .trust-actions{
-    margin-top:25px!important;
-    gap:12px!important;
-  }
-  html body .trust-actions a{
-    width:min(100%,310px)!important;
-    min-width:0!important;
-    box-sizing:border-box!important;
-    font-size:17px!important;
-    padding:16px 22px!important;
-  }
-
-  /* ===== 모바일 팝업 =====
-     PC 드래그용 absolute 규칙을 모바일에서는 확실히 해제 */
-  html body #popup.ce-multi-popup-wrap{
-    display:block!important;
-    position:fixed!important;
-    inset:0!important;
-    width:100vw!important;
-    height:100dvh!important;
-    padding:10px 8px 24px!important;
-    overflow-x:hidden!important;
-    overflow-y:auto!important;
-    pointer-events:auto!important;
-    z-index:2147483647!important;
-    box-sizing:border-box!important;
-    -webkit-overflow-scrolling:touch!important;
-  }
-  html body #popup .ce-individual-popup{
-    position:relative!important;
-    left:auto!important;
-    right:auto!important;
-    top:auto!important;
-    bottom:auto!important;
-    width:min(96vw,430px)!important;
-    max-width:430px!important;
-    max-height:none!important;
-    margin:0 auto 14px!important;
-    pointer-events:auto!important;
-    touch-action:pan-y!important;
-    overflow:hidden!important;
-  }
-  html body #popup .ce-individual-popup img{
-    width:100%!important;
-    height:auto!important;
-    max-height:none!important;
-    pointer-events:none!important;
-  }
-
-  /* 이미지 우측 상단에 인쇄된 X를 넉넉한 터치영역으로 활성화 */
-  html body #popup .ce-image-x-close{
-    display:block!important;
-    position:absolute!important;
-    top:0!important;
-    right:0!important;
-    width:22%!important;
-    height:11%!important;
-    min-width:64px!important;
-    min-height:52px!important;
-    z-index:2147483647!important;
-    background:transparent!important;
-    border:0!important;
-    pointer-events:auto!important;
-    touch-action:manipulation!important;
-    cursor:pointer!important;
-  }
-
-  /* 이미지 하단 '오늘 하루 열지 않음 / 닫기' 터치영역 */
-  html body #popup .ce-image-bottom-controls{
-    display:grid!important;
-    position:absolute!important;
-    left:0!important;
-    right:0!important;
-    bottom:0!important;
-    width:100%!important;
-    height:9.5%!important;
-    min-height:48px!important;
-    grid-template-columns:78% 22%!important;
-    z-index:2147483646!important;
-    pointer-events:auto!important;
-  }
-  html body #popup .ce-image-bottom-controls button{
-    display:block!important;
-    width:100%!important;
-    height:100%!important;
-    min-height:48px!important;
-    padding:0!important;
-    margin:0!important;
-    border:0!important;
-    background:transparent!important;
-    pointer-events:auto!important;
-    touch-action:manipulation!important;
-    cursor:pointer!important;
-  }
-}
-@media (max-width:390px){
-  html body .trust-hero h1{
-    font-size:clamp(34px,10.2vw,40px)!important;
-  }
-}
-</style>
-
-<style id="ce-mobile-real-viewport-final">
-@media (max-width:900px){
-  html,body{width:100%!important;max-width:100%!important;overflow-x:hidden!important}
-  html body .trust-hero{min-height:auto!important;background-position:62% center!important;overflow:hidden!important}
-  html body .trust-hero-inner{width:auto!important;max-width:none!important;margin:0!important;padding:42px 24px 54px!important;box-sizing:border-box!important}
-  html body .trust-hero h1{
-    display:block!important;width:100%!important;max-width:100%!important;margin:0!important;
-    font-size:32px!important;line-height:1.28!important;letter-spacing:-1.8px!important;
-    white-space:normal!important;word-break:keep-all!important;overflow:visible!important;
-  }
-  html body .trust-hero h1 strong{display:block!important;margin-top:5px!important}
-  html body .trust-hero p{font-size:16px!important;line-height:1.75!important;margin-top:18px!important;word-break:keep-all!important}
-  html body .trust-actions{margin-top:22px!important;gap:10px!important;flex-direction:column!important;align-items:flex-start!important}
-  html body .trust-actions a{width:min(100%,300px)!important;min-width:0!important;padding:15px 20px!important;font-size:16px!important;box-sizing:border-box!important}
-  html body #popup.ce-multi-popup-wrap{pointer-events:auto!important;overflow-y:auto!important;-webkit-overflow-scrolling:touch!important}
-  html body #popup .ce-individual-popup{touch-action:pan-y!important;pointer-events:auto!important}
-  html body #popup .ce-image-x-close{width:24%!important;height:12%!important;min-width:68px!important;min-height:54px!important;pointer-events:auto!important;touch-action:manipulation!important;z-index:2147483647!important}
-  html body #popup .ce-image-bottom-controls{height:10.5%!important;min-height:52px!important;pointer-events:auto!important;z-index:2147483646!important}
-  html body #popup .ce-image-bottom-controls button{min-height:52px!important;pointer-events:auto!important;touch-action:manipulation!important}
-}
-@media (max-width:430px){
-  html body .trust-hero-inner{padding-left:20px!important;padding-right:20px!important}
-  html body .trust-hero h1{font-size:30px!important;letter-spacing:-1.5px!important}
-}
-</style>
-
-<!-- 문화 이음 플랫폼 검색엔진 정보 -->
-<meta name="description" content="문화 이음 플랫폼의 설립 취지와 활동을 소개합니다. 문화와 배움으로 사람과 마음을 잇는 문화 이음 플랫폼입니다.">
-<link rel="canonical" href="https://www.cultureeum.kr/about.html">
-<meta property="og:site_name" content="문화 이음 플랫폼">
-<meta property="og:title" content="문화 이음 플랫폼 소개 | 문화 이음 플랫폼">
-<meta property="og:description" content="문화 이음 플랫폼의 설립 취지와 활동을 소개합니다. 문화와 배움으로 사람과 마음을 잇는 문화 이음 플랫폼입니다.">
-<meta property="og:url" content="https://www.cultureeum.kr/about.html">
-<meta name="twitter:title" content="문화 이음 플랫폼 소개 | 문화 이음 플랫폼">
-<meta name="twitter:description" content="문화 이음 플랫폼의 설립 취지와 활동을 소개합니다. 문화와 배움으로 사람과 마음을 잇는 문화 이음 플랫폼입니다.">
-<script id="ce-site-structured-data" type="application/ld+json">{"@context": "https://schema.org", "@type": "WebPage", "name": "문화 이음 플랫폼 소개 | 문화 이음 플랫폼", "url": "https://www.cultureeum.kr/about.html", "description": "문화 이음 플랫폼의 설립 취지와 활동을 소개합니다. 문화와 배움으로 사람과 마음을 잇는 문화 이음 플랫폼입니다."}</script>
-
-<style id="ce-popup-mobile-visibility-safety">
-@media(max-width:700px){
-  html body #popup.ce-multi-popup-wrap{
-    visibility:visible!important;
-    opacity:1!important;
-  }
-  html body #popup.ce-multi-popup-wrap:not([style*="display: none"]){
-    display:block!important;
-  }
-  html body #popup .ce-individual-popup:not([style*="display: none"]){
-    display:block!important;
-    position:relative!important;
-    left:auto!important;top:auto!important;
-  }
-}
-</style>
 </head>
-<body>
-<!-- CULTUREEUM THREE INDIVIDUAL POPUPS -->
-<div id="popup" class="ce-multi-popup-wrap" aria-label="문화이음플랫폼 안내 팝업">
-  <div class="ce-individual-popup" data-popup="1">
-<img src="팝업/팝업 사진1.png" alt="개인정보 취급 및 유의 안내">
-  </div>
-  <div class="ce-individual-popup" data-popup="2">
-<img src="팝업/팝업 사진2.png" alt="2026년 10월 특별 강좌 소개">
-  </div>
-  <div class="ce-individual-popup" data-popup="3">
-<img src="팝업/팝업 사진3.png" alt="아로마테라피 북 퍼퓸 3기 마감 안내">
-  </div>
-</div>
-<!-- /CULTUREEUM THREE INDIVIDUAL POPUPS -->
-<!-- 여기부터 원래 홈페이지 내용 -->
-<!-- 헤더 -->
-<header>
-<div class="container header-inner">
-<div class="logo"><a href="index.html">문화 이음 플랫폼</a></div>
-<nav>
-<ul>
-<li class="dropdown">
-<a aria-expanded="false" aria-haspopup="true" href="#" id="platformMenu">
-                            문화 이음 플랫폼이란?
-                        </a>
-<ul aria-label="문화 이음 플랫폼 소개" class="dropdown-menu">
-<li><a href="about.html#greeting">대표 인사말</a></li>
-<li><a href="about.html#purpose">문화이음플랫폼 설립 취지</a></li>
-<li><a href="about.html#seoul">서울 문화 이음 플랫폼</a></li>
-<li><a href="about.html#busan">부산 문화 이음 플랫폼</a></li>
-</ul>
-</li>
-<li>
-<a href="instructors.html#instructors" id="instructorMenu">
-                            Instructor
-                        </a>
-</li>
-<li class="dropdown">
-<a aria-expanded="false" aria-haspopup="true" href="#" id="artsMenu">
-                            예술 인문학
-                        </a>
-<ul aria-label="예술 인문학 카테고리" class="dropdown-menu">
-<li><a href="humanities.html#art-museum">미술인문학</a></li>
-<li><a href="humanities.html#art-classic">고전인문학</a></li>
-<li><a href="humanities.html#art-music">음악인문학</a></li>
-<li><a href="humanities.html#art-film">영화인문학</a></li>
-</ul>
-</li>
-<li class="dropdown">
-<a aria-expanded="false" aria-haspopup="true" href="#" id="counselingMenu">
-                            심리상담
-                        </a>
-<ul aria-label="심리상담 카테고리" class="dropdown-menu">
-<li><a href="counseling.html#counseling-tci">TCI &amp; DISC</a></li>
-<li><a href="counseling.html#counseling-color">컬러 테라피</a></li>
-<li><a href="counseling.html#counseling-book">북테라피</a></li>
-<li><a href="counseling.html#counseling-tarot">명리학, 타로</a></li>
-<li><a href="counseling.html#counseling-image">이미지 메이킹</a></li>
-<li><a href="counseling.html#counseling-photo">사진강좌</a></li>
-<li><a href="counseling.html#counseling-brain">뇌과학</a></li>
-</ul>
-</li>
-<li>
-<a href="oneday.html#hobby-section" id="hobbyMenu">
-                            취미원정대 : 원데이 클래스
-                        </a>
+<body class="antialiased overflow-x-hidden">
+    <div id="instructor-modal" class="fixed inset-0 z-[100] hidden" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+        <div class="fixed inset-0 bg-black/70 backdrop-blur-sm transition-opacity" aria-hidden="true" onclick="closeModal()"></div>
+        <div class="fixed inset-0 z-10 w-screen overflow-y-auto">
+            <div class="flex min-h-full items-center justify-center p-4 text-center sm:p-0">
+                <div class="relative transform overflow-hidden rounded-2xl bg-white text-left shadow-2xl transition-all sm:my-8 sm:w-full sm:max-w-2xl border border-[var(--brand-gold)]/20">
+                    
+                    <div class="bg-[var(--brand-green)] px-6 pt-12 pb-16 sm:px-10 sm:pt-14 sm:pb-20 relative text-center sm:text-left">
+                        <button type="button" class="absolute top-4 right-4 text-white/70 hover:text-white transition-colors p-1" onclick="closeModal()">
+                            <i data-lucide="x" class="w-6 h-6"></i>
+                        </button>
 
-</li>
-<!-- 수정됨: 수강신청 안내 -> 수강신청서 (클릭 시 이동) -->
-<li><a href="apply.html#enrollment-section">수강신청서</a></li>
-<li><a href="community.html" class="new-top-menu">커뮤니티</a></li>
-<li><a href="media.html" class="new-top-menu">미디어 이야기</a></li>
-<li><a href="reviews.html" class="new-top-menu">상담 후기</a></li>
-</ul>
-</nav>
-</div>
-</header>
-<!-- 메인 히어로 -->
-<!-- 프로그램 포스터 갤러리 -->
-<section class="programs" id="programs-grid">
-<div class="container">
-<div class="tabs" style="margin-top: -35px; margin-bottom: 25px;">
-<span "="" class="active" style="font-size: 22px; font-weight: 800; color: var(--primary-purple, #5b21b6); padding-bottom: 6px; border-bottom: 3px solid var(--primary-purple, #5b21b6);">예술 인문학</span>
-<div class="tab-dropdown">
-</div>
-</div>
-<div class="poster-grid">
-<div class="poster-card" id="art-museum">
-<div class="poster-badge">미술인문학</div>
-<div class="poster-img" style="background-image: url('https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5?ixlib=rb-4.0.3&amp;auto=format&amp;fit=crop&amp;w=600&amp;q=80');"></div>
-<div class="poster-info">
-<h4 style="text-align: center;">캔버스 너머에 담긴 시대의 숨결과 인간의 철학을 읽어내는 눈</h4>
-</div>
-</div>
-<div class="poster-card" id="art-classic">
-<div class="poster-badge">고전인문학</div>
-<div class="poster-img" style="background-image: url('https://images.unsplash.com/photo-1516534775068-ba3e7458af70?ixlib=rb-4.0.3&amp;auto=format&amp;fit=crop&amp;w=600&amp;q=80');"></div>
-<div class="poster-info">
-<h4 style="text-align: center;">시공간을 뛰어넘어 변하지 않는 삶의 본질과 지혜를 발견하는 여정</h4>
-</div>
-</div>
-<div class="poster-card" id="art-music">
-<div class="poster-badge">음악인문학</div>
-<div class="poster-img" style="background-image: url('https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3&amp;auto=format&amp;fit=crop&amp;w=600&amp;q=80');"></div>
-<div class="poster-info">
-<h4 style="text-align: center;">선율 뒤에 숨겨진 시대의 울림과 인간의 깊은 내면을 경청하는 소리의 성찰</h4>
-</div>
-</div>
-<div class="poster-card" id="art-film">
-<div class="poster-badge">영화인문학</div>
-<div class="poster-img" style="background-image: url('https://images.unsplash.com/photo-1541701494587-cb58502866ab?ixlib=rb-4.0.3&amp;auto=format&amp;fit=crop&amp;w=600&amp;q=80');"></div>
-<div class="poster-info">
-<h4 style="text-align: center;">스크린이라는 창을 통해 타인의 삶을 마주하고 현대 사회와 나를 비춰보는 거울</h4>
-</div>
-</div>
-</div>
-</div>
-</section>
-<!-- 심리상담 코칭 프로그램 상세 -->
-<section class="counseling-section">
-<div class="container">
-<div class="section-title white">
-<h2>심리상담 <span>코칭 프로그램</span></h2>
-</div>
-<div class="counseling-container">
-<article class="counseling-card" id="counseling-tci">
-<div class="counseling-img-wrap" style="background-image: url('심리 상담/TCI &amp; DISC.jpg');"></div>
-<div class="counseling-content">
-<div class="counseling-title-badge" style="transform: translateY(-35px); margin-bottom: -20px; display: inline-block;">TCI &amp; DISC</div>
-<p style="margin-top: 35px; font-size: 14px; color: #444; line-height: 1.7; word-break: keep-all; background: #f8f3fc; padding: 15px; border-radius: 10px; border-left: 4px solid var(--primary-purple);">
-                            타고난 생물학적 기질과 후천적으로 형성된 성격을 구분하여 개인의 인성을 다각도로 측정하는 심리검사인 <strong>TCI</strong>와, 사람의 행동 유형을 4가지 범주로 분류하여 개인이 일상 및 업무 상황에서 나타내는 고유한 행동 방식을 측정하는 심리검사 <strong>DISC</strong>를 통해 당신이 누구인지 알려드립니다.
-                        </p>
-<ul class="counseling-list">
-<li class="list-title">기질과 성격의 완벽한 이해를 통한 관계 개선 코칭</li>
-<li>개인의 타고난 기질과 환경적 성격 구조 심층 분석</li>
-<li>조직과 가족의 온도를 바꾸는 DISC 소통법 솔루션 제공</li>
-<li>자아 탐색 및 타인에 대한 수용력 증진 훈련</li>
-</ul>
-</div>
-</article>
-<article class="counseling-card reverse" id="counseling-color">
-<div class="counseling-img-wrap" style="background-image: url('심리 상담/컬러테라피.jpg');"></div>
-<div class="counseling-content">
-<div class="counseling-title-badge" style="transform: translateY(-35px); margin-bottom: -20px; display: inline-block;">컬러 테라피</div>
-<div style="margin-top: 35px; background: #faf8fc; padding: 18px 20px; border-radius: 12px; border: 1px solid #eee; border-right: 4px solid var(--primary-purple);">
-<p style="font-size: 15px; font-weight: 700; color: var(--primary-purple); margin-bottom: 8px; word-break: keep-all;">
-                                “색을 통해 나를 만나고,<br/>색을 통해 마음을 들여다보는 시간입니다.”
-                            </p>
-<p style="font-size: 13.5px; color: #555; line-height: 1.6; word-break: keep-all; margin: 0;">
-                                컬러 테라피는 색이 주는 심리적·정서적 자극을 활용하여 자신의 감정을 이해하고 마음을 돌아보도록 돕는 활동입니다.
-                            </p>
-</div>
-<ul class="counseling-list">
-<li class="list-title">색채와 도형으로 찾는 나의 무의식과 마음 상태 진단</li>
-<li>현재의 스트레스 지수 파악 및 심리적 이완 훈련</li>
-<li>에너지 밸런스를 맞추는 나만의 컬러 솔루션</li>
-<li>심신 안정을 돕는 맞춤형 아트 테라피 코칭</li>
-</ul>
-</div>
-</article>
-<article class="counseling-card" id="counseling-book">
-<div class="counseling-img-wrap" style="background-image: url('심리 상담/북테라피.jpg');"></div>
-<div class="counseling-content">
-<div class="counseling-title-badge" style="transform: translateY(-35px); margin-bottom: -20px; display: inline-block;">북테라피</div>
-<div style="margin-top: 35px; background: #faf8fc; padding: 18px 20px; border-radius: 12px; border: 1px solid #eee; border-left: 4px solid var(--primary-purple);">
-<p style="font-size: 14px; color: #444; line-height: 1.7; word-break: keep-all; margin: 0;">
-                                책을 읽는 과정을 통해 마음의 상처를 치유하고, 심리적 안정과 성장을 도모하는 심리 치유 방법입니다.<br/><br/>
-                                단순히 지식을 쌓기 위한 독서가 아니라, 문학 작품이나 에세이 등의 글로 <strong>자신을 되돌아보는 프로그램</strong>입니다.
-                            </p>
-</div>
-<ul class="counseling-list">
-<li class="list-title">문학을 통해 내면의 상처를 치유하고 성찰하는 시간</li>
-<li>깊이 있는 독서 모임을 통한 공감과 소통 능력 강화</li>
-<li>책 속의 문장으로 나만의 자아 발견 및 가치관 정립</li>
-<li>생각을 정리하고 마음을 비우는 글쓰기 병행 과정</li>
-</ul>
-</div>
-</article>
-<article class="counseling-card reverse" id="counseling-tarot">
-<div class="counseling-img-wrap" style="background-image: url('심리 상담/명리학, 타로.jpg');"></div>
-<div class="counseling-content">
-<div class="counseling-title-badge" style="transform: translateY(-35px); margin-bottom: -20px; display: inline-block;">명리학, 타로</div>
-<div style="margin-top: 35px; background: #faf8fc; padding: 18px 20px; border-radius: 12px; border: 1px solid #eee; border-right: 4px solid var(--primary-purple);">
-<p style="font-size: 14px; color: #444; line-height: 1.7; word-break: keep-all; margin: 0;">
-                                타로는 <strong>78장의 상징적인 그림 카드</strong>를 활용하여 질문자의 무의식, 현재 상황, 그리고 미래의 가능성을 비추어 보는 통찰 도구입니다.<br/><br/>
-                                카드가 지닌 고유한 상징과 배치 관계를 해석함으로써 직면한 문제에 대한 새로운 관점과 해결의 힌트를 얻을 수 있습니다.
-                            </p>
-</div>
-<ul class="counseling-list">
-<li class="list-title">동양 철학과 타로 상징을 활용한 삶의 통찰 및 방향성 탐색</li>
-<li>불확실한 미래에 대한 심리적 안정감 및 자존감 회복</li>
-<li>내면의 잠재력을 일깨우는 스토리텔링 상담</li>
-<li>선택의 기로에서 합리적 결정을 돕는 직관적 코칭</li>
-</ul>
-</div>
-</article>
-<article class="counseling-card" id="counseling-image">
-<div class="counseling-img-wrap" style="background-image: url('https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&amp;auto=format&amp;fit=crop&amp;w=800&amp;q=80');"></div>
-<div class="counseling-content">
-<div class="counseling-title-badge" style="transform: translateY(-35px); margin-bottom: -20px; display: inline-block;">이미지 메이킹</div>
-<div style="margin-top: 35px; background: #faf8fc; padding: 18px 20px; border-radius: 12px; border: 1px solid #eee; border-left: 4px solid var(--primary-purple);">
-<p style="font-size: 15px; font-weight: 700; color: var(--primary-purple); margin-bottom: 8px; word-break: keep-all;">
-                                "나만의 분위기를 디자인하다"
-                            </p>
-<p style="font-size: 14px; color: #444; line-height: 1.7; word-break: keep-all; margin: 0;">
-                                이미지 메이킹은 나를 꾸미는 것이 아니라 <strong>나의 가치를 발견하고 표현하는 과정</strong>입니다.<br/>
-                                나를 알고, 나를 표현하고, 나만의 아름다움을 완성해봅시다.
-                            </p>
-</div>
-<ul class="counseling-list">
-<li class="list-title">내면의 자신감을 외면으로 자연스럽게 표현하는 퍼스널 브랜딩</li>
-<li>개인의 매력을 극대화하는 스타일링 및 표정 연출법</li>
-<li>신뢰를 주는 긍정적인 첫인상과 비언어적 소통 전략 구축</li>
-<li>사회적 관계 향상을 위한 맞춤형 매너 및 스피치 코칭</li>
-</ul>
-</div>
-</article>
-<article class="counseling-card reverse" id="counseling-photo">
-<div class="counseling-img-wrap" style="background-image: url('https://images.unsplash.com/photo-1516961642265-531546e84af2?ixlib=rb-4.0.3&amp;auto=format&amp;fit=crop&amp;w=800&amp;q=80');"></div>
-<div class="counseling-content">
-<div class="counseling-title-badge" style="transform: translateY(-35px); margin-bottom: -20px; display: inline-block;">사진강좌</div>
-<div style="margin-top: 35px; background: #faf8fc; padding: 18px 20px; border-radius: 12px; border: 1px solid #eee; border-left: 4px solid var(--primary-purple);">
-<p style="font-size: 15px; font-weight: 700; color: var(--primary-purple); margin-bottom: 8px; word-break: keep-all;">
-                                "매일 지나치던 풍경 속, 진짜 '나'의 시선을 만나는 시간"
-                            </p>
-<p style="font-size: 14px; color: #444; line-height: 1.7; word-break: keep-all; margin: 0;">
-                                사진은 멋진 풍경을 남기는 기술이 아니라, 세상을 바라보는 나의 따뜻한 시선을 기록하는 일입니다.<br/><br/>
-                                복잡한 기술이나 비싼 카메라 대신 익숙한 스마트폰 하나로 일상을 들여다보며, 사진을 통해 나 자신을 발견하고 마음을 채워보는 프로그램입니다.
-                            </p>
-</div>
-<ul class="counseling-list">
-<li class="list-title">카메라 프레임 너머의 세상을 보는 새로운 시각과 통찰력 배양</li>
-<li>평범한 일상의 순간을 예술로 기록하며 느끼는 심리적 성취감</li>
-<li>피사체와의 교감을 통한 정서적 안정 및 스트레스 해소</li>
-<li>나만의 시선을 담아내는 감성 사진 촬영 실무 테크닉</li>
-</ul>
-</div>
-</article>
-<article class="counseling-card" id="counseling-brain">
-<div class="counseling-img-wrap" style="background-image: url('https://images.unsplash.com/photo-1559757175-5700dde675bc?ixlib=rb-4.0.3&amp;auto=format&amp;fit=crop&amp;w=800&amp;q=80');"></div>
-<div class="counseling-content">
-<div class="counseling-title-badge" style="transform: translateY(-35px); margin-bottom: -20px; display: inline-block;">뇌과학</div>
-<div style="margin-top: 35px; background: #faf8fc; padding: 18px 20px; border-radius: 12px; border: 1px solid #eee; border-left: 4px solid var(--primary-purple);">
-<p style="font-size: 15px; font-weight: 700; color: var(--primary-purple); margin-bottom: 8px; word-break: keep-all;">
-                                "생각과 감정의 비밀, 뇌를 통해 마음을 읽다"
-                            </p>
-<p style="font-size: 14px; color: #444; line-height: 1.7; word-break: keep-all; margin: 0;">
-                                뇌과학 세미나는 뇌의 작동 방식을 통해 나의 마음과 행동 패턴을 고찰해보는 시간입니다.<br/><br/>
-                                막연했던 나의 감정과 유난히 고치기 힘들었던 습관의 이유를 과학적으로 이해하며, 나 자신을 유연하고 다정하게 다루는 법을 배웁니다.
-                            </p>
-</div>
-<ul class="counseling-list">
-<li class="list-title">인생의 도전과 리셋을 준비하는 사람을 위한 멘탈 리프레밍 코칭[cite: 1]</li>
-<li>국제 멘탈력 진단 기반 설계 및 뇌신경 과학 원리 적용[cite: 1]</li>
-<li>부정적 감정 회로를 차단하고 스트레스 회복력을 높이는 훈련</li>
-<li>성공 루틴으로 자신감 있는 자기 리프레밍 시스템 구축[cite: 1]</li>
-</ul>
-</div>
-</article>
-</div>
-</div>
-</section>
-<!-- 취미원정대 : 원데이 클래스 섹션 -->
-<section class="hobby-section" id="hobby-section">
-<div class="container">
-<div class="hobby-header">
-<div class="hobby-title">
-<h2>취미원정대 : 원데이 클래스</h2>
-</div>
-<div class="hobby-search-area">
-<select aria-label="부서별 검색">
-<option value="">부서별</option>
-<option value="d1">기획부</option>
-<option value="d2">교육부</option>
-</select>
-<select aria-label="연도별 검색">
-<option value="">연도별</option>
-<option value="2026">2026</option>
-<option value="2025">2025</option>
-</select>
-<input placeholder="검색어를 입력하세요" type="text"/>
-<button type="button">Q</button>
-</div>
-</div>
-<div class="hobby-count">
-                전체 4개 (페이지 1/1)
-            </div>
-<div class="hobby-grid">
-<article class="hobby-card" id="hobby-aroma">
-<div class="hobby-img-wrap" style="background-image: url('원데이클래스/아로마 테라피.png');">
-<div class="hobby-badges">
-<span class="hobby-badge-year">2026</span>
-<span class="hobby-badge-cat" style="background-color: #ff5722;">클래스</span>
-</div>
-</div>
-<div class="hobby-info">
-<h3>아로마 테라피 : 북 퍼퓸</h3>
-<div style="margin-top: 12px; background: #fffbf5; padding: 14px 16px; border-radius: 10px; border-left: 3px solid #ff9800; text-align: left;">
-<p style="font-size: 13.5px; font-weight: 700; color: #e65100; margin-bottom: 6px; word-break: keep-all;">
-                                책장에 은은한 향기를 입혀 독서의 깊이를 더하다📚✨
-                            </p>
-<p style="font-size: 12.5px; color: #555; line-height: 1.6; word-break: keep-all; margin: 0;">
-                                책이나 서재 공간에 뿌려 독서 몰입도를 높여주는 감성 아이템! 나만의 향을 담은 퍼퓸으로 책을 오감으로 즐겨보세요.
-                            </p>
-</div>
-</div>
-</article>
-<article class="hobby-card" id="hobby-cooking">
-<div class="hobby-img-wrap" style="background-image: url('원데이클래스/요리조리 쿠킹 클래스.png');">
-<div class="hobby-badges">
-<span class="hobby-badge-year">2026</span>
-<span class="hobby-badge-cat" style="background-color: #4caf50;">클래스</span>
-</div>
-</div>
-<div class="hobby-info">
-<h3>요리조리 쿠킹클래스</h3>
-<div style="margin-top: 12px; background: #fffbf5; padding: 14px 16px; border-radius: 10px; border-left: 3px solid #ff9800; text-align: left;">
-<p style="font-size: 13.5px; font-weight: 700; color: #e65100; margin-bottom: 6px; word-break: keep-all;">
-                                조금만 배우면 맛있는 한 끼가 되고, 근사한 한 접시가 된다!
-                            </p>
-<p style="font-size: 12.5px; color: #555; line-height: 1.6; word-break: keep-all; margin: 0;">
-                                누구나 쉽고 즐겁게 따라 할 수 있는 레시피부터, 같은 음식도 더욱 근사하게 보이게 하는 플레이팅의 작은 비법까지❤️
-                            </p>
-</div>
-</div>
-</article>
-<article class="hobby-card" id="hobby-flower">
-<div class="hobby-img-wrap" style="background-image: url('원데이클래스/플라워.jpg');">
-<div class="hobby-badges">
-<span class="hobby-badge-year">2026</span>
-<span class="hobby-badge-cat" style="background-color: #e91e63;">클래스</span>
-</div>
-</div>
-<div class="hobby-info">
-<h3>플라워 아트 클래스</h3>
-<div style="margin-top: 12px; background: #fdf8f9; padding: 14px 16px; border-radius: 10px; border-left: 3px solid #e91e63; text-align: left;">
-<p style="font-size: 13.5px; font-weight: 700; color: #c2185b; margin-bottom: 6px; word-break: keep-all;">
-                                계절의 예쁨을 손끝에 담아, 일상에 향기를 채우다🌸
-                            </p>
-<p style="font-size: 12.5px; color: #555; line-height: 1.6; word-break: keep-all; margin: 0;">
-                                꽃을 만지며 마음의 스트레스를 비워내는 힐링의 시간! 세상에 단 하나뿐인 나만의 작품을 만들며 오롯이 나에게 몰입해 보세요.
-                            </p>
-</div>
-</div>
-</article>
-<article class="hobby-card" id="hobby-bridge">
-<div class="hobby-img-wrap" style="background-image: url('원데이클래스/세븐 브릿지.png');">
-<div class="hobby-badges">
-<span class="hobby-badge-year">2026</span>
-<span class="hobby-badge-cat" style="background-color: #2196f3;">투어</span>
-</div>
-</div>
-<div class="hobby-info">
-<h3>세븐브릿지 드라이빙 투어</h3>
-<div style="margin-top: 12px; background: #f0f7ff; padding: 14px 16px; border-radius: 10px; border-left: 3px solid #0288d1; text-align: left;">
-<p style="font-size: 13.5px; font-weight: 700; color: #0277bd; margin-bottom: 6px; word-break: keep-all;">
-                                7개 바다 다리를 따라 펼쳐지는 부산만의 입체적 야경 뷰✨
-                            </p>
-<p style="font-size: 12.5px; color: #555; line-height: 1.6; word-break: keep-all; margin: 0;">
-                                부산을 대표하는 해안대교의 고유한 야경과 해안 절경을 연속으로 경험하며 해양 도시 부산의 화려한 매력을 완성해보세요!
-                            </p>
-</div>
-</div>
-</article>
-</div>
-</div>
-</section>
-<!-- 신규: 수강 신청서 섹션 -->
-<section class="enrollment-section" id="enrollment-section">
-<div class="container">
-<div class="enrollment-wrapper">
-<div class="enrollment-header">
-<h2>수강 신청서 작성</h2>
-<p style="font-size: 12.5px; color: #444; line-height: 1.8; word-break: keep-all; margin: 15px auto 30px; max-width: 520px; text-align: center;">
-    문화와 배움, 그리고 사람과 사람이 함께 어우러지는 다양한 프로그램을 준비했습니다.
-    새로운 배움과 즐거운 경험을 통해 일상에 작은 변화와 성장을 더해보시기 바랍니다.
-    여러분의 많은 관심과 참여를 기다리며, 아래 수강신청 안내를 참고하여<br/>
-<strong style="color: var(--primary-purple, #5b21b6); font-size: 15px; background: #f3e8ff; padding: 2px 6px; border-radius: 4px; font-weight: 700;">
-        원하는 프로그램에 신청해 주세요.
-    </strong>
-</p>
-</div>
-<form action="#" id="enrollmentForm" method="POST" novalidate="">
-<!-- 1. 이름 -->
-<div class="form-group">
-<label for="userName">이름</label>
-<input class="form-control" id="userName" placeholder="성함을 입력하세요" type="text"/>
-</div>
-<!-- 2. 성별 -->
-<div class="form-group">
-<label>성별</label>
-<div class="gender-group">
-<label class="gender-option">
-<input name="gender" type="radio" value="male"/>
-<span>남성</span>
-</label>
-<label class="gender-option">
-<input name="gender" type="radio" value="female"/>
-<span>여성</span>
-</label>
-</div>
-</div>
-<!-- 3. 생년월일 -->
-<div class="form-group">
-<label>생년월일</label>
-<div class="birth-group">
-<input class="form-control" id="birthYear" inputmode="numeric" placeholder="년도" type="text"/>
-<input class="form-control" id="birthMonth" inputmode="numeric" placeholder="월" type="text"/>
-<input class="form-control" id="birthDay" inputmode="numeric" placeholder="일" type="text"/>
-</div>
-</div>
-<!-- 4. 연락처 -->
-<div class="form-group">
-<label for="userPhone">연락처</label>
-<input class="form-control" id="userPhone" placeholder="010-0000-0000" type="tel"/>
-</div>
-<!-- 5. 주소 (수정됨) -->
-<div class="form-group">
-<label for="userAddress">주소 (동까지)</label>
-<input class="form-control" id="userAddress" placeholder="거주 주소를 입력하세요" type="text"/>
-</div>
-<!-- 6. 관심강좌 (신규 추가) -->
-<div class="form-group">
-<label for="interestCourse">관심강좌</label>
-<input class="form-control" id="interestCourse" placeholder="수강을 원하시는 강좌명을 입력하세요" type="text"/>
-</div>
-<!-- 7. 이용약관 동의 (신규 추가) -->
-<div class="terms-group">
-<input id="agreeTerms" type="checkbox"/>
-<label for="agreeTerms">이용약관에 동의합니다</label>
-</div>
-<!-- 8. 제출 버튼 -->
-<button class="submit-btn" type="submit">신청 완료</button>
-<div aria-live="polite" class="enrollment-success" id="enrollmentSuccess" role="status">
-                        신청이 완료되었습니다.
+                        <div class="flex flex-col sm:flex-row items-center gap-6 relative z-10">
+                            <div class="h-32 w-32 sm:h-40 sm:w-40 rounded-full border-4 border-[var(--brand-gold)] shadow-2xl overflow-hidden flex-shrink-0 bg-white">
+                                <img id="modal-img" src="" alt="멘토 상세 이미지" class="h-full w-full object-cover">
+                            </div>
+                            
+                            <div class="text-center sm:text-left">
+                                <h3 class="text-3xl font-bold text-white mb-1 tracking-tight" id="modal-name">이름</h3>
+                                <p class="text-[var(--brand-gold)] font-bold text-lg" id="modal-role">직책</p>
+                            </div>
+                        </div>
                     </div>
-</form>
-</div>
-</div>
-</section>
-<!-- 열린 소식 -->
-<section class="notices">
-<div class="container">
-<div class="section-title">
-<h2>문화 이음 플랫폼의 <span>다양한 소식</span>을 확인해보세요.</h2>
-</div>
-<div class="notice-grid">
-<a class="notice-card" href="#">
-<span class="tag">공지사항</span>
-<h4>2026년 하반기 TCI 기질 분석 코칭 모집 안내 (선착순 마감)</h4>
-<span class="date">2026-08-25</span>
-</a>
-<a class="notice-card" href="#">
-<span class="tag">살롱 소식</span>
-<h4>[가을 예술 인문학 살롱] 다빈치와 고야의 작품으로 보는 심리 해석</h4>
-<span class="date">2026-08-20</span>
-</a>
-<a class="notice-card" href="#">
-<span class="tag">언론보도</span>
-<h4>서경석 대표 코치, 지역 사회 마음 챙김 세미나 성료</h4>
-<span class="date">2026-08-10</span>
-</a>
-<a class="notice-card" href="#">
-<span class="tag">칼럼</span>
-<h4>나의 도형과 색채가 말해주는 현재의 스트레스 지수</h4>
-<span class="date">2026-07-28</span>
-</a>
-</div>
-</div>
-</section>
-<!-- 문화 이음 플랫폼 소개 -->
-<section id="greeting" style="padding: 90px 30; background:#fff;">
-<!-- 대표 인사말 섹션 -->
-<section class="ceo-section" style="max-width: 1100px; margin: 60px auto; padding: 0 20px;">
-<!-- Section Title -->
-<h2 style="font-size: 32px; font-weight: 800; color: #111; text-align: center; margin-bottom: 45px; letter-spacing: -0.5px;">
-        대표 <span style="color: var(--primary-purple, #5b21b6);">인사말</span>
-</h2>
-<!-- Left/Right Split Layout -->
-<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 50px; background: #faf8fc; padding: 40px; border-radius: 20px; border: 1px solid #f0e6ff;">
-<!-- 왼쪽: 크게 들어가는 대표님 사진 영역 -->
-<div style="flex: 1; min-width: 300px; max-width: 420px; margin: 0 auto;">
-<div style="width: 100%; height: 480px; border-radius: 16px; overflow: hidden; box-shadow: 0 12px 28px rgba(91, 33, 182, 0.12); border: 2px solid #fff;">
-<img alt="문화 이음 플랫폼 류진희 대표" src="images/원장님 사진.jpg" style="width: 100%; height: 100%; object-fit: cover; display: block;"/>
-</div>
-</div>
-<!-- 오른쪽: 직함, 이름, 인사말 본문 영역 -->
-<div style="flex: 1.2; min-width: 300px; text-align: left;">
-<!-- 직함 및 이름 -->
-<div style="margin-bottom: 20px; border-bottom: 2px solid var(--primary-purple, #5b21b6); padding-bottom: 15px; display: inline-block;">
-<span style="font-size: 16px; font-weight: 600; color: var(--primary-purple, #5b21b6); display: block; margin-bottom: 4px;">문화 이음 	플랫폼</span>
-<h3 style="font-size: 28px; font-weight: 800; color: #222; margin: 0;">
-                    대표 <span style="color: #111;">류진희</span>
-</h3>
-</div>
-<!-- 인사말 본문 -->
-<p style="font-size: 15px; color: #444; line-height: 1.85; word-break: keep-all; margin: 0 0 20px 0;">
-                안녕하세요. 문화 이음 플랫폼 대표 류진희입니다.<br/><br/>
-                어느 순간부터 이런 생각을 하게 되었습니다.<br/>
-<strong>“부산에도 서울처럼 사람들이 일상 가까이에서 문화를 만나고, 배우고, 이야기 나눌 수 있는 공간이 더 많아졌으면 좋겠다.”</strong><br/><br/>
-                누군가에게는 배움의 공간이 되고, 누군가에게는 자신의 재능을 나누는 공간이 되며, 새로운 사람과 세상을 만나는 연결고리가 되었으면 합니다. 인문학과 예술, 음악 등 다양한 강좌를 통해 오감으로 문화를 즐기며 삶의 즐거움을 발견해보세요.
-            </p>
-<!-- 슬로건 포인트 -->
-<div style="background: #fff; padding: 16px 20px; border-radius: 10px; border-left: 4px solid var(--primary-purple, #5b21b6); box-shadow: 0 2px 8px rgba(0,0,0,0.04);">
-<p style="font-size: 14px; font-weight: 700; color: var(--primary-purple, #5b21b6); margin: 0; word-break: keep-all;text-align: center;">
-                    "여러분의 삶에 좋은 문화가 이어지고, 좋은 사람이 이어지는 공간이 되겠습니다."
-                </p>
-</div>
-</div>
-</div>
-</section>
-<section id="purpose" style="padding: 90px 0; background:#f8f3fc;">
-<div class="container">
-<div class="section-title">
-<h2>문화 이음 플랫폼 <span>설립 취지</span></h2>
-</div>
-<p style="max-width:850px; margin:0 auto; text-align:center; color:#666;">
-                문화로 사람을 잇고, 배움으로 삶을 풍요롭게 합니다.
 
-                문화이음플랫폼은 예술과 인문학, 문화와 교육을 통해
-                사람과 사람의 마음을 연결하고,
-                배움과 경험이 일상의 새로운 활력이 되도록 돕는 문화공간입니다.
+                    <div class="px-6 py-8 sm:px-10 bg-white -mt-8 rounded-t-3xl relative z-10">
+                        <p id="modal-desc" class="text-gray-600 leading-relaxed font-medium mb-8 text-lg">
+                            상세 소개글이 들어갑니다.
+                        </p>
+                        
+                        <div class="bg-gray-50 rounded-xl p-6 border border-gray-100 shadow-inner">
+                            <h4 class="text-sm font-bold text-[var(--brand-green)] uppercase tracking-wider mb-4 flex items-center">
+                                <i data-lucide="award" class="w-4 h-4 mr-2"></i>Motto & Wise saying
+                            </h4>
+                            <ul class="space-y-3 text-sm text-gray-700" id="modal-career">
+                                </ul>
+                        </div>
 
-                누구나 쉽게 문화와 예술을 만나고,
-                함께 배우고 소통하며 자신의 삶을 새롭게 바라볼 수 있도록
-                다양한 문화·예술·인문학 프로그램을 제공합니다.
+                        <div class="mt-8 text-center sm:text-right">
+                            <button type="button" class="inline-flex w-full justify-center rounded-lg bg-[var(--brand-green)] px-6 py-3 text-sm font-bold text-white shadow-lg hover:bg-[#032b1d] sm:w-auto transition-colors" onclick="closeModal()">
+                                닫기
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-                문화가 삶이 되고, 만남이 관계가 되며,
-                배움이 새로운 희망으로 이어지는 곳.
+    <div id="curriculum-modal" class="fixed inset-0 z-[100] hidden" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+        <div class="fixed inset-0 bg-black/80 backdrop-blur-sm transition-opacity" aria-hidden="true" onclick="closeCurriculumModal()"></div>
+        <div class="fixed inset-0 z-10 w-screen overflow-y-auto">
+            <div class="flex min-h-full items-center justify-center p-4 text-center sm:p-0">
+                <div class="relative transform overflow-hidden rounded-2xl bg-[#082017] text-left shadow-2xl transition-all sm:my-8 sm:w-full sm:max-w-lg border border-[var(--brand-gold)]">
+                    <div class="absolute right-4 top-4 z-20">
+                        <button type="button" class="text-gray-400 hover:text-[var(--brand-gold)] transition-colors p-1" onclick="closeCurriculumModal()">
+                            <i data-lucide="x" class="w-6 h-6"></i>
+                        </button>
+                    </div>
+                    <div class="px-6 py-8 sm:p-10">
+                        <div class="flex items-center justify-between mb-6">
+                            <div class="text-[var(--brand-gold)] text-5xl font-serif font-bold opacity-20" id="curr-modal-step-bg">01</div>
+                            <span class="px-3 py-1 rounded-full border border-[var(--brand-gold)] text-[var(--brand-gold)] text-xs font-bold uppercase tracking-wider" id="curr-modal-level">Level</span>
+                        </div>
+                        <h3 class="text-3xl font-bold text-white mb-2" id="curr-modal-title">Title</h3>
+                        <p class="text-gray-400 text-sm mb-8 font-serif italic" id="curr-modal-subtitle">Subtitle</p>
+                        <p class="text-gray-300 text-sm leading-relaxed mb-8 border-l-2 border-[var(--brand-gold)] pl-4" id="curr-modal-desc">
+                            상세 설명이 들어갑니다.
+                        </p>
+                        <div class="bg-[#0a3f28] rounded-xl p-6">
+                            <h4 class="text-xs font-bold text-[var(--brand-gold)] uppercase tracking-wider mb-4 border-b border-white/10 pb-2">What you will learn</h4>
+                            <ul class="space-y-3 text-sm text-gray-200" id="curr-modal-list"></ul>
+                        </div>
+                    </div>
+                    <div class="bg-[#051811] px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
+                        <button type="button" class="inline-flex w-full justify-center rounded-lg bg-[var(--brand-gold)] px-5 py-2.5 text-sm font-bold text-[#053b28] shadow-sm hover:bg-white transition-colors sm:w-auto" onclick="closeCurriculumModal()">확인</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-                문화이음플랫폼은 사람과 문화가 만나
-                더 따뜻하고 행복한 지역사회를 만들어가는
-                문화 연결의 장을 만들어가겠습니다.
-            </p>
-</div>
-</section>
-<section id="seoul" style="padding: 90px 0; background:#fff;">
-<div class="container">
-<div class="section-title">
-<h2><span>서울</span> 문화 이음 플랫폼</h2>
-</div>
-<p style="max-width:850px; margin:0 auto; text-align:center; color:#666;">
-               경기도 과천시 문원청계 7길
-
-            </p>
-</div>
-</section>
-<section id="busan" style="padding: 90px 0; background:#f8f3fc;">
-<div class="container">
-<div class="section-title">
-<h2><span>부산</span> 문화 이음 플랫폼</h2>
-</div>
-<p style="max-width:850px; margin:0 auto; text-align:center; color:#666;">
-                부산시 동구 충장대로 160
-            </p>
-</div>
-</section>
-
-<!-- 다크 섹션 -->
-<section class="dark-gallery">
-<div class="container">
-<div class="gallery-header">
-<h2>문화 이음 아카이브</h2>
-<a href="#" style="color: #d8b4e2; font-size: 14px;">전체보기 ➔</a>
-</div>
-<div class="gallery-grid">
-<div class="gallery-item" style="background-image: url('https://images.unsplash.com/photo-1578301978018-3005759f48f7?ixlib=rb-4.0.3&amp;auto=format&amp;fit=crop&amp;w=500&amp;q=80');">
-<div class="gallery-text">
-<h4>Mona Lisa의 미소</h4>
-<p>감정의 이면을 읽는 시간</p>
-</div>
-</div>
-<div class="gallery-item" style="background-image: url('https://images.unsplash.com/photo-1549490349-8643362247b5?ixlib=rb-4.0.3&amp;auto=format&amp;fit=crop&amp;w=500&amp;q=80');">
-<div class="gallery-text">
-<h4>The Creation of Adam</h4>
-<p>관계의 연결성과 소통</p>
-</div>
-</div>
-<div class="gallery-item" style="background-image: url('https://images.unsplash.com/photo-1605721911519-3dfeb3be25e7?ixlib=rb-4.0.3&amp;auto=format&amp;fit=crop&amp;w=500&amp;q=80');">
-<div class="gallery-text">
-<h4>추상 속의 도형 심리</h4>
-<p>내면의 불안을 마주하다</p>
-</div>
-</div>
-<div class="gallery-item" style="background-image: url('https://images.unsplash.com/photo-1536924430914-91f9e2041b83?ixlib=rb-4.0.3&amp;auto=format&amp;fit=crop&amp;w=500&amp;q=80');">
-<div class="gallery-text">
-<h4>빛과 그림자의 테라피</h4>
-<p>에니어그램을 통한 통찰</p>
-</div>
-</div>
-</div>
-</div>
-</section>
-<!-- 푸터 -->
-<footer>
-<div class="container footer-inner">
-<div class="footer-info">
-<div class="footer-logo">문화 이음 플랫폼</div>
-<p>예술과 심리학이 결합된 신개념 융합 코칭 센터</p>
-<p>© 2026 Culture &amp; Mind Connection Platform. All rights reserved.</p>
-</div>
-<div class="footer-info" style="text-align: right;">
-<p><strong>대표 코치 :</strong> 서경석</p>
-<p><strong>주소 :</strong> 부산광역시 (상세 주소 기재 예정)</p>
-<p><strong>전화번호 :</strong> 051-000-0000</p>
-</div>
-</div>
-</footer>
-<script>
-        document.addEventListener('DOMContentLoaded', function () {
-            // 상단 메뉴: 실제 링크/드롭다운 방식
-            const navDropdowns = document.querySelectorAll('nav > ul > li.dropdown');
-            navDropdowns.forEach(function(dropdown) {
-                const trigger = dropdown.querySelector(':scope > a');
-                if (!trigger) return;
-
-                // href="#"인 카테고리 부모만 클릭 시 드롭다운을 열고 닫음
-                // Instructor처럼 실제 href가 있는 메뉴는 페이지로 바로 이동
-                trigger.addEventListener('click', function(event) {
-                    const href = trigger.getAttribute('href') || '#';
-                    if (href === '#') {
-                        event.preventDefault();
-                        event.stopPropagation();
-
-                        navDropdowns.forEach(function(other) {
-                            if (other !== dropdown) {
-                                other.classList.remove('open');
-                                const t = other.querySelector(':scope > a');
-                                if (t) t.setAttribute('aria-expanded','false');
-                            }
-                        });
-
-                        const opened = dropdown.classList.toggle('open');
-                        trigger.setAttribute('aria-expanded', opened ? 'true' : 'false');
-                    }
-                });
-            });
-
-
-
-            // 프로그램 갤러리 탭 내 드롭다운 스크립트
-            const tabDropdowns = document.querySelectorAll('.tab-dropdown');
-            tabDropdowns.forEach(function(dropdown) {
-                const trigger = dropdown.querySelector('span');
-                trigger.addEventListener('click', function(event) {
-                    event.stopPropagation();
-                    dropdown.classList.toggle('open');
-                });
+    <nav class="fixed w-full z-50 bg-brand-green/90 backdrop-blur-md border-b border-white/10 transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <div class="flex-shrink-0 flex items-center gap-3 cursor-pointer" onclick="window.location.href='index.html'">
+                    
+                    <img src="logo.png" 
+                         onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'" 
+                         alt="위드 아카데미 로고" 
+                         class="w-10 h-10 rounded-full object-cover border-2 border-[var(--brand-gold)]">
+                    
+                    <div class="w-10 h-10 rounded-full border-2 border-[var(--brand-gold)] items-center justify-center bg-[#053b28] shadow-[0_0_10px_rgba(207,170,86,0.3)] group hover:animate-soft-pulse transition-all hidden">
+                        <i data-lucide="compass" class="w-6 h-6 text-[var(--brand-gold)]"></i>
+                    </div>
+                    
+                    <div class="flex items-baseline gap-1.5">
+                        <span class="text-[var(--brand-gold)] text-2xl font-serif italic font-bold tracking-wider drop-shadow-md">WITH</span>
+                        <span class="text-white text-xl font-bold tracking-wide">ACADEMY</span>
+                    </div>
+                </div>
                 
-                dropdown.querySelectorAll('.tab-dropdown-menu li').forEach(function(item) {
-                    item.addEventListener('click', function() {
-                        dropdown.classList.remove('open');
-                    });
-                });
-            });
+                <div class="hidden lg:flex space-x-4">
+                    <a href="index.html" class="text-gray-300 hover:text-brand-gold transition-colors font-medium text-sm">홈</a>
+                    <a href="about.html" class="text-gray-300 hover:text-brand-gold transition-colors font-medium text-sm">소개</a>
+                    <a href="news.html" class="text-gray-300 hover:text-brand-gold transition-colors font-medium text-sm">청년 현실</a>
+                    <a href="instructors.html" class="text-gray-300 hover:text-brand-gold transition-colors font-medium text-sm">강사진</a>
+                    <a href="curriculum.html" class="text-gray-300 hover:text-brand-gold transition-colors font-medium text-sm">커리큘럼</a>
+                    <a href="gallery.html" class="text-gray-300 hover:text-brand-gold transition-colors font-medium text-sm">갤러리</a>
+                    <a href="history.html" class="text-gray-300 hover:text-brand-gold transition-colors font-medium text-sm">연혁</a>
+                    <a href="reviews.html" class="text-gray-300 hover:text-brand-gold transition-colors font-medium text-sm">후기</a>
+                    <a href="contact.html" class="px-5 py-2 rounded-full border border-[var(--brand-gold)] text-[var(--brand-gold)] hover:bg-[var(--brand-gold)] hover:text-[#053b28] transition-all font-bold text-sm">상담 신청</a>
+                </div>
 
-            // 빈 공간 클릭 시 모든 드롭다운 닫기
-            document.addEventListener('click', function (event) {
-                navDropdowns.forEach(function (dropdown) {
-                    if (!dropdown.contains(event.target)) {
-                        dropdown.classList.remove('open');
-                        const trigger = dropdown.querySelector(':scope > a');
-                        if (trigger) trigger.setAttribute('aria-expanded', 'false');
-                    }
-                });
-                
-                tabDropdowns.forEach(function(dropdown) {
-                    if (!dropdown.contains(event.target)) {
-                        dropdown.classList.remove('open');
-                    }
-                });
+                <div class="lg:hidden flex items-center">
+                    <button class="text-white hover:text-brand-gold p-2 transition-transform duration-200" id="mobile-menu-btn" onclick="toggleMobileMenu()">
+                        <i data-lucide="menu" class="w-6 h-6"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <div id="mobile-menu" class="lg:hidden hidden bg-[#053b28] border-t border-white/10 absolute w-full left-0 top-20 shadow-xl transition-all duration-300 transform -translate-y-4 opacity-0 z-40">
+            <div class="px-4 pt-2 pb-6 space-y-2">
+                <a href="index.html" class="block px-3 py-3 text-base font-medium text-white hover:text-[var(--brand-gold)] hover:bg-white/5 rounded-md transition-colors" onclick="toggleMobileMenu()">홈</a>
+                <a href="about.html" class="block px-3 py-3 text-base font-medium text-white hover:text-[var(--brand-gold)] hover:bg-white/5 rounded-md transition-colors" onclick="toggleMobileMenu()">소개</a>
+                <a href="news.html" class="block px-3 py-3 text-base font-medium text-white hover:text-[var(--brand-gold)] hover:bg-white/5 rounded-md transition-colors" onclick="toggleMobileMenu()">청년 현실</a>
+                <a href="instructors.html" class="block px-3 py-3 text-base font-medium text-white hover:text-[var(--brand-gold)] hover:bg-white/5 rounded-md transition-colors" onclick="toggleMobileMenu()">강사진</a>
+                <a href="curriculum.html" class="block px-3 py-3 text-base font-medium text-white hover:text-[var(--brand-gold)] hover:bg-white/5 rounded-md transition-colors" onclick="toggleMobileMenu()">커리큘럼</a>
+                <a href="gallery.html" class="block px-3 py-3 text-base font-medium text-white hover:text-[var(--brand-gold)] hover:bg-white/5 rounded-md transition-colors" onclick="toggleMobileMenu()">갤러리</a>
+                <a href="history.html" class="block px-3 py-3 text-base font-medium text-white hover:text-[var(--brand-gold)] hover:bg-white/5 rounded-md transition-colors" onclick="toggleMobileMenu()">연혁</a>
+                <a href="reviews.html" class="block px-3 py-3 text-base font-medium text-white hover:text-[var(--brand-gold)] hover:bg-white/5 rounded-md transition-colors" onclick="toggleMobileMenu()">후기</a>
+                <a href="contact.html" class="block px-3 py-3 mt-4 text-center text-base font-bold bg-[var(--brand-gold)] text-[#053b28] hover:bg-[#e6c87e] rounded-md transition-colors" onclick="toggleMobileMenu()">상담 신청</a>
+            </div>
+        </div>
+    </nav>
+<main class="page-main">
+    <section id="about" class="py-20 md:py-24 bg-white relative">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <div class="mb-12">
+                <div class="w-24 h-24 mx-auto mb-6 animate-soft-pulse flex items-center justify-center">
+                    <img src="logo.png">
+                </div>
+
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 font-serif animate-shine-text"><span class="color: #D4AF37 !important;">그린</span> 클래스 (GREEN Class)</h2>
+                <p class="text-lg md:text-xl font-medium text-gray-800 mb-8 animate-float-quote" style="line-height: 1.8;">어제보다 더 선명하게 그린 "<span style="border-bottom: 1.5px solid black; width: 60px; display: inline-block;"></span>"<br>
+멈추지 않는 도전으로 그린 "<span style="border-bottom: 1.5px solid black; width: 60px; display: inline-block;"></span>"<br>
+확신을 지니고 미래를 그린 "<span style="border-bottom: 1.5px solid black; width: 60px; display: inline-block;"></span>"</p>
+                <div class="bg-gray-50 p-8 rounded-2xl border border-gray-200 shadow-inner">
+                    <p class="text-gray-600 leading-loose text-base md:text-lg">
+                        <span class="font-bold">새싹</span>은 조용히 돋아나지만, 결국 <span class="font-bold">숲</span>을 이룹니다.<br class="hidden md:block">
+                        이번 <span class="font-bold">봄</span>, 우리는 <span class="font-bold">나</span>를 발견하며 함께 <span class="font-bold">내일</span>을 그립니다.<br class="hidden md:block">
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+</main>
+    <footer class="bg-[#031f15] text-gray-400 py-12 border-t border-white/5">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row justify-between items-center text-center md:text-left">
+                <div class="flex items-center justify-center md:justify-start gap-2 mb-4 md:mb-0">
+                    <img src="logo.png" onerror="this.style.display='none'; this.nextElementSibling.style.display='block'" alt="위드 아카데미 로고" class="w-8 h-8 rounded-full object-cover border border-[var(--brand-gold)]">
+                    <span class="text-white font-bold text-lg">WITH ACADEMY</span>
+                </div>
+                <div class="text-sm">
+                    <p>&copy; 2024 With Academy. All rights reserved.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <script>
+    // 1. 초기 아이콘 생성
+    if (typeof lucide !== 'undefined') {
+        lucide.createIcons();
+    }
+
+    const instructorsData = [
+        {
+            name: "최수현 멘토",
+            role: "",
+            image: "", 
+            fullDesc: "당신 안에 이미 있는 가능성을 발견하고 확신으로 바꾸어 드리겠습니다.",
+            career: [
+                "행복은 완성된 채로 주어지는 것이 아니다. 그것은 당신의 행동에서 나온다.<br>- 달라이 라마(Dalai Lama)"
+            ]
+        },
+        {
+            name: "안종욱 멘토",
+            role: "",
+            image: "",
+            fullDesc: "자기 계발서적만 읽는다고 해서 실질적인 변화를 이루어내기는 어렵습니다. 다년간 쌓아온 경험과 체계적인 플랜으로 여러분의 실질적인 성장을 돕겠습니다.",
+            career: [
+                // [수정] 일반 따옴표 내 줄바꿈을 제거하여 문법 오류 해결
+                "아는 것만으로는 충분하지 않다. 적용해야 한다. 의지만으로는 충분하지 않다.<br>실행해야 한다. <br>– 괴테(Johann Wolfgang von Goethe)"
+            ]
+        },
+        // [참고] 한지수 멘토 데이터가 instructorsData 배열 안에 포함되어 있어야 합니다.
+        {
+            name: "박지민 멘토",
+            role: "",
+            image: "",
+            fullDesc: "진정한 ‘나’를 찾고 성장하는 시간으로 함께 만들어 드리겠습니다.",
+            career: [
+                "세상에서 보고 싶은 변화가 있다면, 그 변화가 바로 당신이 되어라.<br>– 마하트마 간디(Mahatma Gandhi)"
+            ]
+        },
+        {
+            name: "한지수 멘토",
+            role: "",
+            image: "",
+            fullDesc: "진짜 '나'를 찾고 나만의 색깔과 속도로 채워가는 시간이 될 수 있게 돕겠습니다.",
+            career: [
+                "당신의 시간은 한정되어 있다. 그러니 다른 사람의 삶을 사느라 시간을 낭비하지 마라.<br>– 스티브 잡스(Steven Paul Jobs)"
+            ]
+        }
+    ];
+
+    const curriculumData = [
+        {
+            step: "01",
+            level: "Basic",
+            title: "자아 탐색",
+            subtitle: "Self-Exploration Phase",
+            desc: "무엇을 해야 할지 모르는 막연함에서 벗어나, 나 자신을 깊이 있게 이해하는 단계입니다. 전문 진단 도구와 심층 멘토링을 통해 내가 가진 고유한 강점과 가치관을 발견합니다.",
+            list: [
+                "MBTI, 에니어그램 등 성향 심층 분석",
+                "라이프 플래닝",
+                "나의 인생 그래프 그리기 (과거-현재-미래)",
+                "가정상담 및 무의식 해체",
+                "내 삶의 핵심 키워드 3가지 도출"
+            ]
+        },
+        {
+            step: "02",
+            level: "Basic",
+            title: "자아 발견",
+            subtitle: "Self-Discovery Phase",
+            desc: "나의 강점과 단점을 구체화하고 나의 가치관을 실현하기 위해 우선순위를 명확히 하는 단계입니다. 컨설팅을 통해 언어와 행동의 습관을 만들어가는 과정입니다.",
+            list: [
+                "강점 분석 워크숍 (재능·몰입 포인트 찾기)",
+                "가치관 우선순위 정렬 실습",
+                "내가 반복적으로 끌려온 선택 분석",
+                "인생 사명문(Life Mission Statement) 작성",
+                "“나는 어떤 사람인가?” 정체성 선언문 만들기"
+            ]
+        },
+        {
+            step: "03",
+            level: "Advanced",
+            title: "실전 프로젝트",
+            subtitle: "Project Phase",
+            desc: "자신의 성장을 위한 행동교정 단계입니다. 행동에 따른 피드백과 교정을 통해 올바른 가치관 실현을 향해 나아가는 과정입니다.",
+            list: [
+                "개인 맞춤 성장 프로젝트 설계(예: 콘텐츠 제작, 봉사, 창업 아이디어, 학습, 리더십 역할 등)",
+                "주간 목표 설정 & 피드백 코칭",
+                "실패 분석 & 방향 조정 세션",
+                "성취 기록 시스템 운영"            ]
+        },
+        {
+                step: "04",
+                level: "Master",
+                title: "자아정립 & 삶의 설계",
+                subtitle: "Identity & Life-Design Phase",
+                desc: "가치관 실현을 위한 미래 설계 단계입니다. 자신의 삶의 원칙을 바르게 세우고 가치 실현을 위한 현실적 계획을 전문 컨설팅을 통해 수립해가는 과정입니다.",
+                list: [
+                    "5년 인생 비전 로드맵 설계",
+                    "시간관리 & 우선순위 시스템 구축",
+                    "나만의 삶 운영 원칙 7가지 만들기",
+                    "위기 시 나를 회복시키는 전략 메뉴얼 작성",
+                    "인생 리브랜딩 (비전 발표 & 커밋)"
+                ]
+            }
+
+    ];
+
+    // 멘토 모달 열기
+    function openModal(element, index) {
+        const data = instructorsData[index];
+        const modal = document.getElementById('instructor-modal');
+        if (!modal || !data) return; // 안전장치 추가
+
+        const clickedImg = element.querySelector('img');
+        const modalImg = document.getElementById('modal-img');
+        if (clickedImg && modalImg) {
+            modalImg.src = clickedImg.src;
+        }
+        
+        document.getElementById('modal-name').innerText = data.name;
+        document.getElementById('modal-role').innerText = data.role;
+        document.getElementById('modal-desc').innerText = data.fullDesc;
+        
+        const careerList = document.getElementById('modal-career');
+        if (careerList) {
+            careerList.innerHTML = '';
+            data.career.forEach(item => {
+                const li = document.createElement('li');
+                li.className = "flex items-start";
+                li.innerHTML = `<span class="mr-2 text-[var(--brand-gold)] mt-1.5">•</span><span>${item}</span>`;
+                careerList.appendChild(li);
             });
+        }
+        modal.classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal() {
+        const modal = document.getElementById('instructor-modal');
+        if (modal) {
+            modal.classList.add('hidden');
+            document.body.style.overflow = 'auto';
+        }
+    }
+
+    // 커리큘럼 모달 열기
+    function openCurriculumModal(index) {
+        const data = curriculumData[index];
+        const modal = document.getElementById('curriculum-modal');
+        if (!modal || !data) return;
+
+        document.getElementById('curr-modal-step-bg').innerText = data.step;
+        document.getElementById('curr-modal-level').innerText = data.level;
+        document.getElementById('curr-modal-title').innerText = data.title;
+        document.getElementById('curr-modal-subtitle').innerText = data.subtitle;
+        document.getElementById('curr-modal-desc').innerText = data.desc;
+        
+        const listContainer = document.getElementById('curr-modal-list');
+        if (listContainer) {
+            listContainer.innerHTML = '';
+            data.list.forEach(item => {
+                const li = document.createElement('li');
+                li.className = "flex items-start";
+                // Lucide 아이콘이 깨지지 않도록 처리
+                li.innerHTML = `<i data-lucide="check" class="w-4 h-4 text-[var(--brand-gold)] mr-2 mt-0.5 flex-shrink-0"></i><span>${item}</span>`;
+                listContainer.appendChild(li);
+            });
+        }
+        
+        if (window.lucide) lucide.createIcons();
+        modal.classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeCurriculumModal() {
+        const modal = document.getElementById('curriculum-modal');
+        if (modal) {
+            modal.classList.add('hidden');
+            document.body.style.overflow = 'auto';
+        }
+    }
+
+    // 모바일 메뉴 토글 함수
+    function toggleMobileMenu() {
+        const menu = document.getElementById('mobile-menu');
+        const icon = document.querySelector('#mobile-menu-btn i');
+        const isHidden = menu.classList.contains('hidden');
+
+        if (isHidden) {
+            // 메뉴 열기
+            menu.classList.remove('hidden');
+            // 부드러운 애니메이션을 위해 아주 약간의 딜레이
+            setTimeout(() => {
+                menu.classList.remove('-translate-y-4', 'opacity-0');
+            }, 10);
             
+            // 아이콘 X 모양으로 변경 (Lucide 아이콘 업데이트 방식)
+            if (icon) {
+                 icon.setAttribute('data-lucide', 'x');
+                 lucide.createIcons(); // 아이콘 갱신
+            }
+        } else {
+            // 메뉴 닫기 애니메이션
+            menu.classList.add('-translate-y-4', 'opacity-0');
+            
+            // 애니메이션이 끝난 후 요소 숨기기
+            setTimeout(() => {
+                menu.classList.add('hidden');
+            }, 300); // tailwind duration-300과 시간 맞춤
+            
+            // 아이콘 다시 햄버거 메뉴로 변경
+            if (icon) {
+                 icon.setAttribute('data-lucide', 'menu');
+                 lucide.createIcons();
+            }
+        }
+    }
+
+    // 이벤트 리스너 통합
+    document.addEventListener('keydown', (e) => {
+        if (e.key === "Escape") {
+            closeModal();
+            closeCurriculumModal();
+        }
+    });
+
+    // 네비게이션 바 스크롤 효과
+    window.addEventListener('scroll', () => {
+        const nav = document.querySelector('nav');
+        if (nav) {
+            const isScrolled = window.scrollY > 50;
+            nav.classList.toggle('shadow-lg', isScrolled);
+            nav.classList.toggle('bg-brand-green/95', isScrolled);
+            nav.classList.toggle('bg-brand-green/90', !isScrolled);
+        }
+    });
+
+    document.addEventListener('DOMContentLoaded', () => {
+    const observerOptions = { 
+        threshold: 0.15, // 요소가 15% 보일 때 실행
+        rootMargin: '0px 0px -20px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const container = entry.target;
+                
+                // 1. 막대 그래프 및 카운터 텍스트 위치 동시 제어
+                const bars = container.querySelectorAll('.graph-bar');
+                // 스크립트 내부의 위치 계산 로직을 아래 수치로 맞추세요
+bars.forEach((bar, index) => {
+    const targetH = bar.getAttribute('data-height');
+    const counter = bar.parentElement.querySelector('.counter-value');
+
+    setTimeout(() => {
+        // 1. 막대 높이 적용 (이때 CSS transition에 의해 쑥 올라갑니다)
+        bar.style.height = targetH;
+        
+        if (counter) {
+            counter.style.opacity = "1";
+            // 2. 중요: 숫자를 막대 끝에 고정시킨 채로 막대와 함께 올라가게 합니다.
+            // 아래 gap 수치를 조절해서 숫자와 막대 사이의 간격을 정하세요.
+            const gap = window.innerWidth >= 768 ? 20 : 15; 
+            
+            // 숫자의 위치를 막대 높이만큼 위로 보냅니다.
+            // translate-y를 0으로 만들면서 등장 효과도 줍니다.
+            counter.style.bottom = `calc(${targetH} + ${gap}px)`;
+            counter.style.transform = "translateY(0)"; 
+            
+            const highestLabel = bar.parentElement.querySelector('.highest-label');
+            if (highestLabel) {
+                const labelGap = window.innerWidth >= 768 ? 65 : 45; 
+                highestLabel.style.bottom = `calc(${targetH} + ${labelGap}px)`;
+                highestLabel.style.opacity = "1";
+            }
+        }
+    }, 150 * index);
+});
+                // 2. 숫자 카운팅 애니메이션
+                const counters = container.querySelectorAll('.counter-value');
+                counters.forEach(counter => {
+                    const targetValue = parseInt(counter.getAttribute('data-target'));
+                    if (isNaN(targetValue)) return;
+
+                    const duration = 2000;
+                    const startTime = performance.now();
+
+                    const animateCount = (currentTime) => {
+                        const elapsed = currentTime - startTime;
+                        const progress = Math.min(elapsed / duration, 1);
+                        
+                        // Ease Out 효과 적용
+                        const ease = 1 - Math.pow(1 - progress, 3);
+                        const current = Math.floor(ease * targetValue);
+
+                        counter.innerText = current.toLocaleString() + '명';
+
+                        if (progress < 1) {
+                            requestAnimationFrame(animateCount);
+                        } else {
+                            counter.innerText = targetValue.toLocaleString() + '명';
+                        }
+                    };
+                    requestAnimationFrame(animateCount);
+                });
+
+                // 한 번 실행 후 관찰 중단
+                observer.unobserve(container);
+            }
         });
+    }, observerOptions);
+
+    const growthSection = document.querySelector('#growth-graph');
+    if (growthSection) observer.observe(growthSection);
+});
+
+
     </script>
-<script>
-(function () {
-    const form = document.getElementById('enrollmentForm');
-    if (!form) return;
-
-    const successBox = document.getElementById('enrollmentSuccess');
-    const submitBtn = form.querySelector('.submit-btn');
-
-    const fields = [
-        document.getElementById('userName'),
-        document.getElementById('birthYear'),
-        document.getElementById('birthMonth'),
-        document.getElementById('birthDay'),
-        document.getElementById('userPhone'),
-        document.getElementById('userAddress'),
-        document.getElementById('interestCourse')
-    ].filter(Boolean);
-
-    function setLabelError(input, isError) {
-        const group = input.closest('.form-group');
-        if (!group) return;
-        const label = group.querySelector('label');
-        if (label) label.classList.toggle('form-error-label', isError);
-        input.classList.toggle('input-error', isError);
-    }
-
-    function hideSuccess() {
-        if (successBox) successBox.classList.remove('show');
-    }
-
-    fields.forEach(input => {
-        input.addEventListener('input', function () {
-            if (this.value.trim()) setLabelError(this, false);
-            hideSuccess();
-        });
-    });
-
-    form.querySelectorAll('input[name="gender"]').forEach(radio => {
-        radio.addEventListener('change', function () {
-            const group = this.closest('.form-group');
-            if (group) {
-                const label = group.querySelector(':scope > label');
-                const genderGroup = group.querySelector('.gender-group');
-                if (label) label.classList.remove('form-error-label');
-                if (genderGroup) genderGroup.classList.remove('input-error');
-            }
-            hideSuccess();
-        });
-    });
-
-    const agree = document.getElementById('agreeTerms');
-    if (agree) {
-        agree.addEventListener('change', function () {
-            const group = this.closest('.terms-group');
-            if (group && this.checked) group.classList.remove('input-error');
-            hideSuccess();
-        });
-    }
-
-    form.addEventListener('submit', async function (event) {
-        event.preventDefault();
-        hideSuccess();
-
-        let valid = true;
-        let firstInvalid = null;
-
-        fields.forEach(input => {
-            const empty = !input.value.trim();
-            setLabelError(input, empty);
-            if (empty) {
-                valid = false;
-                if (!firstInvalid) firstInvalid = input;
-            }
-        });
-
-        const genderGroup = form.querySelector('.gender-group');
-        const genderLabel = genderGroup?.closest('.form-group')?.querySelector(':scope > label');
-        const genderChecked = !!form.querySelector('input[name="gender"]:checked');
-
-        if (genderGroup) genderGroup.classList.toggle('input-error', !genderChecked);
-        if (genderLabel) genderLabel.classList.toggle('form-error-label', !genderChecked);
-
-        if (!genderChecked) {
-            valid = false;
-            if (!firstInvalid) firstInvalid = genderGroup;
-        }
-
-        const termsGroup = agree?.closest('.terms-group');
-        const termsChecked = !!agree?.checked;
-        if (termsGroup) termsGroup.classList.toggle('input-error', !termsChecked);
-
-        if (!termsChecked) {
-            valid = false;
-            if (!firstInvalid) firstInvalid = agree;
-        }
-
-        if (!valid) {
-            firstInvalid?.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            if (firstInvalid?.focus) firstInvalid.focus({ preventScroll: true });
-            return;
-        }
-
-        const gender = form.querySelector('input[name="gender"]:checked')?.value === 'male'
-            ? '남성' : '여성';
-
-        const data = {
-            name: document.getElementById('userName').value.trim(),
-            gender: gender,
-            birth:
-                document.getElementById('birthYear').value.trim() + '-' +
-                document.getElementById('birthMonth').value.trim().padStart(2, '0') + '-' +
-                document.getElementById('birthDay').value.trim().padStart(2, '0'),
-            phone: document.getElementById('userPhone').value.trim(),
-            address: document.getElementById('userAddress').value.trim(),
-            course: document.getElementById('interestCourse').value.trim()
-        };
-
-        const originalText = submitBtn.textContent;
-        submitBtn.disabled = true;
-        submitBtn.textContent = '신청 중...';
-        submitBtn.style.opacity = '0.7';
-        submitBtn.style.cursor = 'wait';
-
-        try {
-            await fetch('https://script.google.com/macros/s/AKfycbw5feAx5VnBoTkmRJc9743DSQUpBH2ScbDqEJL7TCrpZdgFZQTStMMdbzDTrE2xVomh/exec', {
-                method: 'POST',
-                mode: 'no-cors',
-                headers: {
-                    'Content-Type': 'text/plain;charset=utf-8'
-                },
-                body: JSON.stringify(data)
-            });
-
-            if (successBox) {
-                successBox.textContent = '신청이 완료되었습니다.';
-                successBox.classList.add('show');
-                successBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            }
-
-            form.reset();
-            document.querySelectorAll('.input-error').forEach(el => el.classList.remove('input-error'));
-            document.querySelectorAll('.form-error-label').forEach(el => el.classList.remove('form-error-label'));
-
-        } catch (error) {
-            alert('신청 전송 중 문제가 발생했습니다. 잠시 후 다시 시도해 주세요.');
-            console.error(error);
-        } finally {
-            submitBtn.disabled = false;
-            submitBtn.textContent = originalText;
-            submitBtn.style.opacity = '';
-            submitBtn.style.cursor = '';
-        }
-    });
-})();
-</script>
-<script>
-(function () {
-    const popup = document.getElementById('popup');
-    const popupBox = document.getElementById('popupBox');
-    if (!popup || !popupBox) return;
-
-    let lastScrollY = window.scrollY;
-    let visualOffset = 0;
-    let settleTimer = null;
-
-    // 움직임이 실제로 보이도록 transition을 사용
-    popupBox.style.transition = 'transform 0.32s cubic-bezier(0.22, 1, 0.36, 1)';
-    popupBox.style.willChange = 'transform';
-
-    window.addEventListener('scroll', function () {
-        if (popup.style.display === 'none') return;
-
-        const now = window.scrollY;
-        const delta = now - lastScrollY;
-        lastScrollY = now;
-
-        // 아래로 스크롤하면 팝업도 아래로, 위로 스크롤하면 위로.
-        // 너무 멀리 이동하지 않도록 최대 90px까지만 자연스럽게 따라감.
-        visualOffset += delta * 0.55;
-        visualOffset = Math.max(-90, Math.min(90, visualOffset));
-
-        popupBox.style.transform = 'translate3d(0,' + visualOffset + 'px,0)';
-
-        clearTimeout(settleTimer);
-        settleTimer = setTimeout(function () {
-            visualOffset = 0;
-            popupBox.style.transform = 'translate3d(0,0,0)';
-        }, 140);
-    }, { passive: true });
-})();
-</script>
-</section>
-<style id="cultureeum-pc-dropdown-guaranteed-final">
-/* PC dropdown guaranteed final: no clipping, no hover gap, click/hover both work */
-@media (min-width: 769px) {
-  header, .header-inner, nav, nav > ul, nav > ul > li.dropdown { overflow: visible !important; }
-  header { position: absolute !important; z-index: 2147483000 !important; }
-  .header-inner, nav, nav > ul { position: relative !important; z-index: 2147483001 !important; }
-  nav > ul > li.dropdown { position: relative !important; }
-  nav > ul > li.dropdown > .dropdown-menu {
-    display: block !important;
-    position: absolute !important;
-    top: calc(100% - 12px) !important;
-    left: 50% !important;
-    min-width: 220px !important;
-    width: max-content !important;
-    max-width: 360px !important;
-    height: auto !important;
-    max-height: none !important;
-    overflow: visible !important;
-    z-index: 2147483002 !important;
-    margin: 0 !important;
-    opacity: 0 !important;
-    visibility: hidden !important;
-    pointer-events: none !important;
-    transform: translateX(-50%) translateY(6px) !important;
-  }
-  nav > ul > li.dropdown:hover > .dropdown-menu,
-  nav > ul > li.dropdown:focus-within > .dropdown-menu,
-  nav > ul > li.dropdown.open > .dropdown-menu {
-    opacity: 1 !important;
-    visibility: visible !important;
-    pointer-events: auto !important;
-    transform: translateX(-50%) translateY(0) !important;
-  }
-}
-</style>
-<script id="cultureeum-pc-dropdown-guaranteed-js">
-(function(){
-  function initPcMenus(){
-    document.querySelectorAll('nav > ul > li.dropdown').forEach(function(li){
-      var a=li.querySelector(':scope > a');
-      if(!a || a.dataset.pcFinalBound==='1') return;
-      a.dataset.pcFinalBound='1';
-      a.addEventListener('click',function(e){
-        if(window.innerWidth < 769) return;
-        if((a.getAttribute('href')||'#')==='#'){
-          e.preventDefault(); e.stopPropagation();
-          document.querySelectorAll('nav > ul > li.dropdown.open').forEach(function(other){if(other!==li){other.classList.remove('open');var oa=other.querySelector(':scope > a');if(oa)oa.setAttribute('aria-expanded','false');}});
-          var willOpen=!li.classList.contains('open');
-          li.classList.toggle('open',willOpen);
-          a.setAttribute('aria-expanded',willOpen?'true':'false');
-        }
-      },true);
-    });
-  }
-  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',initPcMenus); else initPcMenus();
-})();
-</script>
-
-<script id="ce-popup-layout-drag-controller-v2">
-(function(){
-  const wrap=document.getElementById('popup');
-  if(!wrap || window.matchMedia('(max-width:700px)').matches) return;
-
-  const cards=[...wrap.querySelectorAll('.ce-individual-popup')];
-  if(cards.length!==3) return;
-
-  let topZ=1000;
-
-  function setPos(card,left,top){
-    card.style.setProperty('--drag-left', left+'px');
-    card.style.setProperty('--drag-top', top+'px');
-    card.classList.add('ce-drag-ready');
-  }
-
-  /* 최초 로딩: 실제 카드 폭을 측정해 3장을 화면 가운데에 정확히 나란히 배치 */
-  function initialLayout(){
-    const visible=cards.filter(c=>getComputedStyle(c).display!=='none');
-    if(!visible.length) return;
-
-    const gap=Math.max(14,Math.min(24,window.innerWidth*0.012));
-    const widths=visible.map(c=>c.getBoundingClientRect().width);
-    const total=widths.reduce((a,b)=>a+b,0)+gap*(visible.length-1);
-    let left=Math.max(10,(window.innerWidth-total)/2);
-
-    visible.forEach((card,i)=>{
-      setPos(card,left,16);
-      left+=widths[i]+gap;
-    });
-  }
-
-  requestAnimationFrame(()=>requestAnimationFrame(initialLayout));
-
-  cards.forEach(card=>{
-    card.addEventListener('pointerdown',function(e){
-      if(e.button!==0) return;
-
-      /* X / 오늘 하루 / 닫기는 클릭으로 작동 */
-      if(e.target.closest('.ce-image-x-close,.ce-image-bottom-controls')) return;
-
-      e.preventDefault();
-
-      const rect=card.getBoundingClientRect();
-      const startX=e.clientX;
-      const startY=e.clientY;
-      const startLeft=rect.left;
-      const startTop=rect.top;
-
-      setPos(card,startLeft,startTop);
-      card.style.zIndex=String(++topZ);
-      card.classList.add('ce-dragging');
-
-      try{card.setPointerCapture(e.pointerId)}catch(_){}
-
-      function move(ev){
-        const dx=ev.clientX-startX;
-        const dy=ev.clientY-startY;
-
-        let left=startLeft+dx;
-        let top=startTop+dy;
-
-        const w=card.offsetWidth;
-        const h=card.offsetHeight;
-        const minVisible=70;
-
-        /* X축과 Y축을 둘 다 직접 갱신 */
-        left=Math.max(-w+minVisible, Math.min(window.innerWidth-minVisible,left));
-        top=Math.max(8, Math.min(window.innerHeight-minVisible,top));
-
-        setPos(card,left,top);
-      }
-
-      function end(ev){
-        card.classList.remove('ce-dragging');
-        try{card.releasePointerCapture(ev.pointerId)}catch(_){}
-        card.removeEventListener('pointermove',move);
-        card.removeEventListener('pointerup',end);
-        card.removeEventListener('pointercancel',end);
-      }
-
-      card.addEventListener('pointermove',move);
-      card.addEventListener('pointerup',end);
-      card.addEventListener('pointercancel',end);
-    });
-  });
-})();
-</script>
-
-
-<script id="ce-popup-unified-final">
-(function(){
-  const wrap=document.getElementById('popup');
-  if(!wrap) return;
-
-  const SESSION='culturePopupClosed';
-  const DAY='culturePopupHideUntil_v3';
-  const INTERNAL='culturePopupInternalMove';
-  const DAY_MS=24*60*60*1000;
-
-  /* 과거 버전의 개별 팝업 하루숨김 기록 제거:
-     이것이 모바일 첫 진입에서 카드가 사라지던 충돌 원인 중 하나 */
-  for(let i=1;i<=3;i++) localStorage.removeItem('culturePopupHideToday_'+i);
-  localStorage.removeItem('culturePopupHideUntil_v2');
-
-  /* 내부 메뉴 클릭으로 넘어온 경우만 일반 닫기 상태 유지.
-     새로고침/주소 직접입력/외부 재방문이면 일반 닫기 상태 해제. */
-  const internalMove=sessionStorage.getItem(INTERNAL)==='1';
-  sessionStorage.removeItem(INTERNAL);
-  if(!internalMove) sessionStorage.removeItem(SESSION);
-
-  let hideUntil=Number(localStorage.getItem(DAY)||0);
-  if(hideUntil && hideUntil<=Date.now()){
-    localStorage.removeItem(DAY);
-    hideUntil=0;
-  }
-
-  const cards=[...wrap.querySelectorAll('.ce-individual-popup')];
-
-  function hideAll(){
-    wrap.style.setProperty('display','none','important');
-  }
-  function showAll(){
-    wrap.style.removeProperty('display');
-    cards.forEach(c=>c.style.removeProperty('display'));
-  }
-  function closeCard(card){
-    sessionStorage.setItem(SESSION,'true');
-    card.style.setProperty('display','none','important');
-    if(cards.every(c=>getComputedStyle(c).display==='none')) hideAll();
-  }
-  function hideForDay(){
-    localStorage.setItem(DAY,String(Date.now()+DAY_MS));
-    sessionStorage.setItem(SESSION,'true');
-    hideAll();
-  }
-
-  /* 최초 표시 판정은 이 한 곳에서만 함 */
-  if(hideUntil>Date.now() || (internalMove && sessionStorage.getItem(SESSION)==='true')){
-    hideAll();
-  }else{
-    showAll();
-  }
-
-  /* 이미지에 인쇄된 X + 하단 투명 버튼을 한 번만 생성 */
-  cards.forEach(card=>{
-    let x=card.querySelector('.ce-image-x-close');
-    if(!x){
-      x=document.createElement('button');
-      x.type='button'; x.className='ce-image-x-close';
-      x.setAttribute('aria-label','팝업 닫기');
-      card.appendChild(x);
-    }
-    let controls=card.querySelector('.ce-image-bottom-controls');
-    if(!controls){
-      controls=document.createElement('div');
-      controls.className='ce-image-bottom-controls';
-      controls.innerHTML='<button type="button" class="ce-hide-today" aria-label="오늘 하루 열지 않음"></button><button type="button" class="ce-close-popup" aria-label="닫기"></button>';
-      card.appendChild(controls);
-    }
-
-    x.addEventListener('click',e=>{e.preventDefault();e.stopPropagation();closeCard(card)});
-    controls.querySelector('.ce-hide-today').addEventListener('click',e=>{e.preventDefault();e.stopPropagation();hideForDay()});
-    controls.querySelector('.ce-close-popup').addEventListener('click',e=>{e.preventDefault();e.stopPropagation();closeCard(card)});
-  });
-
-  /* 사이트 내부 링크에서만 다음 페이지까지 일반 닫기 상태 유지 */
-  document.addEventListener('click',function(e){
-    const a=e.target.closest && e.target.closest('a[href]');
-    if(!a) return;
-    try{
-      const u=new URL(a.href,location.href);
-      if(u.origin===location.origin && u.pathname!==location.pathname){
-        sessionStorage.setItem(INTERNAL,'1');
-      }
-    }catch(_){}
-  },true);
-
-  window.closeMainPopup=function(){sessionStorage.setItem(SESSION,'true');hideAll()};
-  window.hideMainPopupForDay=hideForDay;
-  window.hideMainPopupForWeek=hideForDay;
-})();
-</script>
 </body>
 </html>
