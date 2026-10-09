@@ -1,689 +1,3704 @@
 <!DOCTYPE html>
+
 <html lang="ko">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>홈 | 위드 아카데미</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://unpkg.com/lucide@latest"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <style>
-        .page-main { padding-top: 80px; min-height: calc(100vh - 160px); }
-        .page-main > section { scroll-margin-top: 80px; }
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>문화 이음 플랫폼 | 문화와 마음이 닿는 곳</title>
+<meta name="robots" content="index, follow">
 
-        /* 커스텀 컬러 정의 */
+<meta property="og:type" content="website">
+<style>
+        @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+@font-face {
+            font-family: 'Cafe24Dongdong';
+            src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_twelve@1.1/Cafe24Dongdong.woff') format('woff');
+            font-weight: normal;
+            font-style: normal;
+        }
+        /* 폰트 및 기본 리셋 */
+        
+        
         :root {
-            --brand-green: #053b28;
-            --brand-gold: #cfaa56;
-            --brand-gold-light: #e6c87e;
+            --primary-purple: #5c2483;
+            --light-purple: #f8f3fc;
+            --dark-bg: #1a1025;
+            --text-dark: #222;
+            --text-gray: #666;
+            --white: #ffffff;
         }
 
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
-            font-family: 'Noto Sans KR', sans-serif;
-            background-color: #f8f9fa;
-            color: #1f2937;
+            font-family: 'Pretendard', sans-serif;
+            color: var(--text-dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+            scroll-behavior: smooth; 
+        }
+        a { text-decoration: none; color: inherit; }
+        ul { list-style: none; }
+        .container { width: 90%; max-width: 1200px; margin: 0 auto;}
+
+        /* 상단 헤더 */
+        header {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100px;
+            display: flex;
+            align-items: center;
+            padding: 0;
+            z-index: 100;
+            color: var(--white);
+            background: linear-gradient(
+                180deg,
+                rgba(15, 10, 20, 0.42) 0%,
+                rgba(15, 10, 20, 0.18) 70%,
+                rgba(15, 10, 20, 0) 100%
+            );
+            border-bottom: 1px solid rgba(255,255,255,0.18);
         }
 
-        .font-serif {
-            font-family: 'Playfair Display', serif;
-        }
-
-        .bg-brand-green { background-color: var(--brand-green); }
-        .text-brand-gold { color: var(--brand-gold); }
-        .border-brand-gold { border-color: var(--brand-gold); }
-        .bg-brand-gold { background-color: var(--brand-gold); }
-
-        /* 애니메이션 */
-        @keyframes float {
-            0% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
-            100% { transform: translateY(0px); }
-        }
-        
-        .compass-float {
-            animation: float 4s ease-in-out infinite;
-        }
-
-        .text-gradient-gold {
-            background: linear-gradient(to right, #cfaa56, #e6c87e, #cfaa56);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-size: 200% auto;
-            transition: 0.5s;
-        }
-
-        /* 텍스트 샤인 애니메이션 (섹션 타이틀용) */
-        @keyframes shine-flow {
-            0% { background-position: 200% center; }
-            100% { background-position: -200% center; }
-        }
-        
-        .animate-shine-text {
-            background: linear-gradient(to right, #053b28 30%, #cfaa56 50%, #053b28 70%);
-            background-size: 200% auto;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            animation: shine-flow 4s linear infinite;
-        }
-
-        /* 히어로 텍스트 샤인 애니메이션 (메인 타이틀용 - 화이트&골드) */
-        @keyframes hero-shine {
-            0% { background-position: -200% center; }
-            100% { background-position: 200% center; }
-        }
-        
-        .hero-shine-text {
-            background: linear-gradient(to right, #ffffff 20%, #cfaa56 50%, #ffffff 80%);
-            background-size: 200% auto;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            animation: hero-shine 3s linear infinite;
-            display: inline-block;
-        }
-
-        /* 멘토진 타이틀 그라데이션 애니메이션 */
-        @keyframes gradient-flow {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-
-        .animate-gradient-text {
-            background: linear-gradient(to right, #111827, #053b28, #cfaa56, #053b28, #111827);
-            background-size: 300% auto;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            animation: gradient-flow 3s ease infinite;
-        }
-
-        /* 텍스트 부유 애니메이션 */
-        @keyframes float-quote {
-            0%, 100% { transform: translateY(0); opacity: 1; }
-            50% { transform: translateY(-5px); opacity: 0.7; }
-        }
-
-        .animate-float-quote {
-            animation: float-quote 3s ease-in-out infinite;
-        }
-        
-        /* 아이콘 펄스 애니메이션 */
-        @keyframes soft-pulse {
-            0%, 100% { box-shadow: 0 0 0 0 rgba(207, 170, 86, 0.2); transform: scale(1); }
-            50% { box-shadow: 0 0 0 10px rgba(207, 170, 86, 0); transform: scale(1.05); }
-        }
-        
-        .animate-soft-pulse {
-            animation: soft-pulse 3s infinite;
-        }
-
-        /* BUSAN 타이핑 애니메이션 */
-        .typing-container {
-            display: inline-block;
-        }
-        .typing-text {
-            display: inline-block;
-            overflow: hidden;
-            border-right: 0.1em solid white; /* 커서 */
-            white-space: nowrap;
-            margin: 0;
-            animation: 
-                typing 2.5s steps(10, end) forwards,
-                blink-caret 0.75s step-end infinite;
-            max-width: 0;
-        }
-        @keyframes typing {
-            from { max-width: 0 }
-            to { max-width: 100% }
-        }
-        @keyframes blink-caret {
-            from, to { border-color: transparent }
-            50% { border-color: white }
-        }
-
-        /* '그럼에도 불구하고' 타이핑 루프 애니메이션 */
-        .animate-typing-loop {
-            display: inline-block;
-            overflow: hidden;
-            border-right: 3px solid var(--brand-gold);
-            white-space: nowrap;
+        .header-inner {
+            width: 94%;
+            max-width: 1500px;
             margin: 0 auto;
-            max-width: 0;
-            animation: typing-loop 6s steps(40, end) infinite;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
         }
 
-        @keyframes typing-loop {
-            0% { max-width: 0; }
-            40% { max-width: 100%; } /* 타이핑 완료 */
-            80% { max-width: 100%; } /* 유지 */
-            90% { max-width: 0; opacity: 1;} /* 빠르게 지움 */
-            100% { max-width: 0; opacity: 0;}
+        .logo {
+            flex-shrink: 0;
+            font-size: 30px;
+            font-weight: 800;
+            letter-spacing: -1.2px;
+            line-height: 1;
         }
+
+        .logo a {
+            color: #fff;
+            display: inline-block;
+            transition: opacity 0.25s ease;
+        }
+
+        .logo a:hover { opacity: 0.82; }
+
+        nav {
+            margin-left: auto;
+            margin-right: 0;
+        }
+
+        nav > ul {
+            display: flex;
+            align-items: center;
+            gap: 44px;
+            font-size: 18px;
+            font-weight: 600;
+            letter-spacing: -0.4px;
+        }
+
+        nav > ul > li > a {
+            position: relative;
+            display: block;
+            padding: 36px 0;
+            color: rgba(255,255,255,0.95);
+            transition: color 0.25s ease;
+        }
+
+        nav > ul > li > a:hover {
+            color: #e8c8f2;
+        }
+
+        nav > ul > li > a::after {
+            content: '';
+            position: absolute;
+            left: 50%;
+            bottom: 25px;
+            width: 0;
+            height: 2px;
+            background: #e0b6ee;
+            border-radius: 10px;
+            transform: translateX(-50%);
+            transition: width 0.25s ease;
+        }
+
+        nav > ul > li > a:hover::after {
+            width: 100%;
+        }
+
+        .util-menu {
+            margin-left: 35px;
+            font-size: 22px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        /* 메인 히어로 섹션 */
+        .hero {
+            height: 85vh;
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.8)), url('메인사진.jpg') center/cover;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: var(--white);
+            position: relative;
+        }
+        .hero h2 { font-size: 18px; font-weight: 400; letter-spacing: 2px; margin-bottom: 15px; text-transform: uppercase; }
+        .hero h1 { font-size: 52px; font-weight: 800; line-height: 1.3; text-shadow: 0 4px 15px rgba(0,0,0,0.5); }
+        .hero h1 span { color: #d8b4e2; }
+
+        /* 퀵 링크 바 */
+        .quick-links {
+            background-color: var(--light-purple);
+            padding: 30px 0;
+            border-bottom: 1px solid #eaeaea;
+        }
+        .quick-inner {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        .quick-item { text-align: center; 
+            color: var(--primary-purple); 
+            font-family: 'Cafe24Dongdong', sans-serif; 
+            font-size: 20px; 
+            transition: transform 0.3s}
+        .quick-item:hover { transform: translateY(-5px); }
+        .quick-icon { font-size: 32px; margin-bottom: 10px; display: block; }
+
+        /* 프로그램 포스터 그리드 섹션 */
+        .programs { padding: 80px 0; text-align: center; scroll-margin-top: 100px; }
+        
+        .tabs { margin-bottom: 40px; display: flex; justify-content: center; align-items: center; gap: 20px; }
+        .tabs > span, .tab-dropdown > span { 
+            font-size: 16px; 
+            font-weight: 600; 
+            color: #aaa; 
+            cursor: pointer; 
+            padding: 5px 10px; 
+            border-bottom: 2px solid transparent; 
+            transition: 0.2s; 
+        }
+        .tabs > span.active, .tab-dropdown.active > span { 
+            color: var(--primary-purple); 
+            border-bottom: 2px solid var(--primary-purple); 
+        }
+
+        .tab-dropdown { position: relative; display: inline-block; }
+        .tab-dropdown-menu {
+            position: absolute;
+            top: calc(100% + 5px);
+            left: 50%;
+            transform: translateX(-50%) translateY(10px);
+            background: #fff;
+            border: 1px solid #eaeaea;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+            padding: 10px 0;
+            min-width: 140px;
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+            transition: all 0.25s ease;
+            z-index: 50;
+            text-align: center;
+        }
+        .tab-dropdown.open .tab-dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
+            transform: translateX(-50%) translateY(0);
+        }
+        .tab-dropdown.open > span { color: var(--primary-purple); }
+        .tab-dropdown-menu li {
+            padding: 10px 15px;
+            font-size: 14px;
+            color: var(--text-gray);
+            cursor: pointer;
+            transition: background 0.2s, color 0.2s;
+            font-weight: 500;
+        }
+        .tab-dropdown-menu li:hover {
+            color: var(--primary-purple);
+            background: rgba(216, 180, 226, 0.15);
+            font-weight: 700;
+        }
+        
+        .poster-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+        }
+        .poster-card {
+            position: relative;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.08);
+            transition: 0.3s;
+            background: #fff;
+            text-align: left;
+        }
+        .poster-card:hover { transform: translateY(-10px); box-shadow: 0 15px 30px rgba(92, 36, 131, 0.2); }
+        .poster-img {
+            height: 350px;
+            background-color: #eee;
+            background-size: cover;
+            background-position: center;
+        }
+        .poster-badge {
+            position: absolute;
+            top: 15px; left: 15px;
+            background: var(--primary-purple);
+            color: #fff;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        .poster-info { padding: 20px; }
+        .poster-info h3 { font-size: 18px; margin-bottom: 8px; color: var(--text-dark); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .poster-info p { font-size: 13px; color: var(--text-gray); }
+
+        /* 심리상담 코칭 프로그램 상세 */
+        .counseling-section { background: linear-gradient(
+        135deg,
+        #211925 0%,
+        #2b2030 55%,
+        #241b29 100%
+    ); padding: 100px 0; }
+        .counseling-container { max-width: 1000px; margin: 0 auto; display: flex; flex-direction: column; gap: 30px; }
+        .counseling-card { display: flex; background: #fff; border-radius: 20px; overflow: hidden; box-shadow: 0 15px 35px rgba(0,0,0,0.2); scroll-margin-top: 110px; }
+        .counseling-card.reverse { flex-direction: row-reverse; }
+        .counseling-img-wrap { width: 45%; background-size: cover; background-position: center; min-height: 280px; }
+        .counseling-content { width: 55%; padding: 45px 55px; position: relative; display: flex; flex-direction: column; justify-content: center; }
+        .counseling-title-badge { position: absolute; top: 50px; background: #fff; color: #222; padding: 10px 30px; border-radius: 30px; font-size: 20px; font-weight: 800; box-shadow: 0 5px 15px rgba(0,0,0,0.1); z-index: 10; }
+        .counseling-card .counseling-title-badge { left: -45px; }
+        .counseling-card.reverse .counseling-title-badge { right: -45px; left: auto; }
+        .counseling-list { margin-top: 50px; list-style: none; }
+        .counseling-list .list-title { font-weight: 800; font-size: 16px; color: #111; margin-bottom: 12px; padding-left: 12px; border-left: 3px solid #222; }
+        .counseling-list li:not(.list-title) { position: relative; padding-left: 15px; margin-bottom: 6px; font-size: 14px; color: #555; line-height: 1.5; }
+        .counseling-list li:not(.list-title)::before { content: '·'; position: absolute; left: 5px; font-weight: bold; }
+
+        /* 취미원정대 원데이 클래스 섹션 */
+        .hobby-section { padding: 100px 0; background: #fff; scroll-margin-top: 100px; }
+        .hobby-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 20px; flex-wrap: wrap; gap: 20px; }
+        .hobby-title h2 { font-size: 32px; font-weight: 800; color: #000; letter-spacing: -1px; }
+        .hobby-search-area { display: flex; gap: 10px; align-items: center; }
+        .hobby-search-area select, .hobby-search-area input { padding: 10px 15px; border: 1px solid #ddd; border-radius: 4px; font-size: 14px; outline: none; color: #333; }
+        .hobby-search-area button { background: #333; color: #fff; border: none; padding: 10px 18px; border-radius: 4px; cursor: pointer; font-weight: bold; }
+        .hobby-count { font-size: 13px; color: #666; margin-bottom: 25px; display: flex; align-items: center; }
+        .hobby-count::before { content: '▶'; font-size: 10px; color: #aaa; margin-right: 5px; }
+        .hobby-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 25px; }
+        .hobby-card { background: #fff; border-radius: 12px; overflow: hidden; border: 1px solid #eee; box-shadow: 0 5px 15px rgba(0,0,0,0.03); transition: 0.3s; }
+        .hobby-card:hover { transform: translateY(-5px); box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
+        .hobby-img-wrap { position: relative; height: 360px; background-size: cover; background-position: center; background-color: #fafafa; }
+        .hobby-badges { position: absolute; top: 15px; right: 15px; display: flex; gap: 5px; }
+        .hobby-badge-year { background: #000; color: #fff; padding: 5px 10px; font-size: 12px; font-weight: 700; border-radius: 6px; }
+        .hobby-badge-cat { background: #9c27b0; color: #fff; padding: 5px 10px; font-size: 12px; font-weight: 700; border-radius: 6px; }
+        .hobby-info { padding: 20px; text-align: center; }
+        .hobby-info h3 { font-size: 18px; color: #222; font-weight: 700; word-break: keep-all; }
+
+
+        /* 신규: 수강 신청서 섹션 */
+        .enrollment-section {
+            padding: 100px 0;
+            background: #f8f9fa; /* 은은한 밝은 회색 배경 */
+            scroll-margin-top: 80px;
+        }
+        .enrollment-wrapper {
+            max-width: 540px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 50px 45px;
+            border-radius: 20px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.06);
+        }
+        .enrollment-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        .enrollment-header h2 {
+            font-size: 30px;
+            color: #111;
+            font-weight: 800;
+            margin-bottom: 12px;
+        }
+        .enrollment-header p {
+            color: #666;
+            font-size: 15px;
+        }
+
+        .form-group {
+            margin-bottom: 24px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 10px;
+            font-size: 14px;
+            font-weight: 700;
+            color: #222;
+        }
+        .form-control {
+            width: 100%;
+            padding: 15px 18px;
+            border: 1px solid #eaeaea;
+            border-radius: 10px;
+            font-size: 15px;
+            transition: all 0.3s ease;
+            background: #fafafa;
+            color: #333;
+        }
+        .form-control::placeholder { color: #aaa; }
+        .form-control:focus {
+            border-color: var(--primary-purple);
+            background: #fff;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(92, 36, 131, 0.1);
+        }
+
+        /* 성별 선택 버튼 스타일 */
+        .gender-group { display: flex; gap: 12px; }
+        .gender-option { flex: 1; position: relative; }
+        .gender-option input { display: none; }
+        .gender-option span {
+            display: block;
+            text-align: center;
+            padding: 15px;
+            border: 1px solid #eaeaea;
+            border-radius: 10px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            color: #666;
+            background: #fafafa;
+            transition: all 0.3s ease;
+        }
+        .gender-option input:checked + span {
+            border-color: var(--primary-purple);
+            color: var(--primary-purple);
+            background: rgba(92, 36, 131, 0.05);
+        }
+
+        /* 생년월일 그룹 */
+        .birth-group { display: flex; gap: 12px; }
+        .birth-group .form-control { flex: 1; text-align: center; padding: 15px 10px; }
+
+        /* 약관 동의 체크박스 */
+        .terms-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 35px;
+            margin-top: 15px;
+        }
+        .terms-group input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            accent-color: var(--primary-purple);
+            cursor: pointer;
+        }
+        .terms-group label {
+            font-size: 15px;
+            color: #444;
+            cursor: pointer;
+            font-weight: 500;
+        }
+
+        /* 신청 완료 버튼 */
+        .submit-btn {
+            width: 100%;
+            padding: 18px;
+            background: var(--primary-purple);
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .submit-btn:hover {
+            background: #4a1d6e;
+            box-shadow: 0 8px 20px rgba(92, 36, 131, 0.25);
+            transform: translateY(-2px);
+        }
+
+
+        /* 소식 섹션 */
+        .notices { padding: 80px 0; background: #fbfbfc; }
+        .section-title { text-align: center; margin-bottom: 50px; }
+        .section-title h2 { font-size: 28px; color: var(--text-dark); font-weight: 700; }
+        .section-title h2 span { color: var(--primary-purple); }
+        .section-title.white h2 { color: #fff; }
+        
+        .notice-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
+        .notice-card { background: var(--white); padding: 30px; border: 1px solid #eee; border-top: 3px solid var(--primary-purple); border-radius: 8px; transition: 0.2s; }
+        .notice-card:hover { border-color: var(--primary-purple); box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
+        .notice-card .tag { font-size: 12px; color: var(--primary-purple); font-weight: bold; margin-bottom: 10px; display: inline-block; }
+        .notice-card h4 { font-size: 16px; margin-bottom: 15px; line-height: 1.4; }
+        .notice-card .date { font-size: 13px; color: #999; }
+
+        /* 다크 갤러리 섹션 */
+        .dark-gallery { background: linear-gradient(135deg, #32154a 0%, var(--dark-bg) 100%); padding: 100px 0; color: var(--white); }
+        .gallery-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 40px; }
+        .gallery-header h2 { font-size: 28px; font-weight: 700; }
+        .gallery-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+        .gallery-item { height: 250px; border-radius: 8px; background-size: cover; background-position: center; position: relative; overflow: hidden; border: 1px solid rgba(255,255,255,0.1); }
+        .gallery-item::before { content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 50%; background: linear-gradient(transparent, rgba(0,0,0,0.9)); }
+        .gallery-text { position: absolute; bottom: 20px; left: 20px; right: 20px; z-index: 1; }
+        .gallery-text h4 { font-size: 16px; margin-bottom: 5px; }
+        .gallery-text p { font-size: 12px; color: #ccc; }
+
+
+        /* 메인 GNB 드롭다운 메뉴 */
+        nav > ul > li.dropdown { position: relative; }
+        nav > ul > li.dropdown > a { display: block; cursor: pointer; }
+        .dropdown-menu { display: block; position: absolute; top: calc(100% + 18px); left: 50%; transform: translateX(-50%) translateY(-8px); min-width: 220px; padding: 10px 0; background: rgba(20, 12, 28, 0.97); border: 1px solid rgba(255,255,255,0.18); border-radius: 12px; box-shadow: 0 15px 35px rgba(0,0,0,0.28); opacity: 0; visibility: hidden; pointer-events: none; transition: opacity .25s ease, transform .25s ease, visibility .25s ease; z-index: 200; }
+        .dropdown-menu::before { content: ''; position: absolute; top: -7px; left: 50%; width: 13px; height: 13px; background: rgba(20, 12, 28, 0.97); border-left: 1px solid rgba(255,255,255,0.18); border-top: 1px solid rgba(255,255,255,0.18); transform: translateX(-50%) rotate(45deg); }
+        .dropdown-menu li { width: 100%; }
+        .dropdown-menu a { display: block; padding: 13px 22px; color: #fff; font-size: 15px; font-weight: 500; white-space: nowrap; transition: background .2s ease, color .2s ease, padding-left .2s ease; }
+        .dropdown-menu a:hover { color: #d8b4e2; background: rgba(216,180,226,0.10); padding-left: 28px; }
+        nav > ul > li.dropdown.open .dropdown-menu { opacity: 1; visibility: visible; pointer-events: auto; transform: translateX(-50%) translateY(0); }
+        nav > ul > li.dropdown.open > a { color: #d8b4e2; }
+
+        @media(max-width: 900px) {
+            nav > ul { gap: 18px; font-size: 14px; }
+            .dropdown-menu { min-width: 200px; }
+            .instructor-grid { grid-template-columns: repeat(2, 1fr); }
+            .gallery-grid { grid-template-columns: repeat(2, 1fr); }
+            .hobby-header { flex-direction: column; align-items: flex-start; }
+            .hobby-search-area { width: 100%; flex-wrap: wrap; }
+        }
+        @media(max-width: 768px) {
+            .counseling-card, .counseling-card.reverse { flex-direction: column; }
+            .counseling-img-wrap { width: 100%; min-height: 220px; }
+            .counseling-content { width: 100%; padding: 30px; }
+            .counseling-title-badge { position: relative; top: 0; left: 0 !important; right: 0 !important; display: inline-block; margin-bottom: 20px; text-align: center; align-self: flex-start; }
+            .counseling-list { margin-top: 0; }
+            .enrollment-wrapper { padding: 40px 25px; }
+        }
+
+        /* 강사 소개 페이지 */
+        .instructor-section { padding: 95px 0 110px; background: linear-gradient(180deg, #fff 0%, #faf7fc 100%); }
+        .instructor-intro { max-width: 760px; margin: -25px auto 50px; text-align: center; color: #777; font-size: 16px; }
+        .instructor-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; }
+        .instructor-card { background: #fff; border: 1px solid #eee; border-radius: 18px; overflow: hidden; box-shadow: 0 12px 30px rgba(0,0,0,0.07); transition: transform .3s ease, box-shadow .3s ease; scroll-margin-top: 110px; }
+        .instructor-card:hover { transform: translateY(-8px); box-shadow: 0 18px 38px rgba(92,36,131,0.16); }
+        .instructor-photo { width: 100%; height: 300px; background: #eee; background-size: cover; background-position: center; display: flex; align-items: center; justify-content: center; color: #aaa; font-size: 14px; }
+        .instructor-photo span { background: rgba(255,255,255,.86); padding: 9px 15px; border-radius: 30px; }
+        .instructor-info { padding: 24px 25px 27px; }
+        .instructor-role { display: inline-block; color: var(--primary-purple); font-size: 12px; font-weight: 700; margin-bottom: 7px; letter-spacing: .2px; }
+        .instructor-info h3 { font-size: 21px; margin-bottom: 8px; color: #222; }
+        .instructor-info p { color: #777; font-size: 14px; }
+
+        @media(max-width: 600px) {
+            .instructor-grid { grid-template-columns: 1fr; }
+            .instructor-photo { height: 330px; }
+        }
+
+        /* 하단 푸터 */
+        footer { background: #111; color: #888; padding: 60px 0; font-size: 14px; }
+        .footer-inner { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 30px; }
+        .footer-logo { font-size: 24px; color: #fff; font-weight: 800; margin-bottom: 20px; }
+        .footer-info p { margin-bottom: 8px; }
+    
+/* ===== 모바일 최적화 ===== */
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+body,button,input,select,textarea{font-family:'Pretendard',-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Noto Sans KR','Malgun Gothic',sans-serif}
+body{word-break:keep-all;overflow-wrap:break-word}
+img{max-width:100%;height:auto}
+
+@media(max-width:768px){
+ .container{width:92%;max-width:100%}
+ header{height:auto;min-height:72px;padding:14px 0}
+ .header-inner{width:92%;flex-direction:column;align-items:center;gap:12px}
+ .logo{font-size:24px;letter-spacing:-.8px;text-align:center}
+ nav{width:100%;margin:0;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+ nav::-webkit-scrollbar{display:none}
+ nav>ul{width:max-content;min-width:100%;justify-content:flex-start;gap:18px;padding:0 4px;font-size:14px}
+ nav>ul>li>a{padding:9px 0;white-space:nowrap}
+ nav>ul>li>a::after{bottom:2px}
+ .dropdown-menu{position:fixed;top:118px;left:50%;width:min(88vw,320px);min-width:0;max-height:55vh;overflow-y:auto;transform:translateX(-50%) translateY(-8px)}
+ nav>ul>li.dropdown.open .dropdown-menu{transform:translateX(-50%) translateY(0)}
+ .hero{height:72vh;min-height:520px;padding-top:115px}
+ .hero h2{font-size:13px;letter-spacing:1.4px;margin-bottom:12px}
+ .hero h1{font-size:clamp(30px,8.5vw,40px);line-height:1.35;letter-spacing:-1.2px}
+ .programs,.hobby-section,.notices,.dark-gallery,.instructor-section,.enrollment-section{padding-top:65px;padding-bottom:65px}
+ .tabs{gap:10px;flex-wrap:wrap}
+ .poster-grid,.hobby-grid,.notice-grid,.gallery-grid,.instructor-grid{grid-template-columns:1fr}
+ .poster-img{height:300px}
+ .poster-info h3{white-space:normal}
+ .counseling-section{padding:70px 0}
+ .counseling-container{width:100%}
+ .counseling-content{padding:28px 22px}
+ .counseling-title-badge{font-size:18px;transform:none!important;margin-bottom:15px!important}
+ .counseling-content p,.counseling-list li,.hobby-info p,.notice-card,.instructor-info p{overflow-wrap:break-word;word-break:keep-all}
+ .hobby-header{align-items:stretch}
+ .hobby-title h2{font-size:26px;line-height:1.35}
+ .hobby-search-area{display:grid;grid-template-columns:1fr 1fr;width:100%}
+ .hobby-search-area input,.hobby-search-area button{grid-column:1/-1;width:100%;min-width:0}
+ .hobby-img-wrap{height:320px}
+ .enrollment-wrapper{width:100%;padding:34px 20px;border-radius:16px}
+ .enrollment-header h2{font-size:26px}
+ .birth-group{gap:7px}
+ .birth-group .form-control{min-width:0;padding:14px 5px;font-size:14px}
+ .gallery-header,.footer-inner{flex-direction:column;align-items:flex-start}
+ .gallery-item{height:260px}
+ footer{padding:45px 0}
+ #popup>div{width:min(94vw,500px)!important;max-height:92vh}
+ #popup img{max-height:calc(92vh - 58px);object-fit:contain}
+}
+@media(max-width:390px){
+ .logo{font-size:22px}
+ nav>ul{font-size:13px;gap:15px}
+ .hero h1{font-size:29px}
+ .hero h2{font-size:12px}
+ .section-title h2{font-size:24px}
+ .hobby-title h2{font-size:23px}
+ .poster-img{height:270px}
+ .hobby-img-wrap{height:285px}
+}
+
+
+        /* 수강신청서 입력 검증 */
+        .form-error-label {
+            color: #d93025 !important;
+        }
+        .form-control.input-error {
+            border-color: #d93025 !important;
+            background: #fff7f7 !important;
+            box-shadow: 0 0 0 3px rgba(217,48,37,0.08) !important;
+        }
+        .gender-group.input-error .gender-option span {
+            border-color: #d93025 !important;
+            color: #d93025 !important;
+            background: #fff7f7 !important;
+        }
+        .terms-group.input-error label {
+            color: #d93025 !important;
+            font-weight: 700;
+        }
+        .enrollment-success {
+            display: none;
+            margin-top: 18px;
+            padding: 16px 18px;
+            border-radius: 10px;
+            background: #f3eaf8;
+            color: #5c2483;
+            font-size: 17px;
+            font-weight: 800;
+            text-align: center;
+        }
+        .enrollment-success.show {
+            display: block;
+        }
+
     </style>
+<style>
+/* ===== 심리상담 코칭 프로그램 FINAL DESIGN ===== */
+.counseling-section {
+    position: relative;
+    overflow: hidden;
+    background:
+        radial-gradient(circle at 14% 18%, rgba(137, 101, 145, 0.08), transparent 31%),
+        radial-gradient(circle at 88% 82%, rgba(193, 170, 155, 0.10), transparent 34%),
+        linear-gradient(135deg, #FAF8F5 0%, #F7F3F7 52%, #F3EEF4 100%) !important;
+    padding: 110px 0 120px !important;
+}
+
+.counseling-section::before {
+    content: "";
+    position: absolute;
+    width: 340px;
+    height: 340px;
+    border-radius: 50%;
+    top: -190px;
+    right: -90px;
+    background: rgba(121, 82, 130, 0.045);
+    pointer-events: none;
+}
+
+.counseling-section .container {
+    position: relative;
+    z-index: 1;
+}
+
+.counseling-section .section-title {
+    color: #29252B !important;
+    font-size: clamp(30px, 3vw, 42px) !important;
+    font-weight: 800 !important;
+    letter-spacing: -1.4px !important;
+    margin-bottom: 58px !important;
+}
+
+.counseling-section .section-title span {
+    color: #795282 !important;
+    font-weight: 800 !important;
+}
+
+/* 상담 프로그램 메인 카드 */
+.counseling-card,
+.counseling-content,
+.counseling-item {
+    border-radius: 26px !important;
+}
+
+/* 상담 영역 안의 흰색 콘텐츠 박스에 자연스러운 깊이감 */
+.counseling-section [style*="background-color: white"],
+.counseling-section [style*="background: white"],
+.counseling-section [style*="background:#fff"],
+.counseling-section [style*="background: #fff"] {
+    box-shadow: 0 20px 55px rgba(53, 42, 56, 0.10) !important;
+}
+
+/* 이미지가 카드와 자연스럽게 이어지도록 */
+.counseling-section img {
+    display: block;
+}
+
+/* TCI & DISC 등 배지/제목의 톤 정리 */
+.counseling-section .badge,
+.counseling-section .program-tag,
+.counseling-section .counseling-badge {
+    background: rgba(255,255,255,0.96) !important;
+    color: #2D2830 !important;
+    box-shadow: 0 8px 24px rgba(57, 43, 60, 0.10) !important;
+}
+
+/* 설명 박스의 보라 포인트를 채도 낮은 모브로 통일 */
+.counseling-section blockquote,
+.counseling-section .description-box,
+.counseling-section .program-description {
+    border-color: #795282 !important;
+}
+
+/* 모바일 */
+@media (max-width: 768px) {
+    .counseling-section {
+        padding: 72px 0 82px !important;
+    }
+
+    .counseling-section .section-title {
+        font-size: 30px !important;
+        line-height: 1.25 !important;
+        margin-bottom: 36px !important;
+    }
+
+    .counseling-card,
+    .counseling-content,
+    .counseling-item {
+        border-radius: 20px !important;
+    }
+}
+</style>
+<style>
+/* ===== 강사진 사진 프레임 최종 정렬 ===== */
+.instructor-photo {
+    width: 100% !important;
+    height: 300px !important;
+    overflow: hidden !important;
+    background-repeat: no-repeat !important;
+    background-size: cover !important;
+    background-color: #f3f3f3 !important;
+}
+
+/* 가로 사진은 얼굴이 중앙에 오도록, 세로 사진은 상단 얼굴 중심으로 개별 조정 */
+.photo-kang .instructor-photo { background-position: center 18% !important; }
+.photo-seo  .instructor-photo { background-position: center 34% !important; }
+.photo-yoon .instructor-photo { background-position: center 25% !important; }
+.photo-kim  .instructor-photo { background-position: center 30% !important; }
+.photo-choi .instructor-photo { background-position: center 18% !important; }
+.photo-park .instructor-photo { background-position: center 30% !important; }
+.photo-jung .instructor-photo { background-position: center 18% !important; }
+.photo-lee  .instructor-photo { background-position: center 18% !important; }
+
+/* 카드 비율과 하단 정보 영역도 일정하게 */
+.instructor-card {
+    display: flex !important;
+    flex-direction: column !important;
+    min-height: 0 !important;
+}
+.instructor-info {
+    flex: 1;
+}
+
+/* 모바일에서도 동일한 인물 중심 유지 */
+@media (max-width: 768px) {
+    .instructor-photo {
+        height: 320px !important;
+    }
+}
+</style>
+<style>
+html { scroll-behavior:smooth; }
+section[id], article[id], div[id] { scroll-margin-top:110px; }
+
+@media (min-width:901px){
+  nav > ul > li.dropdown:hover > .dropdown-menu,
+  nav > ul > li.dropdown.open > .dropdown-menu {
+    opacity:1 !important;
+    visibility:visible !important;
+    pointer-events:auto !important;
+    transform:translateX(-50%) translateY(0) !important;
+  }
+}
+</style><style>
+body.home-short #greeting,
+body.home-short #purpose,
+body.home-short #seoul,
+body.home-short #busan,
+body.home-short #programs-grid,
+body.home-short .counseling-section,
+body.home-short #hobby-section,
+body.home-short #enrollment-section,
+body.home-short #instructors,
+body.home-short .dark-gallery,
+body.home-short .notices {display:none!important;}
+</style><style>
+html{scroll-behavior:smooth}.hero{height:72vh!important;min-height:600px!important;max-height:760px!important}
+.hero-actions{display:flex;justify-content:center;gap:12px;margin-top:32px;flex-wrap:wrap}
+.hero-actions a{min-width:165px;padding:14px 24px;border-radius:999px;background:#fff;color:#281f2b;text-decoration:none;font-weight:800;font-size:14px}
+.hero-actions a.outline{background:rgba(255,255,255,.08);color:#fff;border:1px solid rgba(255,255,255,.7)}
+.new-home{background:#faf9f7;color:#211e22}.home-intro{text-align:center;padding:88px 20px 78px;background:#fff}
+.home-intro>span,.home-head>span,.home-cta>span{display:block;color:#80528b;font-size:12px;font-weight:800;letter-spacing:.22em;margin-bottom:17px}
+.home-intro h2,.home-head h2,.home-cta h2{font-size:clamp(30px,4vw,46px);letter-spacing:-.04em;margin:0 0 18px}
+.home-intro p,.home-head p{color:#777;line-height:1.9;margin:0}
+.home-programs{padding:95px 24px 110px;max-width:1288px;margin:auto}.home-head{text-align:center;margin-bottom:48px}
+.home-grid{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+.home-card{min-height:320px;padding:34px;border-radius:28px;color:#fff;text-decoration:none;display:flex;flex-direction:column;justify-content:space-between;box-shadow:0 18px 45px rgba(35,25,40,.11);transition:.3s}
+.home-card:hover{transform:translateY(-7px);box-shadow:0 25px 55px rgba(35,25,40,.18)}
+.home-card small{font-weight:800;letter-spacing:.12em;opacity:.7}.home-card h3{font-size:34px;margin:0 0 10px}.home-card p{max-width:440px;line-height:1.75;opacity:.82;margin:0 0 22px}.home-card b{font-size:14px}
+.c1{background:linear-gradient(135deg,#302638,#76587f)}.c2{background:linear-gradient(135deg,#59445e,#a47c9f)}.c3{background:linear-gradient(135deg,#28262b,#5b5660)}.c4{background:linear-gradient(135deg,#73594f,#b88e7e)}
+.home-cta{text-align:center;padding:105px 20px;background:linear-gradient(135deg,#211b24,#392b3e);color:#fff}
+.home-cta>span{color:#d8b2df}.home-cta p{color:rgba(255,255,255,.7);margin-bottom:28px}.home-cta a{display:inline-block;padding:15px 27px;border-radius:999px;background:#fff;color:#281f2b;text-decoration:none;font-weight:800}
+@media(max-width:800px){.hero{height:68vh!important;min-height:530px!important}.home-intro{padding:65px 18px}.home-programs{padding:72px 18px 82px}.home-grid{grid-template-columns:1fr}.home-card{min-height:270px;padding:27px}.home-card h3{font-size:29px}.home-cta{padding:82px 18px}}
+</style><style>
+#programs { scroll-margin-top: 105px; }
+html { scroll-behavior: smooth; }
+</style><style>
+.hero-actions { position:relative !important; z-index:50 !important; pointer-events:auto !important; }
+.hero-actions a { position:relative !important; z-index:51 !important; pointer-events:auto !important; cursor:pointer !important; }
+</style><style>
+#programExploreButton{
+    position:relative!important;
+    z-index:9999!important;
+    pointer-events:auto!important;
+    cursor:pointer!important;
+}
+.hero-actions{
+    position:relative!important;
+    z-index:9998!important;
+    pointer-events:auto!important;
+}
+#programs{scroll-margin-top:110px;}
+</style><style>
+#programExploreButton{
+  min-width:248px!important;
+  padding:0 28px!important;
+  height:77px!important;
+  border-radius:999px!important;
+  border:0!important;
+  background:#fff!important;
+  color:#211a25!important;
+  font:inherit!important;
+  font-size:18px!important;
+  font-weight:800!important;
+  cursor:pointer!important;
+  position:relative!important;
+  z-index:99999!important;
+  pointer-events:auto!important;
+}
+#programs{
+  scroll-margin-top:100px!important;
+}
+</style><style>
+/* ===== PREMIUM HOME FINAL ===== */
+.premium-home > .hero,
+.premium-home > .new-home,
+.premium-home > main.new-home,
+.premium-home #greeting,
+.premium-home #purpose,
+.premium-home #seoul,
+.premium-home #busan,
+.premium-home #instructors,
+.premium-home #hobby-section,
+.premium-home #enrollment-section,
+.premium-home .counseling-section,
+.premium-home .dark-gallery,
+.premium-home .notices {display:none!important;}
+
+.premium-main{background:#171519;color:#fff}
+.premium-hero{
+  position:relative;overflow:hidden;min-height:calc(100vh - 82px);
+  padding:clamp(80px,9vh,125px) clamp(28px,6vw,92px) 58px;
+  display:grid;grid-template-columns:minmax(420px,.9fr) minmax(560px,1.1fr);
+  align-items:center;gap:clamp(42px,6vw,95px);
+  background:
+    radial-gradient(circle at 17% 24%,rgba(205,157,218,.17),transparent 31%),
+    radial-gradient(circle at 83% 72%,rgba(188,138,126,.14),transparent 34%),
+    linear-gradient(135deg,#1c191e 0%,#29242b 52%,#19171b 100%);
+}
+.premium-hero:after{
+  content:"";position:absolute;inset:0;pointer-events:none;opacity:.25;
+  background-image:linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),
+  linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);
+  background-size:48px 48px;
+}
+.premium-copy,.premium-programs{position:relative;z-index:2}
+.premium-kicker{
+  font-size:13px;letter-spacing:.25em;font-weight:700;color:#d9c7dd;margin-bottom:27px
+}
+.premium-copy h1{
+  margin:0;font-size:clamp(48px,5vw,76px);line-height:1.15;letter-spacing:-.055em;
+  font-weight:800;
+}
+.premium-copy h1 em{font-style:normal;color:#d9aee2}
+.premium-copy>p{
+  margin:28px 0 0;color:rgba(255,255,255,.66);font-size:16px;line-height:1.9
+}
+.premium-actions{display:flex;gap:11px;margin-top:34px;flex-wrap:wrap}
+.premium-actions a{
+  padding:14px 22px;border-radius:999px;background:#fff;color:#211d23;
+  text-decoration:none;font-size:13px;font-weight:800;border:1px solid #fff;transition:.25s
+}
+.premium-actions a.ghost{background:transparent;color:#fff;border-color:rgba(255,255,255,.38)}
+.premium-actions a:hover{transform:translateY(-2px)}
+.premium-signature{
+  margin-top:48px;font-size:10px;letter-spacing:.25em;color:rgba(255,255,255,.32)
+}
+.premium-programs{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.premium-card{
+  position:relative;min-height:245px;padding:26px 27px;border-radius:24px;
+  border:1px solid rgba(255,255,255,.14);
+  background:linear-gradient(145deg,rgba(255,255,255,.11),rgba(255,255,255,.045));
+  backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);
+  color:#fff;text-decoration:none;overflow:hidden;transition:.35s ease;
+  display:flex;flex-direction:column;
+}
+.premium-card:before{
+  content:"";position:absolute;width:170px;height:170px;border-radius:50%;
+  right:-80px;top:-85px;background:rgba(218,171,226,.10);filter:blur(2px)
+}
+.premium-card:hover{
+  transform:translateY(-6px);border-color:rgba(226,185,234,.45);
+  background:linear-gradient(145deg,rgba(255,255,255,.16),rgba(255,255,255,.07));
+  box-shadow:0 22px 45px rgba(0,0,0,.20)
+}
+.premium-card .num{font-family:Georgia,serif;font-size:13px;color:#d8b0df;margin-bottom:28px}
+.premium-card .eng{font-size:9px;letter-spacing:.18em;color:rgba(255,255,255,.46);font-weight:700}
+.premium-card h2{font-size:27px;margin:7px 0 7px;letter-spacing:-.035em}
+.premium-card p{font-size:12px;color:rgba(255,255,255,.55);margin:0}
+.premium-card b{
+  margin-top:auto;padding-top:20px;font-size:11px;letter-spacing:.08em;
+  color:rgba(255,255,255,.75)
+}
+.premium-card b i{font-style:normal;margin-left:5px;color:#d9aee2;font-size:15px}
+.premium-bottom{
+  padding:105px 25px;text-align:center;background:#faf8f5;color:#282329
+}
+.premium-bottom>span{
+  display:block;color:#8b668f;font-size:11px;font-weight:800;letter-spacing:.18em;margin-bottom:17px
+}
+.premium-bottom h2{
+  font-size:clamp(30px,4vw,48px);line-height:1.35;letter-spacing:-.045em;margin:0 0 28px
+}
+.premium-bottom a{
+  display:inline-block;padding:15px 24px;border-radius:999px;background:#302633;
+  color:#fff;text-decoration:none;font-size:13px;font-weight:800
+}
+@media(max-width:1050px){
+  .premium-hero{grid-template-columns:1fr;padding-top:110px}
+  .premium-copy{max-width:760px}.premium-programs{max-width:850px;width:100%}
+}
+@media(max-width:650px){
+  .premium-hero{padding:95px 18px 45px;gap:45px}
+  .premium-copy h1{font-size:43px}
+  .premium-copy>p br{display:none}
+  .premium-programs{grid-template-columns:1fr 1fr;gap:10px}
+  .premium-card{min-height:205px;padding:21px 18px;border-radius:19px}
+  .premium-card h2{font-size:22px}
+  .premium-card .num{margin-bottom:22px}
+  .premium-actions a{padding:13px 17px}
+}
+@media(max-width:430px){
+  .premium-programs{grid-template-columns:1fr}
+  .premium-card{min-height:190px}
+}
+</style><style>
+/* ===== 이미지 포함 최종 메인 ===== */
+.premium-hero {
+  background:
+    linear-gradient(90deg,rgba(20,18,22,.96) 0%,rgba(25,21,27,.90) 43%,rgba(25,21,27,.68) 100%),
+    url('메인사진.jpg') center/cover no-repeat !important;
+}
+.premium-card {
+  isolation:isolate;
+  background:rgba(255,255,255,.07)!important;
+}
+.program-photo {
+  position:absolute;
+  inset:0 0 0 42%;
+  z-index:-2;
+  background-size:cover;
+  background-position:center;
+  opacity:.66;
+  transition:transform .4s ease,opacity .4s ease;
+}
+.premium-card::before {
+  content:""!important;
+  position:absolute!important;
+  inset:0!important;
+  z-index:-1!important;
+  width:auto!important;height:auto!important;border-radius:0!important;
+  background:linear-gradient(90deg,rgba(28,24,31,.99) 0%,rgba(31,26,34,.93) 45%,rgba(31,26,34,.54) 75%,rgba(31,26,34,.30) 100%)!important;
+}
+.premium-card:hover .program-photo {transform:scale(1.045);opacity:.82}
+.premium-card .num,.premium-card .eng,.premium-card h2,.premium-card p,.premium-card b {
+  position:relative;z-index:3;
+}
+</style><style>
+/* ===== Instructor 실제 강사진 콜라주 최종 ===== */
+.instructor-collage-card{
+  position:relative!important;
+  overflow:hidden!important;
+  isolation:isolate;
+}
+.instructor-collage-card .instructor-collage{
+  position:absolute;
+  right:-4px;
+  top:10px;
+  width:58%;
+  height:92%;
+  z-index:-2;
+}
+.instructor-collage-card .teacher{
+  position:absolute;
+  width:31%;
+  height:43%;
+  object-fit:cover;
+  object-position:center top;
+  background:#fff;
+  border:3px solid rgba(255,255,255,.88);
+  border-radius:3px;
+  box-shadow:0 8px 20px rgba(0,0,0,.42);
+  transition:transform .35s ease, filter .35s ease;
+}
+.instructor-collage-card .t1{left:2%;top:1%;transform:rotate(-7deg)}
+.instructor-collage-card .t2{left:34%;top:0;transform:rotate(2deg)}
+.instructor-collage-card .t3{left:66%;top:3%;transform:rotate(7deg)}
+.instructor-collage-card .t4{left:1%;top:48%;transform:rotate(5deg)}
+.instructor-collage-card .t5{left:34%;top:46%;transform:rotate(-3deg)}
+.instructor-collage-card .t6{left:67%;top:49%;transform:rotate(6deg)}
+
+.instructor-collage-card::before{
+  content:""!important;
+  position:absolute!important;
+  inset:0!important;
+  z-index:-1!important;
+  width:auto!important;height:auto!important;border-radius:0!important;
+  background:linear-gradient(
+    90deg,
+    rgba(27,23,30,.995) 0%,
+    rgba(29,24,32,.97) 38%,
+    rgba(29,24,32,.74) 57%,
+    rgba(29,24,32,.22) 100%
+  )!important;
+}
+.instructor-collage-card .num,
+.instructor-collage-card .eng,
+.instructor-collage-card h2,
+.instructor-collage-card p,
+.instructor-collage-card b{
+  position:relative;
+  z-index:4;
+  max-width:48%;
+}
+.instructor-collage-card:hover .teacher{filter:brightness(1.06)}
+.instructor-collage-card:hover .t1{transform:rotate(-9deg) translateY(-3px)}
+.instructor-collage-card:hover .t2{transform:rotate(1deg) translateY(-5px)}
+.instructor-collage-card:hover .t3{transform:rotate(9deg) translateY(-3px)}
+.instructor-collage-card:hover .t4{transform:rotate(7deg) translateY(-2px)}
+.instructor-collage-card:hover .t5{transform:rotate(-4deg) translateY(-4px)}
+.instructor-collage-card:hover .t6{transform:rotate(8deg) translateY(-2px)}
+
+@media(max-width:650px){
+  .instructor-collage-card .instructor-collage{width:61%;right:-8px}
+  .instructor-collage-card .teacher{border-width:2px}
+}
+</style><style>
+/* ===== 메인 2화면 슬라이더: 기존 링크/버튼 코드 보존 ===== */
+.cm-slider{
+  position:relative;
+  width:100%;
+  height:calc(100vh - 82px);
+  min-height:620px;
+  overflow:hidden;
+  background:#171519;
+}
+.cm-track{
+  display:flex;
+  width:200%;
+  height:100%;
+  transform:translateX(0);
+  transition:transform .7s cubic-bezier(.77,0,.18,1);
+}
+.cm-slide{
+  flex:0 0 50%;
+  width:50%;
+  height:100%;
+  min-height:620px!important;
+  box-sizing:border-box;
+}
+.cm-slide-intro{
+  position:relative;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:
+    linear-gradient(rgba(14,12,15,.38),rgba(14,12,15,.58)),
+    url('메인사진.jpg') center/cover no-repeat;
+}
+.cm-intro-content{
+  position:relative;
+  z-index:2;
+  text-align:center;
+}
+.cm-intro-kicker{
+  margin-bottom:24px;
+  color:#fff;
+  font-size:clamp(13px,1.25vw,20px);
+  letter-spacing:.11em;
+}
+.cm-intro-content h1{
+  margin:0;
+  color:#fff;
+  font-size:clamp(45px,4.1vw,72px);
+  line-height:1.34;
+  letter-spacing:-.055em;
+  text-shadow:0 5px 24px rgba(0,0,0,.28);
+}
+.cm-intro-content h1 em{font-style:normal;color:#dcaee5}
+.cm-slide-programs{
+  flex:0 0 50%!important;
+  width:50%!important;
+  height:100%!important;
+  min-height:620px!important;
+}
+
+/* 화살표만 슬라이더 위에 배치 */
+.cm-arrow{
+  position:absolute;
+  top:50%;
+  z-index:100;
+  width:50px;
+  height:50px;
+  transform:translateY(-50%);
+  border:1px solid rgba(255,255,255,.6);
+  border-radius:50%;
+  background:rgba(20,17,22,.35);
+  color:#fff;
+  font-size:22px;
+  cursor:pointer;
+  backdrop-filter:blur(7px);
+}
+.cm-next{right:24px}
+.cm-prev{left:24px}
+.cm-arrow:hover{background:rgba(220,174,229,.22);border-color:#dfb4e7}
+
+.cm-dots{
+  position:absolute;
+  z-index:110;
+  left:50%;
+  bottom:18px;
+  transform:translateX(-50%);
+  display:flex;
+  gap:8px;
+}
+.cm-dot{
+  width:7px;height:7px;padding:0;border:0;border-radius:50%;
+  background:rgba(255,255,255,.38);cursor:pointer;
+}
+.cm-dot.active{width:24px;border-radius:20px;background:#dfb4e7}
+
+/* 중요: 프로그램 카드는 원래 <a href> 링크 그대로 사용 */
+.cm-slide-programs .premium-programs,
+.cm-slide-programs .premium-card{
+  pointer-events:auto;
+}
+@media(max-width:700px){
+  .cm-slider{min-height:760px;height:auto}
+  .cm-slide,.cm-slide-programs{min-height:760px!important}
+  .cm-arrow{width:42px;height:42px}
+  .cm-next{right:10px}.cm-prev{left:10px}
+  .cm-intro-content{padding:0 45px}
+}
+</style><style>
+/* ===== 밝고 생동감 있는 3D 살랑 메인 ===== */
+.cm-slide-intro{
+  perspective:1200px;
+  transform-style:preserve-3d;
+  background:#d8c6b8!important;
+  overflow:hidden;
+}
+.cm-depth-bg{
+  position:absolute;
+  inset:-4%;
+  z-index:0;
+  background:
+    linear-gradient(rgba(255,245,235,.04),rgba(40,25,20,.08)),
+    url('메인사진.jpg') center/cover no-repeat;
+  transform:translate3d(0,0,-20px) scale(1.08);
+  will-change:transform;
+  animation:cmBreath 12s ease-in-out infinite alternate;
+}
+.cm-slide-intro::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  z-index:1;
+  pointer-events:none;
+  background:
+    linear-gradient(90deg,rgba(20,13,14,.06),rgba(255,255,255,.015) 45%,rgba(50,28,20,.07));
+}
+.cm-depth-glow{
+  position:absolute;
+  z-index:1;
+  width:46vw;height:46vw;
+  right:5%;top:-18%;
+  border-radius:50%;
+  background:radial-gradient(circle,rgba(255,225,183,.18),rgba(218,174,226,.07) 35%,transparent 68%);
+  filter:blur(16px);
+  pointer-events:none;
+  animation:cmGlow 9s ease-in-out infinite alternate;
+}
+.cm-intro-content{
+  z-index:5!important;
+  transform:translate3d(0,0,45px);
+  transition:transform .8s cubic-bezier(.2,.7,.2,1);
+}
+.cm-slide-intro .cm-arrow{z-index:20}
+
+/* 꽃잎 */
+.cm-petals{position:absolute;inset:0;z-index:3;pointer-events:none;overflow:hidden}
+.cm-petals i{
+  position:absolute;
+  width:14px;height:9px;
+  border-radius:80% 20% 70% 30%;
+  background:linear-gradient(135deg,rgba(247,205,218,.85),rgba(220,165,225,.65));
+  filter:blur(.15px);
+  opacity:.72;
+}
+.cm-petals .p1{left:13%;top:22%;animation:petal1 11s ease-in-out infinite}
+.cm-petals .p2{left:31%;top:67%;width:10px;height:7px;animation:petal2 13s ease-in-out infinite 1.5s}
+.cm-petals .p3{left:58%;top:18%;width:12px;height:8px;animation:petal3 14s ease-in-out infinite .8s}
+.cm-petals .p4{left:77%;top:61%;width:16px;height:10px;animation:petal2 12s ease-in-out infinite 2.2s}
+.cm-petals .p5{left:88%;top:29%;width:9px;height:6px;animation:petal1 15s ease-in-out infinite 3s}
+
+@keyframes cmBreath{
+  0%{transform:translate3d(-.5%,-.3%,-20px) scale(1.075)}
+  50%{transform:translate3d(.6%,.35%,-20px) scale(1.095)}
+  100%{transform:translate3d(-.2%,.6%,-20px) scale(1.085)}
+}
+@keyframes cmGlow{
+  from{transform:translate3d(-10px,0,0) scale(.96);opacity:.65}
+  to{transform:translate3d(18px,16px,0) scale(1.08);opacity:1}
+}
+@keyframes petal1{
+  0%,100%{transform:translate3d(0,0,0) rotate(5deg)}
+  35%{transform:translate3d(24px,28px,0) rotate(85deg)}
+  70%{transform:translate3d(-12px,55px,0) rotate(165deg)}
+}
+@keyframes petal2{
+  0%,100%{transform:translate3d(0,0,0) rotate(-10deg)}
+  45%{transform:translate3d(-28px,22px,0) rotate(90deg)}
+  75%{transform:translate3d(15px,48px,0) rotate(185deg)}
+}
+@keyframes petal3{
+  0%,100%{transform:translate3d(0,0,0) rotate(20deg)}
+  40%{transform:translate3d(30px,18px,0) rotate(120deg)}
+  80%{transform:translate3d(8px,58px,0) rotate(230deg)}
+}
+
+/* 글자 가독성은 암막 대신 얇은 그림자로 확보 */
+.cm-intro-kicker,
+.cm-intro-content h1{
+  text-shadow:0 3px 18px rgba(20,12,15,.35)!important;
+}
+
+/* 움직임 최소화 설정 존중 */
+@media (prefers-reduced-motion: reduce){
+  .cm-depth-bg,.cm-depth-glow,.cm-petals i{animation:none!important}
+  .cm-intro-content{transition:none!important}
+}
+@media(max-width:700px){
+  .cm-depth-bg{inset:-7%;transform:scale(1.12)}
+  .cm-petals i{opacity:.5}
+}
+</style><style>
+/* ===== 요청 수정: 2페이지 카테고리 상향 + 컬러 구름 살랑 ===== */
+
+/* 두 번째 화면의 4개 카드를 조금 위로 */
+.cm-slide-programs .premium-programs{
+  transform:translateY(-24px)!important;
+}
+
+/* 첫 화면 컬러 구름/리본 레이어 */
+.cm-color-clouds{
+  position:absolute;
+  z-index:2;
+  top:4%;
+  right:4%;
+  width:48%;
+  height:52%;
+  pointer-events:none;
+  filter:blur(.2px);
+  transform-style:preserve-3d;
+}
+.cm-color-clouds .cloud{
+  position:absolute;
+  display:block;
+  border-radius:48% 52% 62% 38% / 42% 46% 54% 58%;
+  mix-blend-mode:screen;
+  opacity:.30;
+  filter:blur(12px) saturate(1.22);
+  will-change:transform;
+}
+.cm-color-clouds .cloud-a{
+  width:72%;
+  height:37%;
+  left:4%;
+  top:9%;
+  background:
+    radial-gradient(ellipse at 22% 50%,rgba(229,132,244,.72),transparent 45%),
+    radial-gradient(ellipse at 55% 48%,rgba(65,182,245,.64),transparent 48%),
+    radial-gradient(ellipse at 84% 52%,rgba(255,194,93,.55),transparent 44%);
+  animation:cloudFloatA 10s ease-in-out infinite alternate;
+}
+.cm-color-clouds .cloud-b{
+  width:78%;
+  height:31%;
+  right:-2%;
+  top:35%;
+  background:
+    radial-gradient(ellipse at 20% 50%,rgba(92,207,245,.62),transparent 45%),
+    radial-gradient(ellipse at 52% 52%,rgba(225,118,244,.66),transparent 48%),
+    radial-gradient(ellipse at 82% 50%,rgba(255,158,109,.56),transparent 43%);
+  animation:cloudFloatB 13s ease-in-out infinite alternate;
+}
+.cm-color-clouds .cloud-c{
+  width:54%;
+  height:24%;
+  left:20%;
+  top:58%;
+  background:
+    radial-gradient(ellipse at 28% 50%,rgba(245,153,229,.55),transparent 48%),
+    radial-gradient(ellipse at 72% 50%,rgba(88,188,244,.52),transparent 47%);
+  opacity:.22;
+  animation:cloudFloatC 15s ease-in-out infinite alternate;
+}
+@keyframes cloudFloatA{
+  0%{transform:translate3d(-10px,-3px,20px) rotate(-2deg) scale(.98)}
+  50%{transform:translate3d(15px,9px,32px) rotate(2deg) scale(1.05)}
+  100%{transform:translate3d(30px,-5px,24px) rotate(-1deg) scale(1.01)}
+}
+@keyframes cloudFloatB{
+  0%{transform:translate3d(12px,4px,12px) rotate(2deg) scale(1.02)}
+  50%{transform:translate3d(-20px,-10px,30px) rotate(-2deg) scale(.97)}
+  100%{transform:translate3d(-4px,12px,18px) rotate(1deg) scale(1.05)}
+}
+@keyframes cloudFloatC{
+  0%{transform:translate3d(-6px,0,16px) rotate(-1deg)}
+  50%{transform:translate3d(22px,-8px,28px) rotate(3deg) scale(1.08)}
+  100%{transform:translate3d(5px,10px,18px) rotate(-2deg) scale(.98)}
+}
+
+/* 마우스 3D 움직임과 겹쳐도 부드럽게 */
+.cm-slide-intro .cm-intro-content{z-index:5!important}
+.cm-slide-intro .cm-petals{z-index:4!important}
+.cm-slide-intro .cm-arrow{z-index:20!important}
+
+@media(max-width:900px){
+  .cm-slide-programs .premium-programs{transform:translateY(-12px)!important}
+  .cm-color-clouds{width:62%;right:-6%;top:7%}
+}
+@media(prefers-reduced-motion:reduce){
+  .cm-color-clouds .cloud{animation:none!important}
+}
+</style><style>
+/* ===== 메인 슬라이드 성능 최적화: 디자인 변경 없음 ===== */
+.cm-track,.main-slider-track{
+  transform:translateZ(0);
+  backface-visibility:hidden;
+  -webkit-backface-visibility:hidden;
+  will-change:transform;
+}
+.cm-track{transition-duration:.52s!important}
+.cm-slide,.main-slide{
+  backface-visibility:hidden;
+  -webkit-backface-visibility:hidden;
+  contain:layout paint;
+}
+.cm-depth-bg{
+  backface-visibility:hidden;
+  -webkit-backface-visibility:hidden;
+  will-change:transform;
+}
+/* 보이지 않는 2페이지의 무거운 이미지 렌더링을 브라우저가 효율적으로 처리 */
+.cm-slide-programs .premium-card img,
+.cm-slide-programs .teacher{
+  content-visibility:auto;
+}
+/* 모바일에서는 blur/backdrop-filter 비용을 줄임 */
+@media(max-width:900px){
+  .cm-depth-glow{filter:none!important}
+  .cm-arrow{backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
+}
+</style><style>
+.cm-slide-intro.motion-paused .cm-depth-bg,
+.cm-slide-intro.motion-paused .cm-depth-glow,
+.cm-slide-intro.motion-paused .cm-petals i,
+.cm-slide-intro.motion-paused .cm-color-clouds .cloud{
+  animation-play-state:paused!important;
+}
+</style><style>
+/* ===== 메인 2페이지 카드 03/04 안 잘리게 + Instructor 한 줄 ===== */
+
+/* 프로그램 슬라이드 안의 2x2 카드 전체를 화면 안쪽으로 살짝 위로 */
+.cm-slide-programs .cm-program-grid,
+.cm-slide-programs .premium-grid,
+.cm-slide-programs .program-grid{
+    transform: translateY(-24px) !important;
+}
+
+/* 4개 카드가 화면 높이에 맞게 모두 보이도록 */
+.cm-slide-programs .premium-card{
+    min-height:0 !important;
+}
+
+/* Instructor는 무조건 한 줄 */
+.cm-slide-programs .premium-card:nth-child(3) h2,
+.cm-slide-programs .premium-card:nth-child(3) h3,
+.cm-slide-programs .premium-card:nth-child(3) .card-title,
+.cm-slide-programs .premium-card:nth-child(3) .premium-title{
+    white-space:nowrap !important;
+    word-break:keep-all !important;
+    overflow:visible !important;
+    font-size:clamp(27px,2.05vw,39px) !important;
+    letter-spacing:-0.04em !important;
+}
+
+/* 작은 노트북/낮은 화면에서 3,4번 하단이 잘리지 않도록 카드 높이 압축 */
+@media (min-width:901px) and (max-height:850px){
+    .cm-slide-programs .premium-card{
+        height:min(36.5vh,365px) !important;
+    }
+    .cm-slide-programs .cm-program-grid,
+    .cm-slide-programs .premium-grid,
+    .cm-slide-programs .program-grid{
+        gap:14px !important;
+        transform:translateY(-30px) !important;
+    }
+}
+</style><style>
+/* =========================================================
+   03 INSTRUCTOR — 승인 시안 구현
+   01/02/04 및 메인 구조/링크는 변경하지 않음
+   ========================================================= */
+.cm-slide-programs .instructor-final-card{
+  position:relative!important;
+  overflow:hidden!important;
+  isolation:isolate;
+  background:
+    radial-gradient(circle at 82% 18%,rgba(208,160,220,.09),transparent 31%),
+    linear-gradient(135deg,#1d1821 0%,#211a25 100%)!important;
+}
+
+/* 기존 강사진 6명 콜라주: 오른쪽에 충분히 크게 */
+.cm-slide-programs .instructor-final-card .program-photo{
+  position:absolute!important;
+  z-index:2!important;
+  top:18px!important;
+  right:8px!important;
+  left:auto!important;
+  bottom:auto!important;
+  width:51%!important;
+  height:88%!important;
+  background-size:contain!important;
+  background-position:center right!important;
+  background-repeat:no-repeat!important;
+  opacity:1!important;
+  transform:none!important;
+  filter:none!important;
+}
+
+/* 사진과 텍스트가 자연스럽게 연결되는 어두운 그라데이션 */
+.cm-slide-programs .instructor-final-card::after{
+  content:"";
+  position:absolute;
+  z-index:3;
+  inset:0;
+  pointer-events:none;
+  background:linear-gradient(90deg,
+    rgba(29,24,33,.98) 0%,
+    rgba(29,24,33,.96) 42%,
+    rgba(29,24,33,.54) 55%,
+    rgba(29,24,33,.05) 76%,
+    transparent 100%);
+}
+
+/* 카드의 텍스트 콘텐츠 */
+.cm-slide-programs .instructor-final-card .program-info,
+.cm-slide-programs .instructor-final-card .premium-info,
+.cm-slide-programs .instructor-final-card .card-content{
+  position:relative!important;
+  z-index:5!important;
+  width:56%!important;
+  height:100%!important;
+  padding:28px 0 24px 32px!important;
+  box-sizing:border-box!important;
+  display:flex!important;
+  flex-direction:column!important;
+  align-items:flex-start!important;
+}
+
+/* 03 */
+.cm-slide-programs .instructor-final-card .program-number,
+.cm-slide-programs .instructor-final-card .number{
+  color:#e2b8e8!important;
+  font-size:16px!important;
+  font-weight:700!important;
+  line-height:1!important;
+  margin:0 0 32px!important;
+}
+
+/* OUR INSTRUCTORS */
+.cm-slide-programs .instructor-final-card .program-en,
+.cm-slide-programs .instructor-final-card .eyebrow,
+.cm-slide-programs .instructor-final-card .premium-eyebrow{
+  display:block!important;
+  white-space:nowrap!important;
+  word-break:keep-all!important;
+  color:rgba(255,255,255,.54)!important;
+  font-size:11px!important;
+  font-weight:800!important;
+  letter-spacing:.15em!important;
+  line-height:1!important;
+  margin:0 0 14px!important;
+}
+
+/* Instructor */
+.cm-slide-programs .instructor-final-card h2,
+.cm-slide-programs .instructor-final-card h3,
+.cm-slide-programs .instructor-final-card .program-title,
+.cm-slide-programs .instructor-final-card .card-title,
+.cm-slide-programs .instructor-final-card .premium-title{
+  display:block!important;
+  white-space:nowrap!important;
+  word-break:keep-all!important;
+  overflow:visible!important;
+  color:#fff!important;
+  font-size:clamp(29px,1.95vw,37px)!important;
+  font-weight:800!important;
+  line-height:1!important;
+  letter-spacing:-.045em!important;
+  margin:0 0 18px!important;
+}
+
+/* 분야별 전문 강사진 */
+.cm-slide-programs .instructor-final-card .program-desc,
+.cm-slide-programs .instructor-final-card .description,
+.cm-slide-programs .instructor-final-card p{
+  white-space:nowrap!important;
+  word-break:keep-all!important;
+  color:rgba(255,255,255,.58)!important;
+  font-size:14px!important;
+  line-height:1.4!important;
+  margin:0!important;
+}
+
+/* Explore ↗ — 카드 하단 안쪽 */
+.cm-slide-programs .instructor-final-card .explore,
+.cm-slide-programs .instructor-final-card .program-link,
+.cm-slide-programs .instructor-final-card .card-link{
+  position:relative!important;
+  z-index:7!important;
+  margin-top:auto!important;
+  margin-bottom:0!important;
+  white-space:nowrap!important;
+}
+
+/* 낮은 화면에서도 카드 전체가 안 잘리게 */
+@media (min-width:901px) and (max-height:850px){
+  .cm-slide-programs .instructor-final-card .program-photo{
+    top:12px!important;
+    height:86%!important;
+  }
+  .cm-slide-programs .instructor-final-card .program-info,
+  .cm-slide-programs .instructor-final-card .premium-info,
+  .cm-slide-programs .instructor-final-card .card-content{
+    padding:22px 0 18px 28px!important;
+  }
+  .cm-slide-programs .instructor-final-card .program-number,
+  .cm-slide-programs .instructor-final-card .number{
+    margin-bottom:22px!important;
+  }
+  .cm-slide-programs .instructor-final-card h2,
+  .cm-slide-programs .instructor-final-card h3,
+  .cm-slide-programs .instructor-final-card .program-title{
+    font-size:29px!important;
+    margin-bottom:13px!important;
+  }
+}
+</style>
+<style id="cultureeum-premium-header-v2">
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@500;600;700&display=swap');
+header{height:108px!important;background:radial-gradient(ellipse at 3% 110%,rgba(86,105,61,.18),transparent 24%),radial-gradient(ellipse at 97% -15%,rgba(190,145,70,.17),transparent 26%),linear-gradient(100deg,#f3ecdd 0%,#fffaf0 39%,#fbf5e9 70%,#f3ead8 100%)!important;border-bottom:1px solid rgba(171,128,60,.26)!important;box-shadow:0 8px 26px rgba(59,48,31,.075)!important;color:#123f37!important;overflow:visible}
+header::before,header::after{content:"";position:absolute;pointer-events:none;z-index:0;border:1px solid rgba(178,129,48,.52);border-radius:50%}header::before{width:370px;height:185px;left:-205px;top:-118px;transform:rotate(-9deg)}header::after{width:420px;height:205px;right:-225px;bottom:-132px;transform:rotate(-11deg)}
+.header-inner{width:94%!important;max-width:1720px!important;position:relative;z-index:1;gap:30px!important}.logo{font-size:inherit!important;letter-spacing:0!important;min-width:455px}.logo a{display:grid!important;grid-template-columns:94px auto;grid-template-rows:auto auto;column-gap:17px!important;row-gap:2px;align-items:center!important;color:#143f37!important;opacity:1!important;font-size:0!important}.logo a::before{content:"";grid-row:1/3;width:94px;height:76px;background:url('images/cultureeum-logo-mark.jpg') center/cover no-repeat;border-radius:17px;box-shadow:0 7px 20px rgba(50,66,46,.13),inset 0 0 0 1px rgba(255,255,255,.42)}.logo a::after{content:"문화 이음 플랫폼\A Culture, Education, Connection";white-space:pre;font-family:'Noto Serif KR','Batang',serif;font-size:27px;font-weight:700;line-height:1.32;letter-spacing:-1.15px;background:linear-gradient(90deg,#123f37 0 61%,#a9792f 61% 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
+nav{margin-left:auto!important;margin-right:0!important}nav>ul{gap:clamp(20px,2.05vw,40px)!important;font-family:'Noto Serif KR','Batang',serif!important;font-size:15px!important;font-weight:600!important;letter-spacing:-.5px!important}nav>ul>li>a{padding:41px 0 38px!important;color:#243c36!important;white-space:nowrap;text-shadow:none!important}nav>ul>li>a:hover,nav>ul>li.dropdown.open>a{color:#a4742d!important}nav>ul>li>a::after{bottom:31px!important;height:1px!important;background:linear-gradient(90deg,#315d4c,#bd8b3d)!important}.dropdown-menu{top:calc(100% + 7px)!important;background:rgba(255,251,243,.985)!important;border:1px solid rgba(171,129,64,.24)!important;box-shadow:0 18px 42px rgba(50,42,31,.14)!important}.dropdown-menu::before{background:#fffaf2!important;border-left:1px solid rgba(171,129,64,.24)!important;border-top:1px solid rgba(171,129,64,.24)!important}.dropdown-menu a{font-family:'Pretendard',sans-serif!important;color:#31423d!important}.dropdown-menu a:hover{color:#986a29!important;background:rgba(184,139,66,.08)!important}
+@media(max-width:1250px) and (min-width:769px){.logo{min-width:350px}.logo a{grid-template-columns:76px auto;column-gap:12px!important}.logo a::before{width:76px;height:64px}.logo a::after{font-size:21px}nav>ul{gap:15px!important;font-size:13px!important}}
+@media(max-width:768px){header{min-height:92px!important;height:auto!important;padding:10px 0!important;overflow:visible!important}.header-inner{width:94%!important;align-items:flex-start!important;gap:8px!important}.logo{min-width:0;width:100%}.logo a{grid-template-columns:66px auto;column-gap:10px!important}.logo a::before{width:66px;height:56px;border-radius:12px}.logo a::after{font-size:19px;letter-spacing:-.8px}nav{width:100%!important}nav>ul{font-family:'Pretendard',sans-serif!important;font-size:13px!important;gap:18px!important}nav>ul>li>a{padding:7px 0!important}nav>ul>li>a::after{bottom:0!important}.dropdown-menu{top:122px!important}}
+</style>
+
+<style id="cultureeum-nav-size-final">
+/* 2026-09 final: navigation typography enlarged on all screen sizes */
+@media (min-width: 1251px) {
+  nav > ul { font-size: 18px !important; font-weight: 650 !important; gap: clamp(24px, 2.15vw, 44px) !important; }
+  nav > ul > li > a { letter-spacing: -0.55px !important; }
+}
+@media (min-width: 769px) and (max-width: 1250px) {
+  nav > ul { font-size: 15.5px !important; font-weight: 650 !important; gap: 17px !important; }
+  nav > ul > li > a { letter-spacing: -0.45px !important; }
+}
+@media (max-width: 768px) {
+  nav { overflow-x: auto !important; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+  nav::-webkit-scrollbar { display: none; }
+  nav > ul { font-size: 15.5px !important; font-weight: 650 !important; gap: 21px !important; width: max-content !important; min-width: 100% !important; }
+  nav > ul > li { flex: 0 0 auto !important; }
+  nav > ul > li > a { font-size: 15.5px !important; line-height: 1.35 !important; letter-spacing: -0.45px !important; padding: 9px 0 10px !important; }
+}
+@media (max-width: 420px) {
+  nav > ul { font-size: 15px !important; gap: 18px !important; }
+  nav > ul > li > a { font-size: 15px !important; }
+}
+</style>
+
+<style id="cultureeum-mobile-width-hotfix">
+/* Mobile viewport hotfix: force the site to use the full device width. */
+@media (max-width: 768px) {
+  html, body { width:100% !important; max-width:100% !important; min-width:0 !important; margin:0 !important; overflow-x:hidden !important; }
+  header { left:0 !important; right:0 !important; width:100% !important; max-width:none !important; box-sizing:border-box !important; }
+  .header-inner { width:100% !important; max-width:none !important; padding-left:14px !important; padding-right:14px !important; box-sizing:border-box !important; }
+  .logo { width:100% !important; max-width:100% !important; }
+  nav { width:100% !important; max-width:100% !important; overflow-x:auto !important; overflow-y:visible !important; }
+  nav > ul { min-width:max-content !important; width:max-content !important; font-size:16px !important; gap:22px !important; padding-right:18px !important; }
+  nav > ul > li > a { font-size:16px !important; font-weight:700 !important; }
+  main, section, .premium-main { max-width:100% !important; }
+  .cm-slider { width:100vw !important; max-width:100vw !important; margin:0 !important; overflow:hidden !important; }
+  .cm-track { width:200vw !important; max-width:none !important; }
+  .cm-slide, .cm-slide-programs { flex:0 0 100vw !important; width:100vw !important; max-width:100vw !important; }
+}
+</style>
+<style id="cultureeum-viewport-width-final-fix">
+/* Final viewport-width fix: detach the visible shell from any inherited/container width. */
+html, body { margin:0 !important; padding:0 !important; width:100% !important; min-width:0 !important; max-width:none !important; overflow-x:hidden !important; }
+body { position:relative !important; }
+header, .premium-main, .cm-slider {
+  width:100vw !important;
+  max-width:100vw !important;
+  box-sizing:border-box !important;
+}
+header { left:0 !important; right:auto !important; overflow:hidden !important; }
+.premium-main, .cm-slider {
+  position:relative !important;
+  left:50% !important;
+  right:50% !important;
+  margin-left:-50vw !important;
+  margin-right:-50vw !important;
+}
+.cm-track { display:flex !important; width:200vw !important; max-width:none !important; }
+.cm-slide, .cm-slide-programs { flex:0 0 100vw !important; width:100vw !important; max-width:100vw !important; box-sizing:border-box !important; }
+@media (max-width:768px){
+  header { min-height:0 !important; height:auto !important; padding:10px 0 8px !important; }
+  .header-inner { width:100% !important; max-width:none !important; padding:0 16px !important; margin:0 !important; box-sizing:border-box !important; }
+  .logo { width:100% !important; min-width:0 !important; }
+  nav { width:100% !important; max-width:100vw !important; overflow-x:auto !important; overflow-y:hidden !important; }
+  nav>ul { width:max-content !important; min-width:max-content !important; flex-wrap:nowrap !important; gap:22px !important; padding:0 18px 0 0 !important; font-size:16px !important; font-weight:700 !important; }
+  nav>ul>li, nav>ul>li>a { flex:0 0 auto !important; white-space:nowrap !important; }
+  .cm-slider { min-height:calc(100svh - 120px) !important; }
+}
+</style>
+
+
+<style id="cultureeum-pc-dropdown-final-fix">
+/* PC category dropdown: keep dropdown above hero and remove hover dead-zone */
+@media (min-width: 901px) {
+  header { z-index: 100000 !important; overflow: visible !important; }
+  .header-inner, nav, nav > ul, nav > ul > li.dropdown { overflow: visible !important; }
+  nav > ul > li.dropdown { position: relative !important; }
+  nav > ul > li.dropdown::after {
+    content: "";
+    position: absolute;
+    left: -12px; right: -12px;
+    top: 100%; height: 18px;
+    background: transparent;
+    pointer-events: auto;
+  }
+  nav > ul > li.dropdown > .dropdown-menu {
+    position: absolute !important;
+    top: 100% !important;
+    left: 50% !important;
+    z-index: 100001 !important;
+    margin-top: 0 !important;
+  }
+  nav > ul > li.dropdown:hover > .dropdown-menu,
+  nav > ul > li.dropdown:focus-within > .dropdown-menu,
+  nav > ul > li.dropdown.open > .dropdown-menu {
+    opacity: 1 !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
+    transform: translateX(-50%) translateY(0) !important;
+  }
+}
+</style>
+
+<style id="cultureeum-new-menu-fit">
+@media (min-width:901px){
+  .header-inner{gap:18px!important;width:97%!important;max-width:1860px!important}
+  .logo{min-width:390px!important}
+  nav>ul{gap:18px!important;flex-wrap:nowrap!important}
+  nav>ul>li>a{font-size:15.5px!important;white-space:nowrap!important}
+  nav>ul>li>a.new-top-menu{font-weight:700!important;color:#143f37!important}
+}
+@media (max-width:900px){nav>ul>li>a.new-top-menu{font-weight:700!important}}
+</style>
+
+
+<style id="cultureeum-header-exact-final">
+/* Approved compact header: original logo artwork retained; no brand/nav overlap. */
+@media (min-width: 1351px){
+  .header-inner{width:100%!important;max-width:none!important;padding:0 28px!important;gap:18px!important;box-sizing:border-box!important;display:flex!important;align-items:center!important}
+  .logo{min-width:365px!important;width:365px!important;flex:0 0 365px!important;overflow:hidden!important}
+  .logo a{grid-template-columns:72px minmax(0,1fr)!important;column-gap:12px!important;width:100%!important}
+  .logo a::before{width:72px!important;height:62px!important;border-radius:14px!important}
+  .logo a::after{font-size:20px!important;line-height:1.28!important;letter-spacing:-.9px!important}
+  nav{margin:0!important;min-width:0!important;flex:1 1 auto!important;overflow:visible!important}
+  nav>ul{gap:0!important;justify-content:flex-start!important;flex-wrap:nowrap!important}
+  nav>ul>li{position:relative!important;padding:0 11px!important;flex:0 0 auto!important}
+  nav>ul>li+li::before{content:""!important;position:absolute!important;left:0!important;top:50%!important;transform:translateY(-50%)!important;width:1px!important;height:24px!important;background:rgba(178,135,68,.48)!important;pointer-events:none!important}
+  nav>ul>li>a{font-size:14px!important;letter-spacing:-.45px!important;white-space:nowrap!important}
+}
+@media (min-width: 1101px) and (max-width:1350px){
+  .header-inner{width:100%!important;max-width:none!important;padding:0 16px!important;gap:10px!important;box-sizing:border-box!important}
+  .logo{min-width:275px!important;width:275px!important;flex:0 0 275px!important;overflow:hidden!important}
+  .logo a{grid-template-columns:58px minmax(0,1fr)!important;column-gap:8px!important;width:100%!important}
+  .logo a::before{width:58px!important;height:50px!important;border-radius:11px!important}
+  .logo a::after{font-size:15.5px!important;line-height:1.25!important;letter-spacing:-.7px!important}
+  nav{margin:0!important;min-width:0!important;flex:1 1 auto!important}
+  nav>ul{gap:0!important;flex-wrap:nowrap!important}
+  nav>ul>li{position:relative!important;padding:0 6px!important;flex:0 0 auto!important}
+  nav>ul>li+li::before{content:""!important;position:absolute!important;left:0!important;top:50%!important;transform:translateY(-50%)!important;width:1px!important;height:18px!important;background:rgba(178,135,68,.45)!important;pointer-events:none!important}
+  nav>ul>li>a{font-size:11.5px!important;letter-spacing:-.5px!important;white-space:nowrap!important}
+}
+/* Narrow desktop/tablet: use a clean second navigation row instead of ever overlapping the logo. */
+@media (min-width:901px) and (max-width:1100px){
+  header{height:auto!important;min-height:116px!important}
+  .header-inner{width:100%!important;max-width:none!important;padding:10px 16px 0!important;box-sizing:border-box!important;display:flex!important;flex-wrap:wrap!important;gap:4px 0!important}
+  .logo{min-width:0!important;width:100%!important;flex:0 0 100%!important;overflow:visible!important}
+  .logo a{grid-template-columns:58px auto!important;column-gap:9px!important;width:max-content!important}
+  .logo a::before{width:58px!important;height:50px!important;border-radius:11px!important}
+  .logo a::after{font-size:16px!important;line-height:1.24!important;letter-spacing:-.7px!important}
+  nav{width:100%!important;flex:0 0 100%!important;margin:0!important;overflow-x:auto!important;overflow-y:visible!important;scrollbar-width:none!important}
+  nav::-webkit-scrollbar{display:none!important}
+  nav>ul{width:max-content!important;min-width:100%!important;gap:0!important;justify-content:flex-start!important;flex-wrap:nowrap!important}
+  nav>ul>li{position:relative!important;padding:0 9px!important;flex:0 0 auto!important}
+  nav>ul>li+li::before{content:""!important;position:absolute!important;left:0!important;top:50%!important;transform:translateY(-50%)!important;width:1px!important;height:17px!important;background:rgba(178,135,68,.45)!important;pointer-events:none!important}
+  nav>ul>li>a{font-size:12.5px!important;white-space:nowrap!important;padding:9px 0 12px!important}
+}
+@media (max-width:900px){nav>ul>li+li::before{display:none!important}}
+</style>
+
+
+<style id="cultureeum-nav-balance-final">
+/* Final desktop balance: keep the approved logo untouched and use the right-side space naturally. */
+@media (min-width:1351px){
+  .header-inner{padding-left:28px!important;padding-right:22px!important;}
+  nav>ul{justify-content:flex-end!important;width:100%!important;}
+  nav>ul>li{padding-left:12px!important;padding-right:12px!important;}
+}
+@media (min-width:1101px) and (max-width:1350px){
+  .header-inner{padding-left:16px!important;padding-right:14px!important;}
+  nav>ul{justify-content:flex-end!important;width:100%!important;}
+  nav>ul>li{padding-left:7px!important;padding-right:7px!important;}
+}
+@media (min-width:901px) and (max-width:1100px){
+  nav>ul{justify-content:flex-start!important;}
+}
+</style>
+
+<style id="cultureeum-desktop-100-final">
+/* 100% browser zoom: same visual balance that previously appeared around 90%. */
+@media (min-width:1351px){
+  .header-inner{padding-left:18px!important;padding-right:18px!important;gap:12px!important;}
+  .logo{min-width:330px!important;width:330px!important;flex:0 0 330px!important;}
+  .logo a{grid-template-columns:65px minmax(0,1fr)!important;column-gap:10px!important;}
+  .logo a::before{width:65px!important;height:56px!important;border-radius:13px!important;}
+  .logo a::after{font-size:18px!important;line-height:1.27!important;letter-spacing:-.82px!important;}
+  nav>ul{justify-content:flex-end!important;width:100%!important;}
+  nav>ul>li{padding-left:10px!important;padding-right:10px!important;}
+  nav>ul>li>a{font-size:13px!important;letter-spacing:-.48px!important;}
+  nav>ul>li+li::before{height:22px!important;}
+}
+@media (min-width:1101px) and (max-width:1350px){
+  .header-inner{padding-left:14px!important;padding-right:12px!important;gap:8px!important;}
+  .logo{min-width:248px!important;width:248px!important;flex:0 0 248px!important;}
+  .logo a{grid-template-columns:52px minmax(0,1fr)!important;column-gap:7px!important;}
+  .logo a::before{width:52px!important;height:45px!important;}
+  .logo a::after{font-size:14px!important;}
+  nav>ul>li{padding-left:5px!important;padding-right:5px!important;}
+  nav>ul>li>a{font-size:10.8px!important;}
+}
+</style>
+<style id="cultureeum-trust-home-final">
+.trust-home{background:#fbf8f1;color:#173f38;font-family:Pretendard,"Noto Sans KR",Arial,sans-serif}.trust-home *{box-sizing:border-box}
+.trust-hero{position:relative;min-height:640px;display:flex;align-items:center;overflow:hidden;background:url('메인사진.jpg') center 42%/cover no-repeat}.trust-hero-overlay{position:absolute;inset:0;background:linear-gradient(90deg,rgba(252,248,239,.98),rgba(252,248,239,.9) 36%,rgba(252,248,239,.34) 65%,rgba(15,49,42,.08))}
+.trust-hero-inner{position:relative;z-index:2;width:min(1380px,92%);margin:auto;padding:86px 0 92px}.trust-eyebrow{font-size:17px;font-weight:800;color:#8f6a31;margin-bottom:22px}.trust-hero h1{margin:0;max-width:830px;font-family:"Noto Serif KR","Batang",serif;font-size:clamp(52px,4.5vw,76px);line-height:1.22;letter-spacing:-.055em;color:#123f37}.trust-hero h1 strong{color:#a56f27}.trust-hero p{margin:27px 0 0;font-size:21px;line-height:1.8;color:#3f4a46;font-weight:600}.trust-actions{display:flex;gap:14px;margin-top:35px}.trust-actions a{min-width:190px;padding:17px 26px;border-radius:999px;text-decoration:none;text-align:center;font-size:17px;font-weight:800}.trust-actions .primary{background:#0d5548;color:#fff}.trust-actions .secondary{background:#fff;color:#17483f;border:1.5px solid #2d665c}
+.trust-strip{position:relative;z-index:4;width:min(1380px,94%);margin:-42px auto 0;background:#fff;border:1px solid #eadfce;border-radius:22px;box-shadow:0 18px 50px rgba(68,53,32,.10);display:grid;grid-template-columns:repeat(4,1fr);padding:26px 22px}.trust-strip div{padding:4px 25px;border-right:1px solid #e7dac7}.trust-strip div:last-child{border-right:0}.trust-strip b{display:block;font-size:19px;color:#12463d;margin-bottom:7px}.trust-strip span{font-size:14px;color:#6b6c67;line-height:1.5}
+.trust-section{width:min(1380px,92%);margin:auto;padding:100px 0}.trust-section-head{text-align:center;margin-bottom:42px}.trust-section-head span,.trust-instructor-title>span,.trust-media-copy>span{font-size:13px;font-weight:900;letter-spacing:.18em;color:#b27a2c}.trust-section-head h2,.trust-media-copy h2{font-family:"Noto Serif KR","Batang",serif;font-size:42px;letter-spacing:-.045em;margin:10px 0;color:#123f37}.trust-section-head p{font-size:18px;color:#70716d}
+.trust-program-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}.trust-program-card{background:#fff;border-radius:22px;overflow:hidden;text-decoration:none;color:inherit;border:1px solid #eadfce;box-shadow:0 12px 32px rgba(63,47,25,.07);transition:.25s}.trust-program-card:hover{transform:translateY(-6px)}.trust-program-img{height:230px;background-size:cover;background-position:center}.trust-program-body{padding:25px}.trust-program-body small{font:19px Georgia,serif;color:#b27a2c}.trust-program-body h3{font-family:"Noto Serif KR","Batang",serif;font-size:29px;margin:8px 0 13px}.trust-program-body p{font-size:16px;line-height:1.7;color:#5f625f}.trust-program-body b{display:inline-block;margin-top:16px;color:#8d6327;font-size:15px}
+.trust-instructors{display:grid;grid-template-columns:250px 1fr;gap:38px;align-items:center;border-top:1px solid #eadfce}.trust-instructor-title h2{font-family:"Noto Serif KR","Batang",serif;font-size:43px;line-height:1.25;margin:11px 0 18px}.trust-instructor-title p,.trust-media-copy p{font-size:17px;line-height:1.75;color:#686b67}.trust-instructor-title a,.trust-media-copy a{display:inline-block;margin-top:18px;padding:13px 19px;border-radius:999px;background:#b17a31;color:#fff;text-decoration:none;font-weight:800}
+.trust-teacher-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}.trust-teacher-grid a{text-align:center;text-decoration:none;color:#173f38;background:#fff;border:1px solid #eadfce;border-radius:17px;overflow:hidden;padding-bottom:16px}.trust-teacher-grid img{width:100%;aspect-ratio:4/5;object-fit:cover;display:block}.trust-teacher-grid b{display:block;font-size:17px;margin-top:13px}.trust-teacher-grid span{font-size:13px;color:#777}
+.trust-media{display:grid;grid-template-columns:235px 1fr;gap:34px;align-items:center;padding-top:85px}.trust-media-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}.trust-media-grid>a{background:#fff;border:1px solid #e6ddd0;border-radius:18px;overflow:hidden;text-decoration:none;color:#173f38;box-shadow:0 10px 26px rgba(63,47,25,.06)}.trust-media-grid img,.trust-media-placeholder{width:100%;aspect-ratio:16/9;object-fit:cover;display:block;background-size:cover;background-position:center;position:relative}.trust-media-placeholder i{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:54px;height:54px;border-radius:50%;display:grid;place-items:center;background:rgba(14,68,58,.88);color:#fff;font-style:normal}.trust-media-grid>a>div:last-child{padding:18px 19px 21px}.trust-media-grid small{font-size:11px;font-weight:900;letter-spacing:.15em;color:#b27a2c}.trust-media-grid h3{font-size:20px;line-height:1.45;margin:7px 0}.trust-media-grid p{font-size:14px;color:#777}
+.trust-values{padding:90px max(4%,calc((100% - 1380px)/2));background:#f1eadc;display:grid;grid-template-columns:.8fr 1.2fr;gap:55px;align-items:center}.trust-values>div:first-child span{font-size:12px;font-weight:900;letter-spacing:.18em;color:#a56f27}.trust-values h2{font-family:"Noto Serif KR","Batang",serif;font-size:42px;margin:10px 0 17px}.trust-values>div:first-child p{font-size:17px;line-height:1.8;color:#666}.trust-value-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.trust-value-cards div{background:#fff;border:1px solid #e0d2bc;border-radius:20px;padding:27px}.trust-value-cards b{font:19px Georgia,serif;color:#b27a2c}.trust-value-cards h3{font-family:"Noto Serif KR","Batang",serif;font-size:25px;margin:9px 0}.trust-value-cards p{font-size:15px;line-height:1.65;color:#666}
+.trust-cta{width:min(1380px,92%);margin:70px auto 90px;padding:48px 54px;border-radius:26px;background:linear-gradient(105deg,#0d493e,#1b6557);color:#fff;display:flex;justify-content:space-between;align-items:center;gap:30px}.trust-cta span{font-size:13px;letter-spacing:.16em;color:#e5c78e;font-weight:800}.trust-cta h2{font-family:"Noto Serif KR","Batang",serif;font-size:34px;margin:9px 0 10px}.trust-cta p{font-size:16px;color:rgba(255,255,255,.78)}.trust-cta>div:last-child{display:flex;gap:10px}.trust-cta a{padding:15px 22px;border-radius:999px;background:#f2d79d;color:#173f38;text-decoration:none;font-weight:900}.trust-cta a.outline{background:transparent;color:#fff;border:1px solid rgba(255,255,255,.6)}
+.trust-home~.hero,.trust-home~.programs,.trust-home~.counseling-section,.trust-home~.dark-gallery,.trust-home~.hobby-section,.trust-home~.instructor-section,.trust-home~.enrollment-section,.trust-home~.notices,.trust-home~.new-home{display:none!important}
+@media(max-width:1100px){.trust-strip{grid-template-columns:1fr 1fr}.trust-program-grid{grid-template-columns:1fr 1fr}.trust-instructors,.trust-media,.trust-values{grid-template-columns:1fr}.trust-teacher-grid{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:700px){.trust-hero{min-height:620px;background-position:62% center}.trust-hero-inner{padding:100px 0 75px}.trust-hero h1{font-size:40px}.trust-hero p{font-size:17px}.trust-actions{flex-direction:column;align-items:flex-start}.trust-strip,.trust-program-grid,.trust-media-grid,.trust-value-cards{grid-template-columns:1fr}.trust-strip div{border-right:0;border-bottom:1px solid #eadfce}.trust-section{padding:70px 0}.trust-section-head h2{font-size:32px}.trust-teacher-grid{grid-template-columns:repeat(2,1fr)}.trust-values{padding:65px 5%}.trust-cta{padding:36px 27px;flex-direction:column;align-items:flex-start}.trust-cta>div:last-child{flex-wrap:wrap}.trust-cta h2{font-size:28px}}
+</style>
+
+<style id="cultureeum-4060-nav-readable">
+@media (min-width:1351px){
+  .header-inner{padding-left:22px!important;padding-right:22px!important;gap:14px!important}
+  .logo{min-width:340px!important;width:340px!important;flex-basis:340px!important}
+  nav>ul>li{padding-left:9px!important;padding-right:9px!important}
+  nav>ul>li>a{font-size:16px!important;font-weight:800!important;letter-spacing:-.55px!important}
+}
+@media (min-width:1101px) and (max-width:1350px){
+  .logo{min-width:255px!important;width:255px!important;flex-basis:255px!important}
+  nav>ul>li{padding-left:5px!important;padding-right:5px!important}
+  nav>ul>li>a{font-size:13.5px!important;font-weight:800!important}
+}
+</style>
+
+
+<style id="cultureeum-final-mockup-density">
+/* 선택 시안 반영: 큰 글자 + 촘촘한 섹션 + 화면을 가득 채우는 구성 */
+.trust-hero{min-height:560px!important}
+.trust-hero-inner{padding:58px 0 78px!important}
+.trust-hero h1{font-size:clamp(56px,4.7vw,78px)!important;line-height:1.16!important}
+.trust-hero p{font-size:20px!important;margin-top:20px!important}
+.trust-actions{margin-top:25px!important}
+.trust-strip{margin-top:-36px!important;padding:22px 18px!important}
+.trust-section{padding:58px 0!important}
+.trust-section-head{margin-bottom:28px!important}
+.trust-section-head h2{font-size:39px!important;margin:7px 0!important}
+.trust-program-img{height:205px!important}
+.trust-program-body{padding:19px 21px 21px!important}
+.trust-program-body h3{font-size:27px!important;margin:5px 0 9px!important}
+.trust-program-body p{margin:0!important;line-height:1.55!important}
+.trust-program-body b{margin-top:11px!important}
+.trust-instructors{padding-top:46px!important;padding-bottom:48px!important;gap:25px!important}
+.trust-instructor-title h2{font-size:38px!important;margin:8px 0 12px!important}
+.trust-teacher-grid img{aspect-ratio:4/4.55!important}
+.trust-media{padding-top:48px!important;padding-bottom:48px!important;grid-template-columns:220px 1fr!important;gap:24px!important}
+.trust-media-copy h2{font-size:38px!important;line-height:1.25!important;margin:8px 0 12px!important}
+.trust-media-grid h3{font-size:18px!important;margin:5px 0!important}
+.trust-media-grid>a>div:last-child{padding:14px 16px 16px!important}
+.trust-testimonials{padding:40px max(4%,calc((100% - 1380px)/2)) 44px;background:#f4ede2;display:grid;grid-template-columns:230px 1fr;gap:25px;align-items:center}
+.trust-testimonial-title>span{font-size:12px;font-weight:900;letter-spacing:.16em;color:#b27a2c}
+.trust-testimonial-title h2{font-family:"Noto Serif KR","Batang",serif;font-size:32px;margin:6px 0;color:#123f37}
+.trust-testimonial-title p{font-size:15px;line-height:1.6;color:#686b67;margin:0}
+.trust-testimonial-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:13px}
+.trust-testimonial-grid a{position:relative;background:#fff;border:1px solid #e7dac7;border-radius:17px;padding:22px 22px 18px;text-decoration:none;color:#173f38;box-shadow:0 7px 20px rgba(63,47,25,.05)}
+.trust-testimonial-grid b{font-family:Georgia,serif;font-size:34px;line-height:.7;color:#b27a2c}
+.trust-testimonial-grid p{font-size:16px;font-weight:700;line-height:1.55;margin:8px 0 13px}
+.trust-testimonial-grid span{font-size:13px;color:#8d6327;font-weight:800}
+.trust-cta{margin:0 auto 42px!important;padding:35px 45px!important}
+.trust-cta h2{font-size:31px!important}
+@media(max-width:1100px){.trust-testimonials{grid-template-columns:1fr}.trust-testimonial-grid{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:700px){.trust-testimonials{padding:45px 5%;grid-template-columns:1fr}.trust-testimonial-grid{grid-template-columns:1fr}.trust-media{grid-template-columns:1fr!important}}
+</style>
+
+
+
+
+<style id="ce-three-individual-popup-final">
+/* 세 팝업을 각각 독립된 창으로 동시에 표시 */
+html body #popup.ce-multi-popup-wrap{
+ position:fixed!important;inset:0!important;z-index:2147483000!important;
+ display:flex!important;align-items:flex-start!important;justify-content:center!important;
+ gap:22px!important;padding:18px 24px!important;margin:0!important;
+ width:100vw!important;height:100vh!important;box-sizing:border-box!important;
+ background:transparent!important;backdrop-filter:none!important;
+ pointer-events:none!important;overflow:auto!important;
+}
+#popup .ce-individual-popup{
+ position:relative!important;flex:0 1 430px!important;width:min(430px,30.5vw)!important;
+ max-height:calc(100vh - 36px)!important;margin:0!important;padding:0!important;
+ border-radius:15px!important;overflow:hidden!important;background:#fff!important;
+ box-shadow:0 12px 34px rgba(20,40,35,.24)!important;pointer-events:auto!important;
+}
+#popup .ce-individual-popup img{
+ display:block!important;width:100%!important;height:auto!important;
+ max-height:calc(100vh - 36px)!important;object-fit:contain!important;margin:0!important;padding:0!important;
+}
+#popup .ce-individual-close{
+ position:absolute!important;top:9px!important;right:10px!important;z-index:8!important;
+ width:38px!important;height:38px!important;border:0!important;border-radius:50%!important;
+ background:rgba(20,40,45,.68)!important;color:#fff!important;
+ font:700 27px/38px Arial,sans-serif!important;text-align:center!important;
+ padding:0!important;margin:0!important;cursor:pointer!important;
+}
+/* 작은 PC/태블릿에서는 2열 또는 1열로 자연스럽게 내려감 */
+@media(max-width:1100px){
+ html body #popup.ce-multi-popup-wrap{flex-wrap:wrap!important;align-content:flex-start!important}
+ #popup .ce-individual-popup{width:min(430px,44vw)!important}
+}
+@media(max-width:700px){
+ html body #popup.ce-multi-popup-wrap{
+   display:block!important;padding:10px!important;overflow-y:auto!important;
+ }
+ #popup .ce-individual-popup{
+   width:min(92vw,430px)!important;margin:0 auto 14px!important;
+   max-height:none!important;
+ }
+ #popup .ce-individual-popup img{max-height:none!important}
+}
+</style>
+
+<style id="ce-mobile-optimization-final">
+/* ===== 모바일 전체 최적화 ===== */
+@media (max-width:700px){
+  html,body{width:100%!important;max-width:100%!important;overflow-x:hidden!important}
+  body{font-size:16px!important}
+  img,video,iframe{max-width:100%!important}
+
+  /* 헤더: 기존 로고 유지, 모바일에서는 메뉴 버튼/기존 모바일 내비가 화면 밖으로 나가지 않게 */
+  header,.header-inner{max-width:100vw!important;box-sizing:border-box!important}
+  .header-inner{padding-left:12px!important;padding-right:12px!important}
+  .logo{max-width:calc(100vw - 70px)!important;min-width:0!important}
+  .logo a{max-width:100%!important}
+
+  /* 본문 공통 여백 */
+  main,section,.section,.container,.content-wrap{
+    max-width:100%!important;
+    box-sizing:border-box!important;
+  }
+
+  /* 팝업: 세 장을 한 화면에 억지로 나열하지 않고 각각 큰 카드로 세로 배치 */
+  html body #popup.ce-multi-popup-wrap{
+    position:fixed!important;
+    inset:0!important;
+    z-index:2147483000!important;
+    display:block!important;
+    width:100vw!important;
+    height:100dvh!important;
+    padding:12px 10px 24px!important;
+    margin:0!important;
+    overflow-x:hidden!important;
+    overflow-y:auto!important;
+    background:rgba(250,247,240,.90)!important;
+    -webkit-overflow-scrolling:touch!important;
+    box-sizing:border-box!important;
+  }
+  #popup .ce-individual-popup{
+    position:relative!important;
+    display:block!important;
+    width:min(94vw,430px)!important;
+    max-width:430px!important;
+    max-height:none!important;
+    margin:0 auto 16px!important;
+    padding:0!important;
+    border-radius:14px!important;
+    overflow:hidden!important;
+    background:#fff!important;
+    box-shadow:0 8px 24px rgba(20,40,35,.18)!important;
+  }
+  #popup .ce-individual-popup img{
+    display:block!important;
+    width:100%!important;
+    height:auto!important;
+    max-height:none!important;
+    object-fit:contain!important;
+    margin:0!important;
+  }
+  #popup .ce-individual-close{
+    position:absolute!important;
+    top:8px!important;
+    right:8px!important;
+    width:38px!important;
+    height:38px!important;
+    min-width:38px!important;
+    min-height:38px!important;
+    border-radius:50%!important;
+    font-size:26px!important;
+    line-height:38px!important;
+    z-index:20!important;
+  }
+}
+
+/* 아주 작은 휴대폰 */
+@media (max-width:390px){
+  html body #popup.ce-multi-popup-wrap{padding:8px 7px 20px!important}
+  #popup .ce-individual-popup{width:96vw!important;margin-bottom:12px!important}
+  #popup .ce-individual-close{
+    width:36px!important;height:36px!important;min-width:36px!important;min-height:36px!important;
+    font-size:24px!important;line-height:36px!important;
+  }
+}
+</style>
+
+<style id="ce-popup-bottom-controls-style-final">
+/* 이미지에 인쇄된 X 위에 별도 동그란 X를 추가하지 않음 */
+#popup .ce-individual-close{display:none!important}
+
+/* 이미지 하단의 '오늘 하루 열지 않음 / 닫기' 위치만 실제 버튼으로 활성화 */
+#popup .ce-individual-popup{position:relative!important}
+#popup .ce-image-bottom-controls{
+  position:absolute!important;
+  left:0!important;right:0!important;bottom:0!important;
+  height:8.8%!important;
+  min-height:42px!important;
+  display:grid!important;
+  grid-template-columns:82% 18%!important;
+  z-index:30!important;
+  pointer-events:auto!important;
+}
+#popup .ce-image-bottom-controls button{
+  display:block!important;
+  width:100%!important;height:100%!important;
+  margin:0!important;padding:0!important;border:0!important;
+  background:transparent!important;
+  cursor:pointer!important;
+  -webkit-tap-highlight-color:transparent!important;
+}
+@media(max-width:700px){
+  #popup .ce-image-bottom-controls{min-height:40px!important}
+}
+</style>
+<style id="ce-popup-header-overlap-fix-final">
+/* 헤더가 팝업 위를 덮던 문제 해결: 팝업을 페이지 최상단 레이어로 고정 */
+html body #popup.ce-multi-popup-wrap{
+  position:fixed!important;
+  inset:0!important;
+  z-index:2147483647!important;
+  isolation:isolate!important;
+}
+html body #popup .ce-individual-popup{
+  z-index:2147483647!important;
+}
+@media (min-width:701px){
+  html body #popup .ce-individual-popup{
+    top:16px!important;
+  }
+}
+</style>
+
+
+
+<style id="ce-popup-layout-drag-v2">
+/* PC: 처음 열릴 때 3개가 반드시 나란히 모두 보이도록 배치 */
+@media (min-width:701px){
+  html body #popup.ce-multi-popup-wrap{
+    position:fixed!important;
+    inset:0!important;
+    display:block!important;
+    width:100vw!important;
+    height:100vh!important;
+    padding:0!important;
+    margin:0!important;
+    overflow:visible!important;
+    pointer-events:none!important;
+    z-index:2147483647!important;
+  }
+
+  html body #popup .ce-individual-popup{
+    position:absolute!important;
+    top:16px!important;
+    width:min(30.2vw,430px)!important;
+    max-width:430px!important;
+    max-height:calc(100vh - 32px)!important;
+    margin:0!important;
+    pointer-events:auto!important;
+    cursor:grab!important;
+    touch-action:none!important;
+    user-select:none!important;
+    -webkit-user-select:none!important;
+  }
+
+  /* JS가 뜨기 전에도 겹치지 않는 안전한 초기 위치 */
+  html body #popup .ce-individual-popup:nth-of-type(1){left:2%!important}
+  html body #popup .ce-individual-popup:nth-of-type(2){left:34.9%!important}
+  html body #popup .ce-individual-popup:nth-of-type(3){left:67.8%!important}
+
+  html body #popup .ce-individual-popup.ce-drag-ready{
+    left:var(--drag-left)!important;
+    top:var(--drag-top)!important;
+  }
+
+  html body #popup .ce-individual-popup.ce-dragging{
+    cursor:grabbing!important;
+    z-index:2147483647!important;
+  }
+
+  #popup .ce-individual-popup img{
+    display:block!important;
+    width:100%!important;
+    height:auto!important;
+    max-height:calc(100vh - 32px)!important;
+    object-fit:contain!important;
+    pointer-events:none!important;
+    -webkit-user-drag:none!important;
+  }
+
+  /* 클릭 기능이 있는 부분은 드래그보다 우선 */
+  #popup .ce-image-bottom-controls,
+  #popup .ce-image-bottom-controls button,
+  #popup .ce-image-x-close{
+    pointer-events:auto!important;
+  }
+}
+
+/* 모바일은 기존 한 열 최적화 유지 */
+@media (max-width:700px){
+  html body #popup.ce-multi-popup-wrap{
+    display:block!important;
+    overflow-y:auto!important;
+  }
+  html body #popup .ce-individual-popup{
+    position:relative!important;
+    left:auto!important;
+    top:auto!important;
+  }
+}
+</style>
+
+
+<style id="ce-popup-x-click-final">
+#popup .ce-individual-popup{position:absolute!important}
+#popup .ce-image-x-close{
+  display:block!important;
+  position:absolute!important;
+  top:0!important;
+  right:0!important;
+  width:18%!important;
+  height:10%!important;
+  min-width:54px!important;
+  min-height:48px!important;
+  z-index:2147483647!important;
+  border:0!important;
+  outline:0!important;
+  margin:0!important;
+  padding:0!important;
+  background:transparent!important;
+  cursor:pointer!important;
+  pointer-events:auto!important;
+  touch-action:manipulation!important;
+  -webkit-tap-highlight-color:transparent!important;
+}
+</style>
+
+<style id="ce-mobile-hero-popup-click-final">
+/* ===== 모바일 메인 첫 화면 ===== */
+@media (max-width:700px){
+  /* 뒤쪽의 PC용 큰 글자 규칙보다 우선하여 제목이 잘리지 않게 */
+  html body .trust-hero{
+    min-height:auto!important;
+    background-position:64% center!important;
+  }
+  html body .trust-hero-inner{
+    width:92%!important;
+    padding:52px 0 58px!important;
+  }
+  html body .trust-eyebrow{
+    font-size:14px!important;
+    margin-bottom:14px!important;
+  }
+  html body .trust-hero h1{
+    max-width:100%!important;
+    font-size:clamp(36px,10.4vw,44px)!important;
+    line-height:1.20!important;
+    letter-spacing:-.055em!important;
+    word-break:keep-all!important;
+    overflow-wrap:normal!important;
+  }
+  html body .trust-hero h1 br{display:block!important}
+  html body .trust-hero p{
+    font-size:16px!important;
+    line-height:1.72!important;
+    margin-top:20px!important;
+    word-break:keep-all!important;
+  }
+  html body .trust-actions{
+    margin-top:25px!important;
+    gap:12px!important;
+  }
+  html body .trust-actions a{
+    width:min(100%,310px)!important;
+    min-width:0!important;
+    box-sizing:border-box!important;
+    font-size:17px!important;
+    padding:16px 22px!important;
+  }
+
+  /* ===== 모바일 팝업 =====
+     PC 드래그용 absolute 규칙을 모바일에서는 확실히 해제 */
+  html body #popup.ce-multi-popup-wrap{
+    display:block!important;
+    position:fixed!important;
+    inset:0!important;
+    width:100vw!important;
+    height:100dvh!important;
+    padding:10px 8px 24px!important;
+    overflow-x:hidden!important;
+    overflow-y:auto!important;
+    pointer-events:auto!important;
+    z-index:2147483647!important;
+    box-sizing:border-box!important;
+    -webkit-overflow-scrolling:touch!important;
+  }
+  html body #popup .ce-individual-popup{
+    position:relative!important;
+    left:auto!important;
+    right:auto!important;
+    top:auto!important;
+    bottom:auto!important;
+    width:min(96vw,430px)!important;
+    max-width:430px!important;
+    max-height:none!important;
+    margin:0 auto 14px!important;
+    pointer-events:auto!important;
+    touch-action:pan-y!important;
+    overflow:hidden!important;
+  }
+  html body #popup .ce-individual-popup img{
+    width:100%!important;
+    height:auto!important;
+    max-height:none!important;
+    pointer-events:none!important;
+  }
+
+  /* 이미지 우측 상단에 인쇄된 X를 넉넉한 터치영역으로 활성화 */
+  html body #popup .ce-image-x-close{
+    display:block!important;
+    position:absolute!important;
+    top:0!important;
+    right:0!important;
+    width:22%!important;
+    height:11%!important;
+    min-width:64px!important;
+    min-height:52px!important;
+    z-index:2147483647!important;
+    background:transparent!important;
+    border:0!important;
+    pointer-events:auto!important;
+    touch-action:manipulation!important;
+    cursor:pointer!important;
+  }
+
+  /* 이미지 하단 '오늘 하루 열지 않음 / 닫기' 터치영역 */
+  html body #popup .ce-image-bottom-controls{
+    display:grid!important;
+    position:absolute!important;
+    left:0!important;
+    right:0!important;
+    bottom:0!important;
+    width:100%!important;
+    height:9.5%!important;
+    min-height:48px!important;
+    grid-template-columns:78% 22%!important;
+    z-index:2147483646!important;
+    pointer-events:auto!important;
+  }
+  html body #popup .ce-image-bottom-controls button{
+    display:block!important;
+    width:100%!important;
+    height:100%!important;
+    min-height:48px!important;
+    padding:0!important;
+    margin:0!important;
+    border:0!important;
+    background:transparent!important;
+    pointer-events:auto!important;
+    touch-action:manipulation!important;
+    cursor:pointer!important;
+  }
+}
+@media (max-width:390px){
+  html body .trust-hero h1{
+    font-size:clamp(34px,10.2vw,40px)!important;
+  }
+}
+</style>
+
+<!-- 문화 이음 플랫폼 검색엔진 정보 -->
+<meta name="description" content="문화 이음 플랫폼은 예술 인문학, 심리상담, 원데이 클래스 등 문화와 배움을 통해 사람과 마음을 잇는 문화 플랫폼입니다.">
+<link rel="canonical" href="https://www.cultureeum.kr/">
+<meta property="og:site_name" content="문화 이음 플랫폼">
+<meta property="og:title" content="문화 이음 플랫폼 | 문화와 마음이 닿는 곳">
+<meta property="og:description" content="문화 이음 플랫폼은 예술 인문학, 심리상담, 원데이 클래스 등 문화와 배움을 통해 사람과 마음을 잇는 문화 플랫폼입니다.">
+<meta property="og:url" content="https://www.cultureeum.kr/">
+<meta name="twitter:title" content="문화 이음 플랫폼 | 문화와 마음이 닿는 곳">
+<meta name="twitter:description" content="문화 이음 플랫폼은 예술 인문학, 심리상담, 원데이 클래스 등 문화와 배움을 통해 사람과 마음을 잇는 문화 플랫폼입니다.">
+<script id="ce-site-structured-data" type="application/ld+json">{"@context": "https://schema.org", "@type": "WebSite", "name": "문화 이음 플랫폼", "url": "https://www.cultureeum.kr/", "description": "문화 이음 플랫폼은 예술 인문학, 심리상담, 원데이 클래스 등 문화와 배움을 통해 사람과 마음을 잇는 문화 플랫폼입니다.", "alternateName": "Culture Eum Platform"}</script>
+
+
+<style id="ce-exact-mobile-hero-final">
+@media (max-width:900px){
+  html body .trust-hero{
+    min-height:auto!important;
+    overflow:visible!important;
+  }
+  html body .trust-hero-inner{
+    width:100%!important;
+    max-width:100%!important;
+    box-sizing:border-box!important;
+    margin:0!important;
+    padding:150px 32px 54px!important;
+  }
+  html body .trust-hero .ce-mobile-hero-title{
+    display:block!important;
+    width:100%!important;
+    max-width:100%!important;
+    height:auto!important;
+    max-height:none!important;
+    margin:0 0 24px!important;
+    padding:0!important;
+    overflow:visible!important;
+    white-space:normal!important;
+    font-size:0!important;
+    line-height:1!important;
+  }
+  html body .trust-hero .ce-mobile-hero-title > span{
+    display:block!important;
+    visibility:visible!important;
+    opacity:1!important;
+    width:100%!important;
+    height:auto!important;
+    margin:0 0 7px!important;
+    padding:0!important;
+    overflow:visible!important;
+    white-space:nowrap!important;
+    color:#0B443A!important;
+    font-size:36px!important;
+    font-weight:700!important;
+    line-height:1.18!important;
+    letter-spacing:-2.2px!important;
+  }
+  html body .trust-hero .ce-mobile-hero-title > strong{
+    display:block!important;
+    visibility:visible!important;
+    opacity:1!important;
+    width:100%!important;
+    height:auto!important;
+    margin:0!important;
+    padding:0!important;
+    overflow:visible!important;
+    white-space:normal!important;
+    color:#A96E20!important;
+    font-size:36px!important;
+    font-weight:700!important;
+    line-height:1.24!important;
+    letter-spacing:-2.2px!important;
+  }
+}
+@media (max-width:430px){
+  html body .trust-hero-inner{padding:150px 28px 54px!important}
+  html body .trust-hero .ce-mobile-hero-title > span,
+  html body .trust-hero .ce-mobile-hero-title > strong{
+    font-size:34px!important;
+    letter-spacing:-2px!important;
+  }
+}
+@media (max-width:370px){
+  html body .trust-hero .ce-mobile-hero-title > span,
+  html body .trust-hero .ce-mobile-hero-title > strong{
+    font-size:31px!important;
+    letter-spacing:-1.6px!important;
+  }
+}
+</style>
+
+<style id="ce-popup-mobile-visibility-safety">
+@media(max-width:700px){
+  html body #popup.ce-multi-popup-wrap{
+    visibility:visible!important;
+    opacity:1!important;
+  }
+  html body #popup.ce-multi-popup-wrap:not([style*="display: none"]){
+    display:block!important;
+  }
+  html body #popup .ce-individual-popup:not([style*="display: none"]){
+    display:block!important;
+    position:relative!important;
+    left:auto!important;top:auto!important;
+  }
+}
+</style>
 </head>
-<body class="antialiased overflow-x-hidden">
-    <div id="instructor-modal" class="fixed inset-0 z-[100] hidden" aria-labelledby="modal-title" role="dialog" aria-modal="true">
-        <div class="fixed inset-0 bg-black/70 backdrop-blur-sm transition-opacity" aria-hidden="true" onclick="closeModal()"></div>
-        <div class="fixed inset-0 z-10 w-screen overflow-y-auto">
-            <div class="flex min-h-full items-center justify-center p-4 text-center sm:p-0">
-                <div class="relative transform overflow-hidden rounded-2xl bg-white text-left shadow-2xl transition-all sm:my-8 sm:w-full sm:max-w-2xl border border-[var(--brand-gold)]/20">
-                    
-                    <div class="bg-[var(--brand-green)] px-6 pt-12 pb-16 sm:px-10 sm:pt-14 sm:pb-20 relative text-center sm:text-left">
-                        <button type="button" class="absolute top-4 right-4 text-white/70 hover:text-white transition-colors p-1" onclick="closeModal()">
-                            <i data-lucide="x" class="w-6 h-6"></i>
-                        </button>
-
-                        <div class="flex flex-col sm:flex-row items-center gap-6 relative z-10">
-                            <div class="h-32 w-32 sm:h-40 sm:w-40 rounded-full border-4 border-[var(--brand-gold)] shadow-2xl overflow-hidden flex-shrink-0 bg-white">
-                                <img id="modal-img" src="" alt="멘토 상세 이미지" class="h-full w-full object-cover">
-                            </div>
-                            
-                            <div class="text-center sm:text-left">
-                                <h3 class="text-3xl font-bold text-white mb-1 tracking-tight" id="modal-name">이름</h3>
-                                <p class="text-[var(--brand-gold)] font-bold text-lg" id="modal-role">직책</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="px-6 py-8 sm:px-10 bg-white -mt-8 rounded-t-3xl relative z-10">
-                        <p id="modal-desc" class="text-gray-600 leading-relaxed font-medium mb-8 text-lg">
-                            상세 소개글이 들어갑니다.
-                        </p>
-                        
-                        <div class="bg-gray-50 rounded-xl p-6 border border-gray-100 shadow-inner">
-                            <h4 class="text-sm font-bold text-[var(--brand-green)] uppercase tracking-wider mb-4 flex items-center">
-                                <i data-lucide="award" class="w-4 h-4 mr-2"></i>Motto & Wise saying
-                            </h4>
-                            <ul class="space-y-3 text-sm text-gray-700" id="modal-career">
-                                </ul>
-                        </div>
-
-                        <div class="mt-8 text-center sm:text-right">
-                            <button type="button" class="inline-flex w-full justify-center rounded-lg bg-[var(--brand-green)] px-6 py-3 text-sm font-bold text-white shadow-lg hover:bg-[#032b1d] sm:w-auto transition-colors" onclick="closeModal()">
-                                닫기
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div id="curriculum-modal" class="fixed inset-0 z-[100] hidden" aria-labelledby="modal-title" role="dialog" aria-modal="true">
-        <div class="fixed inset-0 bg-black/80 backdrop-blur-sm transition-opacity" aria-hidden="true" onclick="closeCurriculumModal()"></div>
-        <div class="fixed inset-0 z-10 w-screen overflow-y-auto">
-            <div class="flex min-h-full items-center justify-center p-4 text-center sm:p-0">
-                <div class="relative transform overflow-hidden rounded-2xl bg-[#082017] text-left shadow-2xl transition-all sm:my-8 sm:w-full sm:max-w-lg border border-[var(--brand-gold)]">
-                    <div class="absolute right-4 top-4 z-20">
-                        <button type="button" class="text-gray-400 hover:text-[var(--brand-gold)] transition-colors p-1" onclick="closeCurriculumModal()">
-                            <i data-lucide="x" class="w-6 h-6"></i>
-                        </button>
-                    </div>
-                    <div class="px-6 py-8 sm:p-10">
-                        <div class="flex items-center justify-between mb-6">
-                            <div class="text-[var(--brand-gold)] text-5xl font-serif font-bold opacity-20" id="curr-modal-step-bg">01</div>
-                            <span class="px-3 py-1 rounded-full border border-[var(--brand-gold)] text-[var(--brand-gold)] text-xs font-bold uppercase tracking-wider" id="curr-modal-level">Level</span>
-                        </div>
-                        <h3 class="text-3xl font-bold text-white mb-2" id="curr-modal-title">Title</h3>
-                        <p class="text-gray-400 text-sm mb-8 font-serif italic" id="curr-modal-subtitle">Subtitle</p>
-                        <p class="text-gray-300 text-sm leading-relaxed mb-8 border-l-2 border-[var(--brand-gold)] pl-4" id="curr-modal-desc">
-                            상세 설명이 들어갑니다.
-                        </p>
-                        <div class="bg-[#0a3f28] rounded-xl p-6">
-                            <h4 class="text-xs font-bold text-[var(--brand-gold)] uppercase tracking-wider mb-4 border-b border-white/10 pb-2">What you will learn</h4>
-                            <ul class="space-y-3 text-sm text-gray-200" id="curr-modal-list"></ul>
-                        </div>
-                    </div>
-                    <div class="bg-[#051811] px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
-                        <button type="button" class="inline-flex w-full justify-center rounded-lg bg-[var(--brand-gold)] px-5 py-2.5 text-sm font-bold text-[#053b28] shadow-sm hover:bg-white transition-colors sm:w-auto" onclick="closeCurriculumModal()">확인</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <nav class="fixed w-full z-50 bg-brand-green/90 backdrop-blur-md border-b border-white/10 transition-all duration-300">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center h-20">
-                <div class="flex-shrink-0 flex items-center gap-3 cursor-pointer" onclick="window.location.href='index.html'">
-                    
-                    <img src="logo.png" 
-                         onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'" 
-                         alt="위드 아카데미 로고" 
-                         class="w-10 h-10 rounded-full object-cover border-2 border-[var(--brand-gold)]">
-                    
-                    <div class="w-10 h-10 rounded-full border-2 border-[var(--brand-gold)] items-center justify-center bg-[#053b28] shadow-[0_0_10px_rgba(207,170,86,0.3)] group hover:animate-soft-pulse transition-all hidden">
-                        <i data-lucide="compass" class="w-6 h-6 text-[var(--brand-gold)]"></i>
-                    </div>
-                    
-                    <div class="flex items-baseline gap-1.5">
-                        <span class="text-[var(--brand-gold)] text-2xl font-serif italic font-bold tracking-wider drop-shadow-md">WITH</span>
-                        <span class="text-white text-xl font-bold tracking-wide">ACADEMY</span>
-                    </div>
-                </div>
-                
-                <div class="hidden lg:flex space-x-4">
-                    <a href="index.html" class="text-gray-300 hover:text-brand-gold transition-colors font-medium text-sm">홈</a>
-                    <a href="about.html" class="text-gray-300 hover:text-brand-gold transition-colors font-medium text-sm">소개</a>
-                    <a href="news.html" class="text-gray-300 hover:text-brand-gold transition-colors font-medium text-sm">청년 현실</a>
-                    <a href="instructors.html" class="text-gray-300 hover:text-brand-gold transition-colors font-medium text-sm">강사진</a>
-                    <a href="curriculum.html" class="text-gray-300 hover:text-brand-gold transition-colors font-medium text-sm">커리큘럼</a>
-                    <a href="gallery.html" class="text-gray-300 hover:text-brand-gold transition-colors font-medium text-sm">갤러리</a>
-                    <a href="history.html" class="text-gray-300 hover:text-brand-gold transition-colors font-medium text-sm">연혁</a>
-                    <a href="reviews.html" class="text-gray-300 hover:text-brand-gold transition-colors font-medium text-sm">후기</a>
-                    <a href="contact.html" class="px-5 py-2 rounded-full border border-[var(--brand-gold)] text-[var(--brand-gold)] hover:bg-[var(--brand-gold)] hover:text-[#053b28] transition-all font-bold text-sm">상담 신청</a>
-                </div>
-
-                <div class="lg:hidden flex items-center">
-                    <button class="text-white hover:text-brand-gold p-2 transition-transform duration-200" id="mobile-menu-btn" onclick="toggleMobileMenu()">
-                        <i data-lucide="menu" class="w-6 h-6"></i>
-                    </button>
-                </div>
-            </div>
-        </div>
-        
-        <div id="mobile-menu" class="lg:hidden hidden bg-[#053b28] border-t border-white/10 absolute w-full left-0 top-20 shadow-xl transition-all duration-300 transform -translate-y-4 opacity-0 z-40">
-            <div class="px-4 pt-2 pb-6 space-y-2">
-                <a href="index.html" class="block px-3 py-3 text-base font-medium text-white hover:text-[var(--brand-gold)] hover:bg-white/5 rounded-md transition-colors" onclick="toggleMobileMenu()">홈</a>
-                <a href="about.html" class="block px-3 py-3 text-base font-medium text-white hover:text-[var(--brand-gold)] hover:bg-white/5 rounded-md transition-colors" onclick="toggleMobileMenu()">소개</a>
-                <a href="news.html" class="block px-3 py-3 text-base font-medium text-white hover:text-[var(--brand-gold)] hover:bg-white/5 rounded-md transition-colors" onclick="toggleMobileMenu()">청년 현실</a>
-                <a href="instructors.html" class="block px-3 py-3 text-base font-medium text-white hover:text-[var(--brand-gold)] hover:bg-white/5 rounded-md transition-colors" onclick="toggleMobileMenu()">강사진</a>
-                <a href="curriculum.html" class="block px-3 py-3 text-base font-medium text-white hover:text-[var(--brand-gold)] hover:bg-white/5 rounded-md transition-colors" onclick="toggleMobileMenu()">커리큘럼</a>
-                <a href="gallery.html" class="block px-3 py-3 text-base font-medium text-white hover:text-[var(--brand-gold)] hover:bg-white/5 rounded-md transition-colors" onclick="toggleMobileMenu()">갤러리</a>
-                <a href="history.html" class="block px-3 py-3 text-base font-medium text-white hover:text-[var(--brand-gold)] hover:bg-white/5 rounded-md transition-colors" onclick="toggleMobileMenu()">연혁</a>
-                <a href="reviews.html" class="block px-3 py-3 text-base font-medium text-white hover:text-[var(--brand-gold)] hover:bg-white/5 rounded-md transition-colors" onclick="toggleMobileMenu()">후기</a>
-                <a href="contact.html" class="block px-3 py-3 mt-4 text-center text-base font-bold bg-[var(--brand-gold)] text-[#053b28] hover:bg-[#e6c87e] rounded-md transition-colors" onclick="toggleMobileMenu()">상담 신청</a>
-            </div>
-        </div>
-    </nav>
-<main class="page-main">
-    <header class="relative bg-brand-green min-h-screen flex items-center justify-center overflow-hidden">
-        <div class="absolute inset-0 z-0">
-            <img src="A_fresh_spring-themed_homepage_background_image_sy-1770791023434.jpg" alt="Academy Background" class="w-full h-full object-cover opacity-50 mix-blend-overlay">
-            <div class="absolute inset-0 bg-gradient-to-r from-[#053b28]/90 via-[#053b28]/70 to-[#053b28]/60"></div>
-        </div>
-
-        <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center w-full">
-            <div class="w-full md:w-1/2 text-center md:text-left mb-12 md:mb-0 pt-20 md:pt-0">
-                <div class="inline-block px-4 py-1 mb-6 border border-[var(--brand-gold)]/30 rounded-full bg-[#032b1d]/50 backdrop-blur-sm">
-                    <span class="text-[var(--brand-gold)] text-xs sm:text-sm font-semibold tracking-wider">BUSAN 2030 YOUTH CAMPUS</span>
-                </div>
-                
-                <h1 class="text-5xl md:text-7xl font-bold text-white mb-6 leading-tight drop-shadow-lg tracking-tight">
-                    <div class="typing-container">
-                        <span class="typing-text pr-2">BUSAN</span>
-                    </div>
-                    <div class="font-serif italic mt-2 text-5xl md:text-7xl hero-shine-text block">
-                        WITH
-                    </div>
-                    <div class="font-serif italic -mt-2 text-5xl md:text-7xl hero-shine-text block">
-                        ACADEMY
-                    </div>
-                </h1>
-
-                <p class="text-gray-200 text-base sm:text-lg mb-8 max-w-lg mx-auto md:mx-0 leading-relaxed drop-shadow-md">
-                    3월, 새싹이 돋아나듯 당신의 가능성도 움틉니다.<br>
-                    나를 아는 순간, 미래는 스스로 선명해집니다.
-                </p>
-                <div class="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
-		<a href="about.html" class="inline-block">
-                    <button class="px-8 py-4 bg-brand-gold text-[#053b28] font-bold rounded-lg shadow-lg hover:bg-[#e6c87e] transition-all flex items-center justify-center gap-2 transform hover:-translate-y-1">
-                        과정 알아보기 <i data-lucide="arrow-right" class="w-4 h-4"></i>
-                    </button>
-		</a>
-                </div>
-            </div>
-
-            <div class="w-full md:w-1/2 flex justify-center relative">
-    <div class="relative w-64 h-64 sm:w-80 sm:h-80 md:w-[500px] md:h-[500px] compass-float">
-        <div class="absolute inset-0 rounded-full border-2 border-[var(--brand-gold)] opacity-30"></div>
-        <div class="absolute inset-4 rounded-full border border-[var(--brand-gold)] opacity-60"></div>
-
-        <div class="absolute inset-0 flex items-center justify-center z-20 overflow-hidden rounded-full">
-            <video 
-                src="i.mp4" 
-                class="w-full h-full object-cover" 
-                autoplay 
-                muted 
-                loop 
-                playsinline>
-            </video>
-        </div>
-    </div>
+<body class="home-short premium-home">
+<!-- CULTUREEUM THREE INDIVIDUAL POPUPS -->
+<div id="popup" class="ce-multi-popup-wrap" aria-label="문화이음플랫폼 안내 팝업">
+  <div class="ce-individual-popup" data-popup="1">
+<img src="팝업/팝업 사진1.png" alt="개인정보 취급 및 유의 안내">
+  </div>
+  <div class="ce-individual-popup" data-popup="2">
+<img src="팝업/팝업 사진2.png" alt="2026년 10월 특별 강좌 소개">
+  </div>
+  <div class="ce-individual-popup" data-popup="3">
+<img src="팝업/팝업 사진3.png" alt="아로마테라피 북 퍼퓸 3기 마감 안내">
+  </div>
 </div>
-        </div>
-    </header>
-<section class="bg-white py-16 px-4"><div class="max-w-7xl mx-auto"><p class="text-center text-[#cfaa56] font-bold tracking-widest">EXPLORE WITH ACADEMY</p><h2 class="text-3xl font-bold text-center text-[#053b28] mt-3 mb-10">원하는 메뉴를 선택하세요</h2><div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5"><a href="about.html" class="group block bg-[#f8f9fa] rounded-2xl shadow-md hover:shadow-xl border border-gray-100 hover:border-[#cfaa56] p-7 transition-all hover:-translate-y-1"><div class="text-[#053b28] text-xl font-bold group-hover:text-[#a47f2f]">소개 →</div><p class="text-gray-500 text-sm mt-3">위드 아카데미 소개</p></a><a href="news.html" class="group block bg-[#f8f9fa] rounded-2xl shadow-md hover:shadow-xl border border-gray-100 hover:border-[#cfaa56] p-7 transition-all hover:-translate-y-1"><div class="text-[#053b28] text-xl font-bold group-hover:text-[#a47f2f]">청년 현실 →</div><p class="text-gray-500 text-sm mt-3">부산 청년의 현실</p></a><a href="instructors.html" class="group block bg-[#f8f9fa] rounded-2xl shadow-md hover:shadow-xl border border-gray-100 hover:border-[#cfaa56] p-7 transition-all hover:-translate-y-1"><div class="text-[#053b28] text-xl font-bold group-hover:text-[#a47f2f]">강사진 →</div><p class="text-gray-500 text-sm mt-3">함께하는 멘토진</p></a><a href="curriculum.html" class="group block bg-[#f8f9fa] rounded-2xl shadow-md hover:shadow-xl border border-gray-100 hover:border-[#cfaa56] p-7 transition-all hover:-translate-y-1"><div class="text-[#053b28] text-xl font-bold group-hover:text-[#a47f2f]">커리큘럼 →</div><p class="text-gray-500 text-sm mt-3">수강 과정 살펴보기</p></a><a href="gallery.html" class="group block bg-[#f8f9fa] rounded-2xl shadow-md hover:shadow-xl border border-gray-100 hover:border-[#cfaa56] p-7 transition-all hover:-translate-y-1"><div class="text-[#053b28] text-xl font-bold group-hover:text-[#a47f2f]">갤러리 →</div><p class="text-gray-500 text-sm mt-3">현장 스케치</p></a><a href="history.html" class="group block bg-[#f8f9fa] rounded-2xl shadow-md hover:shadow-xl border border-gray-100 hover:border-[#cfaa56] p-7 transition-all hover:-translate-y-1"><div class="text-[#053b28] text-xl font-bold group-hover:text-[#a47f2f]">연혁 →</div><p class="text-gray-500 text-sm mt-3">주요 연혁</p></a><a href="reviews.html" class="group block bg-[#f8f9fa] rounded-2xl shadow-md hover:shadow-xl border border-gray-100 hover:border-[#cfaa56] p-7 transition-all hover:-translate-y-1"><div class="text-[#053b28] text-xl font-bold group-hover:text-[#a47f2f]">후기 →</div><p class="text-gray-500 text-sm mt-3">참여 후기</p></a><a href="contact.html" class="group block bg-[#f8f9fa] rounded-2xl shadow-md hover:shadow-xl border border-gray-100 hover:border-[#cfaa56] p-7 transition-all hover:-translate-y-1"><div class="text-[#053b28] text-xl font-bold group-hover:text-[#a47f2f]">상담 신청 →</div><p class="text-gray-500 text-sm mt-3">상담 신청하기</p></a></div></div></section>
+<!-- /CULTUREEUM THREE INDIVIDUAL POPUPS -->
+<!-- 여기부터 원래 홈페이지 내용 -->
+<!-- 헤더 -->
+<header>
+<div class="container header-inner">
+<div class="logo"><a href="index.html">문화 이음 플랫폼</a></div>
+<nav>
+<ul>
+<li class="dropdown">
+<a aria-expanded="false" aria-haspopup="true" href="#" id="platformMenu">
+                            문화 이음 플랫폼이란?
+                        </a>
+<ul aria-label="문화 이음 플랫폼 소개" class="dropdown-menu">
+<li><a href="about.html#greeting">대표 인사말</a></li>
+<li><a href="about.html#purpose">문화이음플랫폼 설립 취지</a></li>
+<li><a href="about.html#seoul">서울 문화 이음 플랫폼</a></li>
+<li><a href="about.html#busan">부산 문화 이음 플랫폼</a></li>
+</ul>
+</li>
+<li>
+<a href="instructors.html#instructors" id="instructorMenu">
+                            Instructor
+                        </a>
+</li>
+<li class="dropdown">
+<a aria-expanded="false" aria-haspopup="true" href="#" id="artsMenu">
+                            예술 인문학
+                        </a>
+<ul aria-label="예술 인문학 카테고리" class="dropdown-menu">
+<li><a href="humanities.html#art-museum">미술인문학</a></li>
+<li><a href="humanities.html#art-classic">고전인문학</a></li>
+<li><a href="humanities.html#art-music">음악인문학</a></li>
+<li><a href="humanities.html#art-film">영화인문학</a></li>
+</ul>
+</li>
+<li class="dropdown">
+<a aria-expanded="false" aria-haspopup="true" href="#" id="counselingMenu">
+                            심리상담
+                        </a>
+<ul aria-label="심리상담 카테고리" class="dropdown-menu">
+<li><a href="counseling.html#counseling-tci">TCI &amp; DISC</a></li>
+<li><a href="counseling.html#counseling-color">컬러 테라피</a></li>
+<li><a href="counseling.html#counseling-book">북테라피</a></li>
+<li><a href="counseling.html#counseling-tarot">명리학, 타로</a></li>
+<li><a href="counseling.html#counseling-image">이미지 메이킹</a></li>
+<li><a href="counseling.html#counseling-photo">사진강좌</a></li>
+<li><a href="counseling.html#counseling-brain">뇌과학</a></li>
+</ul>
+</li>
+<li>
+<a href="oneday.html#hobby-section" id="hobbyMenu">
+                            취미원정대 : 원데이 클래스
+                        </a>
+</li>
+<!-- 수정됨: 수강신청 안내 -> 수강신청서 (클릭 시 이동) -->
+<li><a href="apply.html#enrollment-section">수강신청서</a></li>
+<li><a href="community.html" class="new-top-menu">커뮤니티</a></li>
+<li><a href="media.html" class="new-top-menu">미디어 이야기</a></li>
+<li><a href="reviews.html" class="new-top-menu">상담 후기</a></li>
+</ul>
+</nav>
+</div>
+</header>
+<main class="trust-home">
+<section class="trust-hero"><div class="trust-hero-overlay"></div><div class="trust-hero-inner">
+<div class="trust-eyebrow">문화와 사람이 만나는 특별한 공간</div>
+<h1 class="ce-mobile-hero-title"><span>예술과 심리가 만나</span><strong>당신의 일상이 더 빛납니다</strong></h1>
+<p>문화와 배움으로 오늘이 더 특별해지는 새로운 경험.<br>편안하게 배우고, 깊이 있게 나를 만나는 시간을 시작해 보세요.</p>
+<div class="trust-actions"><a class="primary" href="#trust-programs">강좌 둘러보기 →</a><a class="secondary" href="about.html">플랫폼 소개 →</a></div>
+</div></section>
+<section class="trust-strip"><div><b>전문 강사진 8인</b><span>분야별 전문 강사진과 함께</span></div><div><b>다양한 프로그램</b><span>예술·인문학·심리상담·원데이 클래스</span></div><div><b>편안한 배움</b><span>부담 없이 시작하는 문화 경험</span></div><div><b>신뢰할 수 있는 운영</b><span>사람과 배움을 잇는 체계적인 프로그램</span></div></section>
+<section class="trust-section" id="trust-programs"><div class="trust-section-head"><span>OUR PROGRAM</span><h2>당신을 위한 특별한 문화 클래스</h2><p>관심과 필요에 따라 편안하게 선택할 수 있는 프로그램을 만나보세요.</p></div>
+<div class="trust-program-grid">
+<a class="trust-program-card" href="humanities.html"><div class="trust-program-img" style="background-image:url('images/humanities-new/art.jpg')"></div><div class="trust-program-body"><small>01</small><h3>예술 인문학</h3><p>미술 · 고전 · 음악 · 영화<br>예술로 만나는 더 넓은 세상</p><b>자세히 보기 →</b></div></a>
+<a class="trust-program-card" href="counseling.html"><div class="trust-program-img" style="background-image:url('심리 상담/TCI & DISC.jpg')"></div><div class="trust-program-body"><small>02</small><h3>심리상담</h3><p>TCI · DISC · 컬러테라피<br>나를 이해하고 관계를 돌아보는 시간</p><b>자세히 보기 →</b></div></a>
+<a class="trust-program-card" href="oneday.html#hobby-section"><div class="trust-program-img" style="background-image:url('원데이클래스/아로마 테라피.png')"></div><div class="trust-program-body"><small>03</small><h3>원데이 클래스</h3><p>취미를 넘어 특별한 경험<br>일상을 채우는 작은 행복</p><b>자세히 보기 →</b></div></a>
+<a class="trust-program-card" href="community.html"><div class="trust-program-img" style="background-image:url('원데이클래스/플라워.jpg')"></div><div class="trust-program-body"><small>04</small><h3>문화 커뮤니티</h3><p>함께 나누는 문화 이야기<br>배움과 사람이 이어지는 공간</p><b>둘러보기 →</b></div></a>
+</div></section>
+<section class="trust-section trust-instructors"><div class="trust-instructor-title"><span>OUR INSTRUCTORS</span><h2>함께하는<br>전문 강사진</h2><p>각 분야의 전문 강사진이<br>여러분의 배움과 성장을 함께합니다.</p><a href="instructors.html#instructors">강사진 더보기 →</a></div>
+<div class="trust-teacher-grid"><a href="instructors.html#instructors"><img src="images/서경석 사진.jpg" alt="서경석 강사"><b>서경석</b><span>전문 강사진</span></a><a href="instructors.html#instructors"><img src="images/이윤하 사진.jpg" alt="이윤하 강사"><b>이윤하</b><span>전문 강사진</span></a><a href="instructors.html#instructors"><img src="images/김기현 사진.jpg" alt="김기현 강사"><b>김기현</b><span>전문 강사진</span></a><a href="instructors.html#instructors"><img src="images/최유진 사진.jpg" alt="최유진 강사"><b>최유진</b><span>전문 강사진</span></a><a href="instructors.html#instructors"><img src="images/박애순 사진.jpg" alt="박애순 강사"><b>박애순</b><span>전문 강사진</span></a></div></section>
+<section class="trust-section trust-media">
+<div class="trust-media-copy"><span>MEDIA STORY</span><h2>미디어 속<br>심리 이야기</h2><p>익숙한 장면을 새로운 시선으로 바라보는 콘텐츠를 만나보세요.</p><a href="media.html">더 많은 영상 보기 →</a></div>
+<div class="trust-media-grid">
+<a href="https://www.youtube.com/watch?v=uPFKKTbIRSw" target="_blank" rel="noopener"><img src="images/media01.jpg" alt="마음과 사람을 이해하는 이야기"><div><small>심리 인사이트</small><h3>마음과 사람을 이해하는 이야기</h3><p>관계와 마음을 새로운 시선으로 바라봅니다.</p></div></a>
+<a href="https://www.youtube.com/watch?v=VrpqXbv7xpg" target="_blank" rel="noopener"><img src="https://img.youtube.com/vi/VrpqXbv7xpg/hqdefault.jpg" alt="나의 애착 유형 알아보기"><div><small>관계 심리</small><h3>나의 애착 유형 알아보기</h3><p>관계에서 반복되는 감정과 행동을 살펴봅니다.</p></div></a>
+<a href="https://www.youtube.com/watch?v=d8mvVt7EkXA" target="_blank" rel="noopener"><img src="https://img.youtube.com/vi/d8mvVt7EkXA/hqdefault.jpg" alt="일상 속 심리 이야기"><div><small>일상 심리</small><h3>일상 속에서 발견하는 마음 이야기</h3><p>평범한 하루 속 심리의 의미를 찾아봅니다.</p></div></a>
+</div></section>
+<section class="trust-testimonials">
+<div class="trust-testimonial-title"><span>LEARNER STORY</span><h2>수강생들의 이야기</h2><p>문화와 배움이 만들어낸 특별한 변화를 만나보세요.</p></div>
+<div class="trust-testimonial-grid">
+<a href="reviews.html"><b>“</b><p>새로운 취미와 배움을 통해<br>일상에 활력을 더하는 시간</p><span>상담 후기 더보기 →</span></a>
+<a href="reviews.html"><b>“</b><p>전문적인 강의와 편안한 분위기에서<br>나를 돌아보는 배움</p><span>상담 후기 더보기 →</span></a>
+<a href="reviews.html"><b>“</b><p>혼자가 아니라 함께 배우며<br>사람과 문화가 이어지는 경험</p><span>상담 후기 더보기 →</span></a>
+</div></section>
+<section class="trust-cta"><div><span>새로운 배움의 시작</span><h2>오늘, 나를 위한 문화 시간을 시작해 보세요.</h2><p>당신의 일상이 조금 더 풍성해질 수 있도록 문화 이음 플랫폼이 함께합니다.</p></div><div><a href="apply.html#enrollment-section">수강신청 바로가기 →</a><a class="outline" href="counseling.html">상담 알아보기</a></div></section>
 </main>
-    <footer class="bg-[#031f15] text-gray-400 py-12 border-t border-white/5">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex flex-col md:flex-row justify-between items-center text-center md:text-left">
-                <div class="flex items-center justify-center md:justify-start gap-2 mb-4 md:mb-0">
-                    <img src="logo.png" onerror="this.style.display='none'; this.nextElementSibling.style.display='block'" alt="위드 아카데미 로고" class="w-8 h-8 rounded-full object-cover border border-[var(--brand-gold)]">
-                    <span class="text-white font-bold text-lg">WITH ACADEMY</span>
-                </div>
-                <div class="text-sm">
-                    <p>&copy; 2024 With Academy. All rights reserved.</p>
-                </div>
+<!-- 메인 히어로 -->
+<section class="hero">
+<div class="container">
+<h2>Culture &amp; Mind Connection</h2>
+<h1>예술과 심리가 만나<br/><span>문화의 빛을 밝히다</span></h1>
+</div>
+<div class="hero-actions"><button id="programExploreButton" onclick="document.getElementById('programs').scrollIntoView({behavior:'smooth',block:'start'});" type="button">프로그램 둘러보기</button><a class="outline" href="apply.html#enrollment-section">수강신청</a></div></section>
+<!-- 프로그램 포스터 갤러리 -->
+<section class="programs" id="programs-grid">
+<div class="container">
+<div class="tabs" style="margin-top: -35px; margin-bottom: 25px;">
+<span "="" class="active" style="font-size: 22px; font-weight: 800; color: var(--primary-purple, #5b21b6); padding-bottom: 6px; border-bottom: 3px solid var(--primary-purple, #5b21b6);">예술 인문학</span>
+<div class="tab-dropdown">
+</div>
+</div>
+<div class="poster-grid">
+<div class="poster-card" id="art-museum">
+<div class="poster-badge">미술인문학</div>
+<div class="poster-img" style="background-image: url('https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5?ixlib=rb-4.0.3&amp;auto=format&amp;fit=crop&amp;w=600&amp;q=80');"></div>
+<div class="poster-info">
+<h4 style="text-align: center;">캔버스 너머에 담긴 시대의 숨결과 인간의 철학을 읽어내는 눈</h4>
+</div>
+</div>
+<div class="poster-card" id="art-classic">
+<div class="poster-badge">고전인문학</div>
+<div class="poster-img" style="background-image: url('https://images.unsplash.com/photo-1516534775068-ba3e7458af70?ixlib=rb-4.0.3&amp;auto=format&amp;fit=crop&amp;w=600&amp;q=80');"></div>
+<div class="poster-info">
+<h4 style="text-align: center;">시공간을 뛰어넘어 변하지 않는 삶의 본질과 지혜를 발견하는 여정</h4>
+</div>
+</div>
+<div class="poster-card" id="art-music">
+<div class="poster-badge">음악인문학</div>
+<div class="poster-img" style="background-image: url('https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3&amp;auto=format&amp;fit=crop&amp;w=600&amp;q=80');"></div>
+<div class="poster-info">
+<h4 style="text-align: center;">선율 뒤에 숨겨진 시대의 울림과 인간의 깊은 내면을 경청하는 소리의 성찰</h4>
+</div>
+</div>
+<div class="poster-card" id="art-film">
+<div class="poster-badge">영화인문학</div>
+<div class="poster-img" style="background-image: url('https://images.unsplash.com/photo-1541701494587-cb58502866ab?ixlib=rb-4.0.3&amp;auto=format&amp;fit=crop&amp;w=600&amp;q=80');"></div>
+<div class="poster-info">
+<h4 style="text-align: center;">스크린이라는 창을 통해 타인의 삶을 마주하고 현대 사회와 나를 비춰보는 거울</h4>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- 심리상담 코칭 프로그램 상세 -->
+<section class="counseling-section">
+<div class="container">
+<div class="section-title white">
+<h2>심리상담 <span>코칭 프로그램</span></h2>
+</div>
+<div class="counseling-container">
+<article class="counseling-card" id="counseling-tci">
+<div class="counseling-img-wrap" style="background-image: url('심리 상담/TCI &amp; DISC.jpg');"></div>
+<div class="counseling-content">
+<div class="counseling-title-badge" style="transform: translateY(-35px); margin-bottom: -20px; display: inline-block;">TCI &amp; DISC</div>
+<p style="margin-top: 35px; font-size: 14px; color: #444; line-height: 1.7; word-break: keep-all; background: #f8f3fc; padding: 15px; border-radius: 10px; border-left: 4px solid var(--primary-purple);">
+                            타고난 생물학적 기질과 후천적으로 형성된 성격을 구분하여 개인의 인성을 다각도로 측정하는 심리검사인 <strong>TCI</strong>와, 사람의 행동 유형을 4가지 범주로 분류하여 개인이 일상 및 업무 상황에서 나타내는 고유한 행동 방식을 측정하는 심리검사 <strong>DISC</strong>를 통해 당신이 누구인지 알려드립니다.
+                        </p>
+<ul class="counseling-list">
+<li class="list-title">기질과 성격의 완벽한 이해를 통한 관계 개선 코칭</li>
+<li>개인의 타고난 기질과 환경적 성격 구조 심층 분석</li>
+<li>조직과 가족의 온도를 바꾸는 DISC 소통법 솔루션 제공</li>
+<li>자아 탐색 및 타인에 대한 수용력 증진 훈련</li>
+</ul>
+</div>
+</article>
+<article class="counseling-card reverse" id="counseling-color">
+<div class="counseling-img-wrap" style="background-image: url('심리 상담/컬러테라피.jpg');"></div>
+<div class="counseling-content">
+<div class="counseling-title-badge" style="transform: translateY(-35px); margin-bottom: -20px; display: inline-block;">컬러 테라피</div>
+<div style="margin-top: 35px; background: #faf8fc; padding: 18px 20px; border-radius: 12px; border: 1px solid #eee; border-right: 4px solid var(--primary-purple);">
+<p style="font-size: 15px; font-weight: 700; color: var(--primary-purple); margin-bottom: 8px; word-break: keep-all;">
+                                “색을 통해 나를 만나고,<br/>색을 통해 마음을 들여다보는 시간입니다.”
+                            </p>
+<p style="font-size: 13.5px; color: #555; line-height: 1.6; word-break: keep-all; margin: 0;">
+                                컬러 테라피는 색이 주는 심리적·정서적 자극을 활용하여 자신의 감정을 이해하고 마음을 돌아보도록 돕는 활동입니다.
+                            </p>
+</div>
+<ul class="counseling-list">
+<li class="list-title">색채와 도형으로 찾는 나의 무의식과 마음 상태 진단</li>
+<li>현재의 스트레스 지수 파악 및 심리적 이완 훈련</li>
+<li>에너지 밸런스를 맞추는 나만의 컬러 솔루션</li>
+<li>심신 안정을 돕는 맞춤형 아트 테라피 코칭</li>
+</ul>
+</div>
+</article>
+<article class="counseling-card" id="counseling-book">
+<div class="counseling-img-wrap" style="background-image: url('심리 상담/북테라피.jpg');"></div>
+<div class="counseling-content">
+<div class="counseling-title-badge" style="transform: translateY(-35px); margin-bottom: -20px; display: inline-block;">북테라피</div>
+<div style="margin-top: 35px; background: #faf8fc; padding: 18px 20px; border-radius: 12px; border: 1px solid #eee; border-left: 4px solid var(--primary-purple);">
+<p style="font-size: 14px; color: #444; line-height: 1.7; word-break: keep-all; margin: 0;">
+                                책을 읽는 과정을 통해 마음의 상처를 치유하고, 심리적 안정과 성장을 도모하는 심리 치유 방법입니다.<br/><br/>
+                                단순히 지식을 쌓기 위한 독서가 아니라, 문학 작품이나 에세이 등의 글로 <strong>자신을 되돌아보는 프로그램</strong>입니다.
+                            </p>
+</div>
+<ul class="counseling-list">
+<li class="list-title">문학을 통해 내면의 상처를 치유하고 성찰하는 시간</li>
+<li>깊이 있는 독서 모임을 통한 공감과 소통 능력 강화</li>
+<li>책 속의 문장으로 나만의 자아 발견 및 가치관 정립</li>
+<li>생각을 정리하고 마음을 비우는 글쓰기 병행 과정</li>
+</ul>
+</div>
+</article>
+<article class="counseling-card reverse" id="counseling-tarot">
+<div class="counseling-img-wrap" style="background-image: url('심리 상담/명리학, 타로.jpg');"></div>
+<div class="counseling-content">
+<div class="counseling-title-badge" style="transform: translateY(-35px); margin-bottom: -20px; display: inline-block;">명리학, 타로</div>
+<div style="margin-top: 35px; background: #faf8fc; padding: 18px 20px; border-radius: 12px; border: 1px solid #eee; border-right: 4px solid var(--primary-purple);">
+<p style="font-size: 14px; color: #444; line-height: 1.7; word-break: keep-all; margin: 0;">
+                                타로는 <strong>78장의 상징적인 그림 카드</strong>를 활용하여 질문자의 무의식, 현재 상황, 그리고 미래의 가능성을 비추어 보는 통찰 도구입니다.<br/><br/>
+                                카드가 지닌 고유한 상징과 배치 관계를 해석함으로써 직면한 문제에 대한 새로운 관점과 해결의 힌트를 얻을 수 있습니다.
+                            </p>
+</div>
+<ul class="counseling-list">
+<li class="list-title">동양 철학과 타로 상징을 활용한 삶의 통찰 및 방향성 탐색</li>
+<li>불확실한 미래에 대한 심리적 안정감 및 자존감 회복</li>
+<li>내면의 잠재력을 일깨우는 스토리텔링 상담</li>
+<li>선택의 기로에서 합리적 결정을 돕는 직관적 코칭</li>
+</ul>
+</div>
+</article>
+<article class="counseling-card" id="counseling-image">
+<div class="counseling-img-wrap" style="background-image: url('https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&amp;auto=format&amp;fit=crop&amp;w=800&amp;q=80');"></div>
+<div class="counseling-content">
+<div class="counseling-title-badge" style="transform: translateY(-35px); margin-bottom: -20px; display: inline-block;">이미지 메이킹</div>
+<div style="margin-top: 35px; background: #faf8fc; padding: 18px 20px; border-radius: 12px; border: 1px solid #eee; border-left: 4px solid var(--primary-purple);">
+<p style="font-size: 15px; font-weight: 700; color: var(--primary-purple); margin-bottom: 8px; word-break: keep-all;">
+                                "나만의 분위기를 디자인하다"
+                            </p>
+<p style="font-size: 14px; color: #444; line-height: 1.7; word-break: keep-all; margin: 0;">
+                                이미지 메이킹은 나를 꾸미는 것이 아니라 <strong>나의 가치를 발견하고 표현하는 과정</strong>입니다.<br/>
+                                나를 알고, 나를 표현하고, 나만의 아름다움을 완성해봅시다.
+                            </p>
+</div>
+<ul class="counseling-list">
+<li class="list-title">내면의 자신감을 외면으로 자연스럽게 표현하는 퍼스널 브랜딩</li>
+<li>개인의 매력을 극대화하는 스타일링 및 표정 연출법</li>
+<li>신뢰를 주는 긍정적인 첫인상과 비언어적 소통 전략 구축</li>
+<li>사회적 관계 향상을 위한 맞춤형 매너 및 스피치 코칭</li>
+</ul>
+</div>
+</article>
+<article class="counseling-card reverse" id="counseling-photo">
+<div class="counseling-img-wrap" style="background-image: url('https://images.unsplash.com/photo-1516961642265-531546e84af2?ixlib=rb-4.0.3&amp;auto=format&amp;fit=crop&amp;w=800&amp;q=80');"></div>
+<div class="counseling-content">
+<div class="counseling-title-badge" style="transform: translateY(-35px); margin-bottom: -20px; display: inline-block;">사진강좌</div>
+<div style="margin-top: 35px; background: #faf8fc; padding: 18px 20px; border-radius: 12px; border: 1px solid #eee; border-left: 4px solid var(--primary-purple);">
+<p style="font-size: 15px; font-weight: 700; color: var(--primary-purple); margin-bottom: 8px; word-break: keep-all;">
+                                "매일 지나치던 풍경 속, 진짜 '나'의 시선을 만나는 시간"
+                            </p>
+<p style="font-size: 14px; color: #444; line-height: 1.7; word-break: keep-all; margin: 0;">
+                                사진은 멋진 풍경을 남기는 기술이 아니라, 세상을 바라보는 나의 따뜻한 시선을 기록하는 일입니다.<br/><br/>
+                                복잡한 기술이나 비싼 카메라 대신 익숙한 스마트폰 하나로 일상을 들여다보며, 사진을 통해 나 자신을 발견하고 마음을 채워보는 프로그램입니다.
+                            </p>
+</div>
+<ul class="counseling-list">
+<li class="list-title">카메라 프레임 너머의 세상을 보는 새로운 시각과 통찰력 배양</li>
+<li>평범한 일상의 순간을 예술로 기록하며 느끼는 심리적 성취감</li>
+<li>피사체와의 교감을 통한 정서적 안정 및 스트레스 해소</li>
+<li>나만의 시선을 담아내는 감성 사진 촬영 실무 테크닉</li>
+</ul>
+</div>
+</article>
+<article class="counseling-card" id="counseling-brain">
+<div class="counseling-img-wrap" style="background-image: url('https://images.unsplash.com/photo-1559757175-5700dde675bc?ixlib=rb-4.0.3&amp;auto=format&amp;fit=crop&amp;w=800&amp;q=80');"></div>
+<div class="counseling-content">
+<div class="counseling-title-badge" style="transform: translateY(-35px); margin-bottom: -20px; display: inline-block;">뇌과학</div>
+<div style="margin-top: 35px; background: #faf8fc; padding: 18px 20px; border-radius: 12px; border: 1px solid #eee; border-left: 4px solid var(--primary-purple);">
+<p style="font-size: 15px; font-weight: 700; color: var(--primary-purple); margin-bottom: 8px; word-break: keep-all;">
+                                "생각과 감정의 비밀, 뇌를 통해 마음을 읽다"
+                            </p>
+<p style="font-size: 14px; color: #444; line-height: 1.7; word-break: keep-all; margin: 0;">
+                                뇌과학 세미나는 뇌의 작동 방식을 통해 나의 마음과 행동 패턴을 고찰해보는 시간입니다.<br/><br/>
+                                막연했던 나의 감정과 유난히 고치기 힘들었던 습관의 이유를 과학적으로 이해하며, 나 자신을 유연하고 다정하게 다루는 법을 배웁니다.
+                            </p>
+</div>
+<ul class="counseling-list">
+<li class="list-title">인생의 도전과 리셋을 준비하는 사람을 위한 멘탈 리프레밍 코칭[cite: 1]</li>
+<li>국제 멘탈력 진단 기반 설계 및 뇌신경 과학 원리 적용[cite: 1]</li>
+<li>부정적 감정 회로를 차단하고 스트레스 회복력을 높이는 훈련</li>
+<li>성공 루틴으로 자신감 있는 자기 리프레밍 시스템 구축[cite: 1]</li>
+</ul>
+</div>
+</article>
+</div>
+</div>
+</section>
+<!-- 취미원정대 : 원데이 클래스 섹션 -->
+<section class="hobby-section" id="hobby-section">
+<div class="container">
+<div class="hobby-header">
+<div class="hobby-title">
+<h2>취미원정대 : 원데이 클래스</h2>
+</div>
+<div class="hobby-search-area">
+<select aria-label="부서별 검색">
+<option value="">부서별</option>
+<option value="d1">기획부</option>
+<option value="d2">교육부</option>
+</select>
+<select aria-label="연도별 검색">
+<option value="">연도별</option>
+<option value="2026">2026</option>
+<option value="2025">2025</option>
+</select>
+<input placeholder="검색어를 입력하세요" type="text"/>
+<button type="button">Q</button>
+</div>
+</div>
+<div class="hobby-count">
+                전체 4개 (페이지 1/1)
             </div>
-        </div>
-    </footer>
-    <script>
-    // 1. 초기 아이콘 생성
-    if (typeof lucide !== 'undefined') {
-        lucide.createIcons();
-    }
+<div class="hobby-grid">
+<article class="hobby-card" id="hobby-aroma">
+<div class="hobby-img-wrap" style="background-image: url('원데이클래스/아로마 테라피.png');">
+<div class="hobby-badges">
+<span class="hobby-badge-year">2026</span>
+<span class="hobby-badge-cat" style="background-color: #ff5722;">클래스</span>
+</div>
+</div>
+<div class="hobby-info">
+<h3>아로마 테라피 : 북 퍼퓸</h3>
+<div style="margin-top: 12px; background: #fffbf5; padding: 14px 16px; border-radius: 10px; border-left: 3px solid #ff9800; text-align: left;">
+<p style="font-size: 13.5px; font-weight: 700; color: #e65100; margin-bottom: 6px; word-break: keep-all;">
+                                책장에 은은한 향기를 입혀 독서의 깊이를 더하다📚✨
+                            </p>
+<p style="font-size: 12.5px; color: #555; line-height: 1.6; word-break: keep-all; margin: 0;">
+                                책이나 서재 공간에 뿌려 독서 몰입도를 높여주는 감성 아이템! 나만의 향을 담은 퍼퓸으로 책을 오감으로 즐겨보세요.
+                            </p>
+</div>
+</div>
+</article>
+<article class="hobby-card" id="hobby-cooking">
+<div class="hobby-img-wrap" style="background-image: url('원데이클래스/요리조리 쿠킹 클래스.png');">
+<div class="hobby-badges">
+<span class="hobby-badge-year">2026</span>
+<span class="hobby-badge-cat" style="background-color: #4caf50;">클래스</span>
+</div>
+</div>
+<div class="hobby-info">
+<h3>요리조리 쿠킹클래스</h3>
+<div style="margin-top: 12px; background: #fffbf5; padding: 14px 16px; border-radius: 10px; border-left: 3px solid #ff9800; text-align: left;">
+<p style="font-size: 13.5px; font-weight: 700; color: #e65100; margin-bottom: 6px; word-break: keep-all;">
+                                조금만 배우면 맛있는 한 끼가 되고, 근사한 한 접시가 된다!
+                            </p>
+<p style="font-size: 12.5px; color: #555; line-height: 1.6; word-break: keep-all; margin: 0;">
+                                누구나 쉽고 즐겁게 따라 할 수 있는 레시피부터, 같은 음식도 더욱 근사하게 보이게 하는 플레이팅의 작은 비법까지❤️
+                            </p>
+</div>
+</div>
+</article>
+<article class="hobby-card" id="hobby-flower">
+<div class="hobby-img-wrap" style="background-image: url('원데이클래스/플라워.jpg');">
+<div class="hobby-badges">
+<span class="hobby-badge-year">2026</span>
+<span class="hobby-badge-cat" style="background-color: #e91e63;">클래스</span>
+</div>
+</div>
+<div class="hobby-info">
+<h3>플라워 아트 클래스</h3>
+<div style="margin-top: 12px; background: #fdf8f9; padding: 14px 16px; border-radius: 10px; border-left: 3px solid #e91e63; text-align: left;">
+<p style="font-size: 13.5px; font-weight: 700; color: #c2185b; margin-bottom: 6px; word-break: keep-all;">
+                                계절의 예쁨을 손끝에 담아, 일상에 향기를 채우다🌸
+                            </p>
+<p style="font-size: 12.5px; color: #555; line-height: 1.6; word-break: keep-all; margin: 0;">
+                                꽃을 만지며 마음의 스트레스를 비워내는 힐링의 시간! 세상에 단 하나뿐인 나만의 작품을 만들며 오롯이 나에게 몰입해 보세요.
+                            </p>
+</div>
+</div>
+</article>
+<article class="hobby-card" id="hobby-bridge">
+<div class="hobby-img-wrap" style="background-image: url('원데이클래스/세븐 브릿지.png');">
+<div class="hobby-badges">
+<span class="hobby-badge-year">2026</span>
+<span class="hobby-badge-cat" style="background-color: #2196f3;">투어</span>
+</div>
+</div>
+<div class="hobby-info">
+<h3>세븐브릿지 드라이빙 투어</h3>
+<div style="margin-top: 12px; background: #f0f7ff; padding: 14px 16px; border-radius: 10px; border-left: 3px solid #0288d1; text-align: left;">
+<p style="font-size: 13.5px; font-weight: 700; color: #0277bd; margin-bottom: 6px; word-break: keep-all;">
+                                7개 바다 다리를 따라 펼쳐지는 부산만의 입체적 야경 뷰✨
+                            </p>
+<p style="font-size: 12.5px; color: #555; line-height: 1.6; word-break: keep-all; margin: 0;">
+                                부산을 대표하는 해안대교의 고유한 야경과 해안 절경을 연속으로 경험하며 해양 도시 부산의 화려한 매력을 완성해보세요!
+                            </p>
+</div>
+</div>
+</article>
+</div>
+</div>
+</section>
+<!-- 신규: 수강 신청서 섹션 -->
+<section class="enrollment-section" id="enrollment-section">
+<div class="container">
+<div class="enrollment-wrapper">
+<div class="enrollment-header">
+<h2>수강 신청서 작성</h2>
+<p style="font-size: 12.5px; color: #444; line-height: 1.8; word-break: keep-all; margin: 15px auto 30px; max-width: 520px; text-align: center;">
+    문화와 배움, 그리고 사람과 사람이 함께 어우러지는 다양한 프로그램을 준비했습니다.
+    새로운 배움과 즐거운 경험을 통해 일상에 작은 변화와 성장을 더해보시기 바랍니다.
+    여러분의 많은 관심과 참여를 기다리며, 아래 수강신청 안내를 참고하여<br/>
+<strong style="color: var(--primary-purple, #5b21b6); font-size: 15px; background: #f3e8ff; padding: 2px 6px; border-radius: 4px; font-weight: 700;">
+        원하는 프로그램에 신청해 주세요.
+    </strong>
+</p>
+</div>
+<form action="#" id="enrollmentForm" method="POST" novalidate="">
+<!-- 1. 이름 -->
+<div class="form-group">
+<label for="userName">이름</label>
+<input class="form-control" id="userName" placeholder="성함을 입력하세요" type="text"/>
+</div>
+<!-- 2. 성별 -->
+<div class="form-group">
+<label>성별</label>
+<div class="gender-group">
+<label class="gender-option">
+<input name="gender" type="radio" value="male"/>
+<span>남성</span>
+</label>
+<label class="gender-option">
+<input name="gender" type="radio" value="female"/>
+<span>여성</span>
+</label>
+</div>
+</div>
+<!-- 3. 생년월일 -->
+<div class="form-group">
+<label>생년월일</label>
+<div class="birth-group">
+<input class="form-control" id="birthYear" inputmode="numeric" placeholder="년도" type="text"/>
+<input class="form-control" id="birthMonth" inputmode="numeric" placeholder="월" type="text"/>
+<input class="form-control" id="birthDay" inputmode="numeric" placeholder="일" type="text"/>
+</div>
+</div>
+<!-- 4. 연락처 -->
+<div class="form-group">
+<label for="userPhone">연락처</label>
+<input class="form-control" id="userPhone" placeholder="010-0000-0000" type="tel"/>
+</div>
+<!-- 5. 주소 (수정됨) -->
+<div class="form-group">
+<label for="userAddress">주소 (동까지)</label>
+<input class="form-control" id="userAddress" placeholder="거주 주소를 입력하세요" type="text"/>
+</div>
+<!-- 6. 관심강좌 (신규 추가) -->
+<div class="form-group">
+<label for="interestCourse">관심강좌</label>
+<input class="form-control" id="interestCourse" placeholder="수강을 원하시는 강좌명을 입력하세요" type="text"/>
+</div>
+<!-- 7. 이용약관 동의 (신규 추가) -->
+<div class="terms-group">
+<input id="agreeTerms" type="checkbox"/>
+<label for="agreeTerms">이용약관에 동의합니다</label>
+</div>
+<!-- 8. 제출 버튼 -->
+<button class="submit-btn" type="submit">신청 완료</button>
+<div aria-live="polite" class="enrollment-success" id="enrollmentSuccess" role="status">
+                        신청이 완료되었습니다.
+                    </div>
+</form>
+</div>
+</div>
+</section>
+<!-- 열린 소식 -->
+<section class="notices">
+<div class="container">
+<div class="section-title">
+<h2>문화 이음 플랫폼의 <span>다양한 소식</span>을 확인해보세요.</h2>
+</div>
+<div class="notice-grid">
+<a class="notice-card" href="#">
+<span class="tag">공지사항</span>
+<h4>2026년 하반기 TCI 기질 분석 코칭 모집 안내 (선착순 마감)</h4>
+<span class="date">2026-08-25</span>
+</a>
+<a class="notice-card" href="#">
+<span class="tag">살롱 소식</span>
+<h4>[가을 예술 인문학 살롱] 다빈치와 고야의 작품으로 보는 심리 해석</h4>
+<span class="date">2026-08-20</span>
+</a>
+<a class="notice-card" href="#">
+<span class="tag">언론보도</span>
+<h4>서경석 대표 코치, 지역 사회 마음 챙김 세미나 성료</h4>
+<span class="date">2026-08-10</span>
+</a>
+<a class="notice-card" href="#">
+<span class="tag">칼럼</span>
+<h4>나의 도형과 색채가 말해주는 현재의 스트레스 지수</h4>
+<span class="date">2026-07-28</span>
+</a>
+</div>
+</div>
+</section>
+<!-- 문화 이음 플랫폼 소개 -->
+<section id="greeting" style="padding: 90px 30; background:#fff;">
+<!-- 대표 인사말 섹션 -->
+<section class="ceo-section" style="max-width: 1100px; margin: 60px auto; padding: 0 20px;">
+<!-- Section Title -->
+<h2 style="font-size: 32px; font-weight: 800; color: #111; text-align: center; margin-bottom: 45px; letter-spacing: -0.5px;">
+        대표 <span style="color: var(--primary-purple, #5b21b6);">인사말</span>
+</h2>
+<!-- Left/Right Split Layout -->
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 50px; background: #faf8fc; padding: 40px; border-radius: 20px; border: 1px solid #f0e6ff;">
+<!-- 왼쪽: 크게 들어가는 대표님 사진 영역 -->
+<div style="flex: 1; min-width: 300px; max-width: 420px; margin: 0 auto;">
+<div style="width: 100%; height: 480px; border-radius: 16px; overflow: hidden; box-shadow: 0 12px 28px rgba(91, 33, 182, 0.12); border: 2px solid #fff;">
+<img alt="문화 이음 플랫폼 류진희 대표" src="images/원장님 사진.jpg" style="width: 100%; height: 100%; object-fit: cover; display: block;"/>
+</div>
+</div>
+<!-- 오른쪽: 직함, 이름, 인사말 본문 영역 -->
+<div style="flex: 1.2; min-width: 300px; text-align: left;">
+<!-- 직함 및 이름 -->
+<div style="margin-bottom: 20px; border-bottom: 2px solid var(--primary-purple, #5b21b6); padding-bottom: 15px; display: inline-block;">
+<span style="font-size: 16px; font-weight: 600; color: var(--primary-purple, #5b21b6); display: block; margin-bottom: 4px;">문화 이음 	플랫폼</span>
+<h3 style="font-size: 28px; font-weight: 800; color: #222; margin: 0;">
+                    대표 <span style="color: #111;">류진희</span>
+</h3>
+</div>
+<!-- 인사말 본문 -->
+<p style="font-size: 15px; color: #444; line-height: 1.85; word-break: keep-all; margin: 0 0 20px 0;">
+                안녕하세요. 문화 이음 플랫폼 대표 류진희입니다.<br/><br/>
+                어느 순간부터 이런 생각을 하게 되었습니다.<br/>
+<strong>“부산에도 서울처럼 사람들이 일상 가까이에서 문화를 만나고, 배우고, 이야기 나눌 수 있는 공간이 더 많아졌으면 좋겠다.”</strong><br/><br/>
+                누군가에게는 배움의 공간이 되고, 누군가에게는 자신의 재능을 나누는 공간이 되며, 새로운 사람과 세상을 만나는 연결고리가 되었으면 합니다. 인문학과 예술, 음악 등 다양한 강좌를 통해 오감으로 문화를 즐기며 삶의 즐거움을 발견해보세요.
+            </p>
+<!-- 슬로건 포인트 -->
+<div style="background: #fff; padding: 16px 20px; border-radius: 10px; border-left: 4px solid var(--primary-purple, #5b21b6); box-shadow: 0 2px 8px rgba(0,0,0,0.04);">
+<p style="font-size: 14px; font-weight: 700; color: var(--primary-purple, #5b21b6); margin: 0; word-break: keep-all;text-align: center;">
+                    "여러분의 삶에 좋은 문화가 이어지고, 좋은 사람이 이어지는 공간이 되겠습니다."
+                </p>
+</div>
+</div>
+</div>
+</section>
+<section id="purpose" style="padding: 90px 0; background:#f8f3fc;">
+<div class="container">
+<div class="section-title">
+<h2>문화 이음 플랫폼 <span>설립 취지</span></h2>
+</div>
+<p style="max-width:850px; margin:0 auto; text-align:center; color:#666;">
+                문화로 사람을 잇고, 배움으로 삶을 풍요롭게 합니다.
 
-    const instructorsData = [
-        {
-            name: "최수현 멘토",
-            role: "",
-            image: "", 
-            fullDesc: "당신 안에 이미 있는 가능성을 발견하고 확신으로 바꾸어 드리겠습니다.",
-            career: [
-                "행복은 완성된 채로 주어지는 것이 아니다. 그것은 당신의 행동에서 나온다.<br>- 달라이 라마(Dalai Lama)"
-            ]
-        },
-        {
-            name: "안종욱 멘토",
-            role: "",
-            image: "",
-            fullDesc: "자기 계발서적만 읽는다고 해서 실질적인 변화를 이루어내기는 어렵습니다. 다년간 쌓아온 경험과 체계적인 플랜으로 여러분의 실질적인 성장을 돕겠습니다.",
-            career: [
-                // [수정] 일반 따옴표 내 줄바꿈을 제거하여 문법 오류 해결
-                "아는 것만으로는 충분하지 않다. 적용해야 한다. 의지만으로는 충분하지 않다.<br>실행해야 한다. <br>– 괴테(Johann Wolfgang von Goethe)"
-            ]
-        },
-        // [참고] 한지수 멘토 데이터가 instructorsData 배열 안에 포함되어 있어야 합니다.
-        {
-            name: "박지민 멘토",
-            role: "",
-            image: "",
-            fullDesc: "진정한 ‘나’를 찾고 성장하는 시간으로 함께 만들어 드리겠습니다.",
-            career: [
-                "세상에서 보고 싶은 변화가 있다면, 그 변화가 바로 당신이 되어라.<br>– 마하트마 간디(Mahatma Gandhi)"
-            ]
-        },
-        {
-            name: "한지수 멘토",
-            role: "",
-            image: "",
-            fullDesc: "진짜 '나'를 찾고 나만의 색깔과 속도로 채워가는 시간이 될 수 있게 돕겠습니다.",
-            career: [
-                "당신의 시간은 한정되어 있다. 그러니 다른 사람의 삶을 사느라 시간을 낭비하지 마라.<br>– 스티브 잡스(Steven Paul Jobs)"
-            ]
-        }
-    ];
+                문화이음플랫폼은 예술과 인문학, 문화와 교육을 통해
+                사람과 사람의 마음을 연결하고,
+                배움과 경험이 일상의 새로운 활력이 되도록 돕는 문화공간입니다.
 
-    const curriculumData = [
-        {
-            step: "01",
-            level: "Basic",
-            title: "자아 탐색",
-            subtitle: "Self-Exploration Phase",
-            desc: "무엇을 해야 할지 모르는 막연함에서 벗어나, 나 자신을 깊이 있게 이해하는 단계입니다. 전문 진단 도구와 심층 멘토링을 통해 내가 가진 고유한 강점과 가치관을 발견합니다.",
-            list: [
-                "MBTI, 에니어그램 등 성향 심층 분석",
-                "라이프 플래닝",
-                "나의 인생 그래프 그리기 (과거-현재-미래)",
-                "가정상담 및 무의식 해체",
-                "내 삶의 핵심 키워드 3가지 도출"
-            ]
-        },
-        {
-            step: "02",
-            level: "Basic",
-            title: "자아 발견",
-            subtitle: "Self-Discovery Phase",
-            desc: "나의 강점과 단점을 구체화하고 나의 가치관을 실현하기 위해 우선순위를 명확히 하는 단계입니다. 컨설팅을 통해 언어와 행동의 습관을 만들어가는 과정입니다.",
-            list: [
-                "강점 분석 워크숍 (재능·몰입 포인트 찾기)",
-                "가치관 우선순위 정렬 실습",
-                "내가 반복적으로 끌려온 선택 분석",
-                "인생 사명문(Life Mission Statement) 작성",
-                "“나는 어떤 사람인가?” 정체성 선언문 만들기"
-            ]
-        },
-        {
-            step: "03",
-            level: "Advanced",
-            title: "실전 프로젝트",
-            subtitle: "Project Phase",
-            desc: "자신의 성장을 위한 행동교정 단계입니다. 행동에 따른 피드백과 교정을 통해 올바른 가치관 실현을 향해 나아가는 과정입니다.",
-            list: [
-                "개인 맞춤 성장 프로젝트 설계(예: 콘텐츠 제작, 봉사, 창업 아이디어, 학습, 리더십 역할 등)",
-                "주간 목표 설정 & 피드백 코칭",
-                "실패 분석 & 방향 조정 세션",
-                "성취 기록 시스템 운영"            ]
-        },
-        {
-                step: "04",
-                level: "Master",
-                title: "자아정립 & 삶의 설계",
-                subtitle: "Identity & Life-Design Phase",
-                desc: "가치관 실현을 위한 미래 설계 단계입니다. 자신의 삶의 원칙을 바르게 세우고 가치 실현을 위한 현실적 계획을 전문 컨설팅을 통해 수립해가는 과정입니다.",
-                list: [
-                    "5년 인생 비전 로드맵 설계",
-                    "시간관리 & 우선순위 시스템 구축",
-                    "나만의 삶 운영 원칙 7가지 만들기",
-                    "위기 시 나를 회복시키는 전략 메뉴얼 작성",
-                    "인생 리브랜딩 (비전 발표 & 커밋)"
-                ]
-            }
+                누구나 쉽게 문화와 예술을 만나고,
+                함께 배우고 소통하며 자신의 삶을 새롭게 바라볼 수 있도록
+                다양한 문화·예술·인문학 프로그램을 제공합니다.
 
-    ];
+                문화가 삶이 되고, 만남이 관계가 되며,
+                배움이 새로운 희망으로 이어지는 곳.
 
-    // 멘토 모달 열기
-    function openModal(element, index) {
-        const data = instructorsData[index];
-        const modal = document.getElementById('instructor-modal');
-        if (!modal || !data) return; // 안전장치 추가
+                문화이음플랫폼은 사람과 문화가 만나
+                더 따뜻하고 행복한 지역사회를 만들어가는
+                문화 연결의 장을 만들어가겠습니다.
+            </p>
+</div>
+</section>
+<section id="seoul" style="padding: 90px 0; background:#fff;">
+<div class="container">
+<div class="section-title">
+<h2><span>서울</span> 문화 이음 플랫폼</h2>
+</div>
+<p style="max-width:850px; margin:0 auto; text-align:center; color:#666;">
+               경기도 과천시 문원청계 7길
 
-        const clickedImg = element.querySelector('img');
-        const modalImg = document.getElementById('modal-img');
-        if (clickedImg && modalImg) {
-            modalImg.src = clickedImg.src;
-        }
-        
-        document.getElementById('modal-name').innerText = data.name;
-        document.getElementById('modal-role').innerText = data.role;
-        document.getElementById('modal-desc').innerText = data.fullDesc;
-        
-        const careerList = document.getElementById('modal-career');
-        if (careerList) {
-            careerList.innerHTML = '';
-            data.career.forEach(item => {
-                const li = document.createElement('li');
-                li.className = "flex items-start";
-                li.innerHTML = `<span class="mr-2 text-[var(--brand-gold)] mt-1.5">•</span><span>${item}</span>`;
-                careerList.appendChild(li);
-            });
-        }
-        modal.classList.remove('hidden');
-        document.body.style.overflow = 'hidden';
-    }
+            </p>
+</div>
+</section>
+<section id="busan" style="padding: 90px 0; background:#f8f3fc;">
+<div class="container">
+<div class="section-title">
+<h2><span>부산</span> 문화 이음 플랫폼</h2>
+</div>
+<p style="max-width:850px; margin:0 auto; text-align:center; color:#666;">
+                부산시 동구 충장대로 160
+            </p>
+</div>
+</section>
+<!-- Instructor / 강사 소개 -->
+<section class="instructor-section" id="instructors">
+<div class="container">
+<div class="section-title">
+<h2><span>Instructor</span> 강사 소개</h2>
+</div>
+<p class="instructor-intro">
+                문화 이음 플랫폼의 각 분야 전문 강사진을 소개합니다.
+                아래 사진 영역에 강사님의 프로필 사진을 넣을 수 있습니다.
+            </p>
+<div class="instructor-grid">
 
-    function closeModal() {
-        const modal = document.getElementById('instructor-modal');
-        if (modal) {
-            modal.classList.add('hidden');
-            document.body.style.overflow = 'auto';
-        }
-    }
+<article class="instructor-card photo-seo" id="instructor-kyungseok">
+<div class="instructor-photo" style="background-image:url('images/서경석 사진.jpg');">
+</div>
+<div class="instructor-info">
+<span class="instructor-role">강사</span>
+<h3>서경석</h3>
+<p>TCI · DISC</p>
+</div>
+</article>
+<article class="instructor-card photo-yoon" id="instructor-yoonha">
+<div class="instructor-photo" style="background-image:url('images/이윤하 사진.jpg');">
+</div>
+<div class="instructor-info">
+<span class="instructor-role">강사</span>
+<h3>이윤하</h3>
+<p>컬러 테라피</p>
+</div>
+</article>
+<article class="instructor-card photo-kim" id="instructor-kihyun">
+<div class="instructor-photo" style="background-image:url('images/김기현 사진.jpg');">
+</div>
+<div class="instructor-info">
+<span class="instructor-role">강사</span>
+<h3>김기현</h3>
+<p>명리학 · 타로</p>
+</div>
+</article>
+<article class="instructor-card photo-choi" id="instructor-yujin">
+<div class="instructor-photo" style="background-image:url('images/최유진 사진.jpg');">
+</div>
+<div class="instructor-info">
+<span class="instructor-role">강사</span>
+<h3>최유진</h3>
+<p>이미지 메이킹</p>
+</div>
+</article>
+<article class="instructor-card photo-park" id="instructor-aesoon">
+<div class="instructor-photo" style="background-image:url('images/박애순 사진.jpg');">
+</div>
+<div class="instructor-info">
+<span class="instructor-role">강사</span>
+<h3>박애순</h3>
+<p>북테라피</p>
+</div>
+</article>
+<article class="instructor-card photo-jung" id="instructor-hyeyoung">
+<div class="instructor-photo" style="background-image:url('images/정혜영 사진.jpg');">
+</div>
+<div class="instructor-info">
+<span class="instructor-role">강사</span>
+<h3>정혜영</h3>
+<p>사진강좌</p>
+</div>
+</article>
+<article class="instructor-card photo-lee" id="instructor-gwangpyeong">
 
-    // 커리큘럼 모달 열기
-    function openCurriculumModal(index) {
-        const data = curriculumData[index];
-        const modal = document.getElementById('curriculum-modal');
-        if (!modal || !data) return;
 
-        document.getElementById('curr-modal-step-bg').innerText = data.step;
-        document.getElementById('curr-modal-level').innerText = data.level;
-        document.getElementById('curr-modal-title').innerText = data.title;
-        document.getElementById('curr-modal-subtitle').innerText = data.subtitle;
-        document.getElementById('curr-modal-desc').innerText = data.desc;
-        
-        const listContainer = document.getElementById('curr-modal-list');
-        if (listContainer) {
-            listContainer.innerHTML = '';
-            data.list.forEach(item => {
-                const li = document.createElement('li');
-                li.className = "flex items-start";
-                // Lucide 아이콘이 깨지지 않도록 처리
-                li.innerHTML = `<i data-lucide="check" class="w-4 h-4 text-[var(--brand-gold)] mr-2 mt-0.5 flex-shrink-0"></i><span>${item}</span>`;
-                listContainer.appendChild(li);
-            });
-        }
-        
-        if (window.lucide) lucide.createIcons();
-        modal.classList.remove('hidden');
-        document.body.style.overflow = 'hidden';
-    }
+</article>
+</div>
+</div>
+</section>
+<!-- 다크 섹션 -->
+<section class="dark-gallery">
+<div class="container">
+<div class="gallery-header">
+<h2>문화 이음 아카이브</h2>
+<a href="#" style="color: #d8b4e2; font-size: 14px;">전체보기 ➔</a>
+</div>
+<div class="gallery-grid">
+<div class="gallery-item" style="background-image: url('https://images.unsplash.com/photo-1578301978018-3005759f48f7?ixlib=rb-4.0.3&amp;auto=format&amp;fit=crop&amp;w=500&amp;q=80');">
+<div class="gallery-text">
+<h4>Mona Lisa의 미소</h4>
+<p>감정의 이면을 읽는 시간</p>
+</div>
+</div>
+<div class="gallery-item" style="background-image: url('https://images.unsplash.com/photo-1549490349-8643362247b5?ixlib=rb-4.0.3&amp;auto=format&amp;fit=crop&amp;w=500&amp;q=80');">
+<div class="gallery-text">
+<h4>The Creation of Adam</h4>
+<p>관계의 연결성과 소통</p>
+</div>
+</div>
+<div class="gallery-item" style="background-image: url('https://images.unsplash.com/photo-1605721911519-3dfeb3be25e7?ixlib=rb-4.0.3&amp;auto=format&amp;fit=crop&amp;w=500&amp;q=80');">
+<div class="gallery-text">
+<h4>추상 속의 도형 심리</h4>
+<p>내면의 불안을 마주하다</p>
+</div>
+</div>
+<div class="gallery-item" style="background-image: url('https://images.unsplash.com/photo-1536924430914-91f9e2041b83?ixlib=rb-4.0.3&amp;auto=format&amp;fit=crop&amp;w=500&amp;q=80');">
+<div class="gallery-text">
+<h4>빛과 그림자의 테라피</h4>
+<p>에니어그램을 통한 통찰</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- 푸터 -->
+<main class="new-home">
+<section class="home-intro">
+<span>CULTURE CONNECTS PEOPLE</span>
+<h2>문화가 일상이 되는 순간</h2>
+<p>예술과 마음, 배움과 경험을 연결합니다.<br/>나에게 맞는 새로운 문화 경험을 만나보세요.</p>
+</section>
+<section class="home-programs" id="programs">
+<div class="home-head"><span>EXPLORE</span><h2>당신을 위한 문화의 네 가지 연결</h2><p>관심 있는 분야를 선택해 더 깊이 만나보세요.</p></div>
+<div class="home-grid">
+<a class="home-card c1" href="humanities.html"><small>01 · ARTS &amp; HUMANITIES</small><div><h3>예술 인문학</h3><p>미술 · 고전 · 음악 · 영화로 만나는 깊이 있는 문화 이야기</p><b>자세히 보기 →</b></div></a>
+<a class="home-card c2" href="counseling.html"><small>02 · MIND &amp; COUNSELING</small><div><h3>심리상담</h3><p>TCI · DISC · 컬러테라피 · 북테라피 등 나를 이해하는 시간</p><b>자세히 보기 →</b></div></a>
+<a class="home-card c3" href="instructors.html#instructors"><small>03 · OUR INSTRUCTORS</small><div><h3>Instructor</h3><p>문화 이음 플랫폼과 함께하는 분야별 전문 강사진</p><b>강사진 보기 →</b></div></a>
+<a class="home-card c4" href="oneday.html#hobby-section"><small>04 · ONE DAY CLASS</small><div><h3>취미원정대</h3><p>일상에 새로운 즐거움을 더하는 특별한 원데이 클래스</p><b>클래스 보기 →</b></div></a>
+</div>
+</section>
+<section class="home-cta"><span>BEGIN YOUR CULTURE JOURNEY</span><h2>당신의 일상과 문화를 이어보세요.</h2><p>새로운 경험은 작은 관심에서 시작됩니다.</p><a href="apply.html#enrollment-section">수강신청하기 →</a></section>
+</main>
+<footer>
+<div class="container footer-inner">
+<div class="footer-info">
+<div class="footer-logo">문화 이음 플랫폼</div>
+<p>예술과 심리학이 결합된 신개념 융합 코칭 센터</p>
+<p>© 2026 Culture &amp; Mind Connection Platform. All rights reserved.</p>
+</div>
+<div class="footer-info" style="text-align: right;">
+<p><strong>대표 코치 :</strong> 서경석</p>
+<p><strong>주소 :</strong> 부산광역시 (상세 주소 기재 예정)</p>
+<p><strong>전화번호 :</strong> 051-000-0000</p>
+</div>
+</div>
+</footer>
+<script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // 상단 메뉴: 실제 링크/드롭다운 방식
+            const navDropdowns = document.querySelectorAll('nav > ul > li.dropdown');
+            navDropdowns.forEach(function(dropdown) {
+                const trigger = dropdown.querySelector(':scope > a');
+                if (!trigger) return;
 
-    function closeCurriculumModal() {
-        const modal = document.getElementById('curriculum-modal');
-        if (modal) {
-            modal.classList.add('hidden');
-            document.body.style.overflow = 'auto';
-        }
-    }
+                // href="#"인 카테고리 부모만 클릭 시 드롭다운을 열고 닫음
+                // Instructor처럼 실제 href가 있는 메뉴는 페이지로 바로 이동
+                trigger.addEventListener('click', function(event) {
+                    const href = trigger.getAttribute('href') || '#';
+                    if (href === '#') {
+                        event.preventDefault();
+                        event.stopPropagation();
 
-    // 모바일 메뉴 토글 함수
-    function toggleMobileMenu() {
-        const menu = document.getElementById('mobile-menu');
-        const icon = document.querySelector('#mobile-menu-btn i');
-        const isHidden = menu.classList.contains('hidden');
+                        navDropdowns.forEach(function(other) {
+                            if (other !== dropdown) {
+                                other.classList.remove('open');
+                                const t = other.querySelector(':scope > a');
+                                if (t) t.setAttribute('aria-expanded','false');
+                            }
+                        });
 
-        if (isHidden) {
-            // 메뉴 열기
-            menu.classList.remove('hidden');
-            // 부드러운 애니메이션을 위해 아주 약간의 딜레이
-            setTimeout(() => {
-                menu.classList.remove('-translate-y-4', 'opacity-0');
-            }, 10);
-            
-            // 아이콘 X 모양으로 변경 (Lucide 아이콘 업데이트 방식)
-            if (icon) {
-                 icon.setAttribute('data-lucide', 'x');
-                 lucide.createIcons(); // 아이콘 갱신
-            }
-        } else {
-            // 메뉴 닫기 애니메이션
-            menu.classList.add('-translate-y-4', 'opacity-0');
-            
-            // 애니메이션이 끝난 후 요소 숨기기
-            setTimeout(() => {
-                menu.classList.add('hidden');
-            }, 300); // tailwind duration-300과 시간 맞춤
-            
-            // 아이콘 다시 햄버거 메뉴로 변경
-            if (icon) {
-                 icon.setAttribute('data-lucide', 'menu');
-                 lucide.createIcons();
-            }
-        }
-    }
-
-    // 이벤트 리스너 통합
-    document.addEventListener('keydown', (e) => {
-        if (e.key === "Escape") {
-            closeModal();
-            closeCurriculumModal();
-        }
-    });
-
-    // 네비게이션 바 스크롤 효과
-    window.addEventListener('scroll', () => {
-        const nav = document.querySelector('nav');
-        if (nav) {
-            const isScrolled = window.scrollY > 50;
-            nav.classList.toggle('shadow-lg', isScrolled);
-            nav.classList.toggle('bg-brand-green/95', isScrolled);
-            nav.classList.toggle('bg-brand-green/90', !isScrolled);
-        }
-    });
-
-    document.addEventListener('DOMContentLoaded', () => {
-    const observerOptions = { 
-        threshold: 0.15, // 요소가 15% 보일 때 실행
-        rootMargin: '0px 0px -20px 0px'
-    };
-
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                const container = entry.target;
-                
-                // 1. 막대 그래프 및 카운터 텍스트 위치 동시 제어
-                const bars = container.querySelectorAll('.graph-bar');
-                // 스크립트 내부의 위치 계산 로직을 아래 수치로 맞추세요
-bars.forEach((bar, index) => {
-    const targetH = bar.getAttribute('data-height');
-    const counter = bar.parentElement.querySelector('.counter-value');
-
-    setTimeout(() => {
-        // 1. 막대 높이 적용 (이때 CSS transition에 의해 쑥 올라갑니다)
-        bar.style.height = targetH;
-        
-        if (counter) {
-            counter.style.opacity = "1";
-            // 2. 중요: 숫자를 막대 끝에 고정시킨 채로 막대와 함께 올라가게 합니다.
-            // 아래 gap 수치를 조절해서 숫자와 막대 사이의 간격을 정하세요.
-            const gap = window.innerWidth >= 768 ? 20 : 15; 
-            
-            // 숫자의 위치를 막대 높이만큼 위로 보냅니다.
-            // translate-y를 0으로 만들면서 등장 효과도 줍니다.
-            counter.style.bottom = `calc(${targetH} + ${gap}px)`;
-            counter.style.transform = "translateY(0)"; 
-            
-            const highestLabel = bar.parentElement.querySelector('.highest-label');
-            if (highestLabel) {
-                const labelGap = window.innerWidth >= 768 ? 65 : 45; 
-                highestLabel.style.bottom = `calc(${targetH} + ${labelGap}px)`;
-                highestLabel.style.opacity = "1";
-            }
-        }
-    }, 150 * index);
-});
-                // 2. 숫자 카운팅 애니메이션
-                const counters = container.querySelectorAll('.counter-value');
-                counters.forEach(counter => {
-                    const targetValue = parseInt(counter.getAttribute('data-target'));
-                    if (isNaN(targetValue)) return;
-
-                    const duration = 2000;
-                    const startTime = performance.now();
-
-                    const animateCount = (currentTime) => {
-                        const elapsed = currentTime - startTime;
-                        const progress = Math.min(elapsed / duration, 1);
-                        
-                        // Ease Out 효과 적용
-                        const ease = 1 - Math.pow(1 - progress, 3);
-                        const current = Math.floor(ease * targetValue);
-
-                        counter.innerText = current.toLocaleString() + '명';
-
-                        if (progress < 1) {
-                            requestAnimationFrame(animateCount);
-                        } else {
-                            counter.innerText = targetValue.toLocaleString() + '명';
-                        }
-                    };
-                    requestAnimationFrame(animateCount);
+                        const opened = dropdown.classList.toggle('open');
+                        trigger.setAttribute('aria-expanded', opened ? 'true' : 'false');
+                    }
                 });
+            });
 
-                // 한 번 실행 후 관찰 중단
-                observer.unobserve(container);
+
+
+            // 프로그램 갤러리 탭 내 드롭다운 스크립트
+            const tabDropdowns = document.querySelectorAll('.tab-dropdown');
+            tabDropdowns.forEach(function(dropdown) {
+                const trigger = dropdown.querySelector('span');
+                trigger.addEventListener('click', function(event) {
+                    event.stopPropagation();
+                    dropdown.classList.toggle('open');
+                });
+                
+                dropdown.querySelectorAll('.tab-dropdown-menu li').forEach(function(item) {
+                    item.addEventListener('click', function() {
+                        dropdown.classList.remove('open');
+                    });
+                });
+            });
+
+            // 빈 공간 클릭 시 모든 드롭다운 닫기
+            document.addEventListener('click', function (event) {
+                navDropdowns.forEach(function (dropdown) {
+                    if (!dropdown.contains(event.target)) {
+                        dropdown.classList.remove('open');
+                        const trigger = dropdown.querySelector(':scope > a');
+                        if (trigger) trigger.setAttribute('aria-expanded', 'false');
+                    }
+                });
+                
+                tabDropdowns.forEach(function(dropdown) {
+                    if (!dropdown.contains(event.target)) {
+                        dropdown.classList.remove('open');
+                    }
+                });
+            });
+            
+        });
+    </script>
+<script>
+(function () {
+    const form = document.getElementById('enrollmentForm');
+    if (!form) return;
+
+    const successBox = document.getElementById('enrollmentSuccess');
+    const submitBtn = form.querySelector('.submit-btn');
+
+    const fields = [
+        document.getElementById('userName'),
+        document.getElementById('birthYear'),
+        document.getElementById('birthMonth'),
+        document.getElementById('birthDay'),
+        document.getElementById('userPhone'),
+        document.getElementById('userAddress'),
+        document.getElementById('interestCourse')
+    ].filter(Boolean);
+
+    function setLabelError(input, isError) {
+        const group = input.closest('.form-group');
+        if (!group) return;
+        const label = group.querySelector('label');
+        if (label) label.classList.toggle('form-error-label', isError);
+        input.classList.toggle('input-error', isError);
+    }
+
+    function hideSuccess() {
+        if (successBox) successBox.classList.remove('show');
+    }
+
+    fields.forEach(input => {
+        input.addEventListener('input', function () {
+            if (this.value.trim()) setLabelError(this, false);
+            hideSuccess();
+        });
+    });
+
+    form.querySelectorAll('input[name="gender"]').forEach(radio => {
+        radio.addEventListener('change', function () {
+            const group = this.closest('.form-group');
+            if (group) {
+                const label = group.querySelector(':scope > label');
+                const genderGroup = group.querySelector('.gender-group');
+                if (label) label.classList.remove('form-error-label');
+                if (genderGroup) genderGroup.classList.remove('input-error');
+            }
+            hideSuccess();
+        });
+    });
+
+    const agree = document.getElementById('agreeTerms');
+    if (agree) {
+        agree.addEventListener('change', function () {
+            const group = this.closest('.terms-group');
+            if (group && this.checked) group.classList.remove('input-error');
+            hideSuccess();
+        });
+    }
+
+    form.addEventListener('submit', async function (event) {
+        event.preventDefault();
+        hideSuccess();
+
+        let valid = true;
+        let firstInvalid = null;
+
+        fields.forEach(input => {
+            const empty = !input.value.trim();
+            setLabelError(input, empty);
+            if (empty) {
+                valid = false;
+                if (!firstInvalid) firstInvalid = input;
             }
         });
-    }, observerOptions);
 
-    const growthSection = document.querySelector('#growth-graph');
-    if (growthSection) observer.observe(growthSection);
-});
+        const genderGroup = form.querySelector('.gender-group');
+        const genderLabel = genderGroup?.closest('.form-group')?.querySelector(':scope > label');
+        const genderChecked = !!form.querySelector('input[name="gender"]:checked');
+
+        if (genderGroup) genderGroup.classList.toggle('input-error', !genderChecked);
+        if (genderLabel) genderLabel.classList.toggle('form-error-label', !genderChecked);
+
+        if (!genderChecked) {
+            valid = false;
+            if (!firstInvalid) firstInvalid = genderGroup;
+        }
+
+        const termsGroup = agree?.closest('.terms-group');
+        const termsChecked = !!agree?.checked;
+        if (termsGroup) termsGroup.classList.toggle('input-error', !termsChecked);
+
+        if (!termsChecked) {
+            valid = false;
+            if (!firstInvalid) firstInvalid = agree;
+        }
+
+        if (!valid) {
+            firstInvalid?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            if (firstInvalid?.focus) firstInvalid.focus({ preventScroll: true });
+            return;
+        }
+
+        const gender = form.querySelector('input[name="gender"]:checked')?.value === 'male'
+            ? '남성' : '여성';
+
+        const data = {
+            name: document.getElementById('userName').value.trim(),
+            gender: gender,
+            birth:
+                document.getElementById('birthYear').value.trim() + '-' +
+                document.getElementById('birthMonth').value.trim().padStart(2, '0') + '-' +
+                document.getElementById('birthDay').value.trim().padStart(2, '0'),
+            phone: document.getElementById('userPhone').value.trim(),
+            address: document.getElementById('userAddress').value.trim(),
+            course: document.getElementById('interestCourse').value.trim()
+        };
+
+        const originalText = submitBtn.textContent;
+        submitBtn.disabled = true;
+        submitBtn.textContent = '신청 중...';
+        submitBtn.style.opacity = '0.7';
+        submitBtn.style.cursor = 'wait';
+
+        try {
+            await fetch('https://script.google.com/macros/s/AKfycbw5feAx5VnBoTkmRJc9743DSQUpBH2ScbDqEJL7TCrpZdgFZQTStMMdbzDTrE2xVomh/exec', {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: {
+                    'Content-Type': 'text/plain;charset=utf-8'
+                },
+                body: JSON.stringify(data)
+            });
+
+            if (successBox) {
+                successBox.textContent = '신청이 완료되었습니다.';
+                successBox.classList.add('show');
+                successBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+
+            form.reset();
+            document.querySelectorAll('.input-error').forEach(el => el.classList.remove('input-error'));
+            document.querySelectorAll('.form-error-label').forEach(el => el.classList.remove('form-error-label'));
+
+        } catch (error) {
+            alert('신청 전송 중 문제가 발생했습니다. 잠시 후 다시 시도해 주세요.');
+            console.error(error);
+        } finally {
+            submitBtn.disabled = false;
+            submitBtn.textContent = originalText;
+            submitBtn.style.opacity = '';
+            submitBtn.style.cursor = '';
+        }
+    });
+})();
+</script>
+<script>
+(function () {
+    const popup = document.getElementById('popup');
+    const popupBox = document.getElementById('popupBox');
+    if (!popup || !popupBox) return;
+
+    let lastScrollY = window.scrollY;
+    let visualOffset = 0;
+    let settleTimer = null;
+
+    // 움직임이 실제로 보이도록 transition을 사용
+    popupBox.style.transition = 'transform 0.32s cubic-bezier(0.22, 1, 0.36, 1)';
+    popupBox.style.willChange = 'transform';
+
+    window.addEventListener('scroll', function () {
+        if (popup.style.display === 'none') return;
+
+        const now = window.scrollY;
+        const delta = now - lastScrollY;
+        lastScrollY = now;
+
+        // 아래로 스크롤하면 팝업도 아래로, 위로 스크롤하면 위로.
+        // 너무 멀리 이동하지 않도록 최대 90px까지만 자연스럽게 따라감.
+        visualOffset += delta * 0.55;
+        visualOffset = Math.max(-90, Math.min(90, visualOffset));
+
+        popupBox.style.transform = 'translate3d(0,' + visualOffset + 'px,0)';
+
+        clearTimeout(settleTimer);
+        settleTimer = setTimeout(function () {
+            visualOffset = 0;
+            popupBox.style.transform = 'translate3d(0,0,0)';
+        }, 140);
+    }, { passive: true });
+})();
+</script>
+</section><script>
+(function(){
+  function initCultureSlider(){
+    var slider = document.getElementById('cmMainSlider');
+    if(!slider) return;
+
+    var track = slider.querySelector('.cm-track');
+    var next = slider.querySelector('.cm-next');
+    var prev = slider.querySelector('.cm-prev');
+    var dots = slider.querySelectorAll('.cm-dot');
+    var current = 0;
+    var startX = 0;
+
+    function go(index){
+      current = index === 1 ? 1 : 0;
+      track.style.transform = current === 1 ? 'translateX(-50%)' : 'translateX(0)';
+      dots.forEach(function(dot,i){ dot.classList.toggle('active', i === current); });
+    }
+
+    next.addEventListener('click', function(e){ e.stopPropagation(); go(1); });
+    prev.addEventListener('click', function(e){ e.stopPropagation(); go(0); });
+
+    dots.forEach(function(dot){
+      dot.addEventListener('click', function(e){
+        e.stopPropagation();
+        go(Number(dot.getAttribute('data-index')));
+      });
+    });
+
+    slider.addEventListener('touchstart', function(e){
+      startX = e.changedTouches[0].clientX;
+    }, {passive:true});
+
+    slider.addEventListener('touchend', function(e){
+      var dx = e.changedTouches[0].clientX - startX;
+      if(Math.abs(dx) < 60) return;
+      go(dx < 0 ? 1 : 0);
+    }, {passive:true});
+  }
+
+  if(document.readyState === 'loading'){
+    document.addEventListener('DOMContentLoaded', initCultureSlider);
+  }else{
+    initCultureSlider();
+  }
+})();
+</script><script>
+(function(){
+  function initLivingHero(){
+    var hero = document.querySelector('.cm-slide-intro');
+    if(!hero || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    var bg = hero.querySelector('.cm-depth-bg');
+    var content = hero.querySelector('.cm-intro-content');
+    var raf = null;
+
+    hero.addEventListener('mousemove', function(e){
+      var r = hero.getBoundingClientRect();
+      var x = (e.clientX - r.left) / r.width - .5;
+      var y = (e.clientY - r.top) / r.height - .5;
+
+      if(raf) cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(function(){
+        bg.style.animationPlayState = 'paused';
+        bg.style.transform =
+          'translate3d(' + (-x*12) + 'px,' + (-y*8) + 'px,-20px) scale(1.09)';
+        content.style.transform =
+          'translate3d(' + (x*7) + 'px,' + (y*5) + 'px,45px)';
+      });
+    });
+
+    hero.addEventListener('mouseleave', function(){
+      bg.style.transform = '';
+      bg.style.animationPlayState = 'running';
+      content.style.transform = 'translate3d(0,0,45px)';
+    });
+  }
+
+  if(document.readyState === 'loading'){
+    document.addEventListener('DOMContentLoaded', initLivingHero);
+  }else{
+    initLivingHero();
+  }
+})();
+</script><script>
+(function(){
+  function optimizeMainSlider(){
+    var slider=document.getElementById('cmMainSlider');
+    if(!slider) return;
+    var intro=slider.querySelector('.cm-slide-intro');
+    var track=slider.querySelector('.cm-track');
+    if(!intro||!track) return;
+
+    function setIntroPaused(paused){
+      intro.classList.toggle('motion-paused',paused);
+    }
+
+    var next=slider.querySelector('.cm-next');
+    var prev=slider.querySelector('.cm-prev');
+    var dots=slider.querySelectorAll('.cm-dot');
+
+    if(next) next.addEventListener('click',function(){setIntroPaused(true);},{passive:true});
+    if(prev) prev.addEventListener('click',function(){setIntroPaused(false);},{passive:true});
+    dots.forEach(function(dot){
+      dot.addEventListener('click',function(){
+        setIntroPaused(dot.getAttribute('data-index')==='1');
+      },{passive:true});
+    });
+  }
+  if(document.readyState==='loading'){
+    document.addEventListener('DOMContentLoaded',optimizeMainSlider);
+  }else optimizeMainSlider();
+})();
+</script>
+<style id="cultureeum-pc-dropdown-guaranteed-final">
+/* PC dropdown guaranteed final: no clipping, no hover gap, click/hover both work */
+@media (min-width: 769px) {
+  header, .header-inner, nav, nav > ul, nav > ul > li.dropdown { overflow: visible !important; }
+  header { position: absolute !important; z-index: 2147483000 !important; }
+  .header-inner, nav, nav > ul { position: relative !important; z-index: 2147483001 !important; }
+  nav > ul > li.dropdown { position: relative !important; }
+  nav > ul > li.dropdown > .dropdown-menu {
+    display: block !important;
+    position: absolute !important;
+    top: calc(100% - 12px) !important;
+    left: 50% !important;
+    min-width: 220px !important;
+    width: max-content !important;
+    max-width: 360px !important;
+    height: auto !important;
+    max-height: none !important;
+    overflow: visible !important;
+    z-index: 2147483002 !important;
+    margin: 0 !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+    transform: translateX(-50%) translateY(6px) !important;
+  }
+  nav > ul > li.dropdown:hover > .dropdown-menu,
+  nav > ul > li.dropdown:focus-within > .dropdown-menu,
+  nav > ul > li.dropdown.open > .dropdown-menu {
+    opacity: 1 !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
+    transform: translateX(-50%) translateY(0) !important;
+  }
+}
+</style>
+<script id="cultureeum-pc-dropdown-guaranteed-js">
+(function(){
+  function initPcMenus(){
+    document.querySelectorAll('nav > ul > li.dropdown').forEach(function(li){
+      var a=li.querySelector(':scope > a');
+      if(!a || a.dataset.pcFinalBound==='1') return;
+      a.dataset.pcFinalBound='1';
+      a.addEventListener('click',function(e){
+        if(window.innerWidth < 769) return;
+        if((a.getAttribute('href')||'#')==='#'){
+          e.preventDefault(); e.stopPropagation();
+          document.querySelectorAll('nav > ul > li.dropdown.open').forEach(function(other){if(other!==li){other.classList.remove('open');var oa=other.querySelector(':scope > a');if(oa)oa.setAttribute('aria-expanded','false');}});
+          var willOpen=!li.classList.contains('open');
+          li.classList.toggle('open',willOpen);
+          a.setAttribute('aria-expanded',willOpen?'true':'false');
+        }
+      },true);
+    });
+  }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',initPcMenus); else initPcMenus();
+})();
+</script>
+
+<script id="ce-popup-layout-drag-controller-v2">
+(function(){
+  const wrap=document.getElementById('popup');
+  if(!wrap || window.matchMedia('(max-width:700px)').matches) return;
+
+  const cards=[...wrap.querySelectorAll('.ce-individual-popup')];
+  if(cards.length!==3) return;
+
+  let topZ=1000;
+
+  function setPos(card,left,top){
+    card.style.setProperty('--drag-left', left+'px');
+    card.style.setProperty('--drag-top', top+'px');
+    card.classList.add('ce-drag-ready');
+  }
+
+  /* 최초 로딩: 실제 카드 폭을 측정해 3장을 화면 가운데에 정확히 나란히 배치 */
+  function initialLayout(){
+    const visible=cards.filter(c=>getComputedStyle(c).display!=='none');
+    if(!visible.length) return;
+
+    const gap=Math.max(14,Math.min(24,window.innerWidth*0.012));
+    const widths=visible.map(c=>c.getBoundingClientRect().width);
+    const total=widths.reduce((a,b)=>a+b,0)+gap*(visible.length-1);
+    let left=Math.max(10,(window.innerWidth-total)/2);
+
+    visible.forEach((card,i)=>{
+      setPos(card,left,16);
+      left+=widths[i]+gap;
+    });
+  }
+
+  requestAnimationFrame(()=>requestAnimationFrame(initialLayout));
+
+  cards.forEach(card=>{
+    card.addEventListener('pointerdown',function(e){
+      if(e.button!==0) return;
+
+      /* X / 오늘 하루 / 닫기는 클릭으로 작동 */
+      if(e.target.closest('.ce-image-x-close,.ce-image-bottom-controls')) return;
+
+      e.preventDefault();
+
+      const rect=card.getBoundingClientRect();
+      const startX=e.clientX;
+      const startY=e.clientY;
+      const startLeft=rect.left;
+      const startTop=rect.top;
+
+      setPos(card,startLeft,startTop);
+      card.style.zIndex=String(++topZ);
+      card.classList.add('ce-dragging');
+
+      try{card.setPointerCapture(e.pointerId)}catch(_){}
+
+      function move(ev){
+        const dx=ev.clientX-startX;
+        const dy=ev.clientY-startY;
+
+        let left=startLeft+dx;
+        let top=startTop+dy;
+
+        const w=card.offsetWidth;
+        const h=card.offsetHeight;
+        const minVisible=70;
+
+        /* X축과 Y축을 둘 다 직접 갱신 */
+        left=Math.max(-w+minVisible, Math.min(window.innerWidth-minVisible,left));
+        top=Math.max(8, Math.min(window.innerHeight-minVisible,top));
+
+        setPos(card,left,top);
+      }
+
+      function end(ev){
+        card.classList.remove('ce-dragging');
+        try{card.releasePointerCapture(ev.pointerId)}catch(_){}
+        card.removeEventListener('pointermove',move);
+        card.removeEventListener('pointerup',end);
+        card.removeEventListener('pointercancel',end);
+      }
+
+      card.addEventListener('pointermove',move);
+      card.addEventListener('pointerup',end);
+      card.addEventListener('pointercancel',end);
+    });
+  });
+})();
+</script>
 
 
-    </script>
+<script id="ce-popup-unified-final">
+(function(){
+  const wrap=document.getElementById('popup');
+  if(!wrap) return;
+
+  const SESSION='culturePopupClosed';
+  const DAY='culturePopupHideUntil_v3';
+  const INTERNAL='culturePopupInternalMove';
+  const DAY_MS=24*60*60*1000;
+
+  /* 과거 버전의 개별 팝업 하루숨김 기록 제거:
+     이것이 모바일 첫 진입에서 카드가 사라지던 충돌 원인 중 하나 */
+  for(let i=1;i<=3;i++) localStorage.removeItem('culturePopupHideToday_'+i);
+  localStorage.removeItem('culturePopupHideUntil_v2');
+
+  /* 내부 메뉴 클릭으로 넘어온 경우만 일반 닫기 상태 유지.
+     새로고침/주소 직접입력/외부 재방문이면 일반 닫기 상태 해제. */
+  const internalMove=sessionStorage.getItem(INTERNAL)==='1';
+  sessionStorage.removeItem(INTERNAL);
+  if(!internalMove) sessionStorage.removeItem(SESSION);
+
+  let hideUntil=Number(localStorage.getItem(DAY)||0);
+  if(hideUntil && hideUntil<=Date.now()){
+    localStorage.removeItem(DAY);
+    hideUntil=0;
+  }
+
+  const cards=[...wrap.querySelectorAll('.ce-individual-popup')];
+
+  function hideAll(){
+    wrap.style.setProperty('display','none','important');
+  }
+  function showAll(){
+    wrap.style.removeProperty('display');
+    cards.forEach(c=>c.style.removeProperty('display'));
+  }
+  function closeCard(card){
+    sessionStorage.setItem(SESSION,'true');
+    card.style.setProperty('display','none','important');
+    if(cards.every(c=>getComputedStyle(c).display==='none')) hideAll();
+  }
+  function hideForDay(){
+    localStorage.setItem(DAY,String(Date.now()+DAY_MS));
+    sessionStorage.setItem(SESSION,'true');
+    hideAll();
+  }
+
+  /* 최초 표시 판정은 이 한 곳에서만 함 */
+  if(hideUntil>Date.now() || (internalMove && sessionStorage.getItem(SESSION)==='true')){
+    hideAll();
+  }else{
+    showAll();
+  }
+
+  /* 이미지에 인쇄된 X + 하단 투명 버튼을 한 번만 생성 */
+  cards.forEach(card=>{
+    let x=card.querySelector('.ce-image-x-close');
+    if(!x){
+      x=document.createElement('button');
+      x.type='button'; x.className='ce-image-x-close';
+      x.setAttribute('aria-label','팝업 닫기');
+      card.appendChild(x);
+    }
+    let controls=card.querySelector('.ce-image-bottom-controls');
+    if(!controls){
+      controls=document.createElement('div');
+      controls.className='ce-image-bottom-controls';
+      controls.innerHTML='<button type="button" class="ce-hide-today" aria-label="오늘 하루 열지 않음"></button><button type="button" class="ce-close-popup" aria-label="닫기"></button>';
+      card.appendChild(controls);
+    }
+
+    x.addEventListener('click',e=>{e.preventDefault();e.stopPropagation();closeCard(card)});
+    controls.querySelector('.ce-hide-today').addEventListener('click',e=>{e.preventDefault();e.stopPropagation();hideForDay()});
+    controls.querySelector('.ce-close-popup').addEventListener('click',e=>{e.preventDefault();e.stopPropagation();closeCard(card)});
+  });
+
+  /* 사이트 내부 링크에서만 다음 페이지까지 일반 닫기 상태 유지 */
+  document.addEventListener('click',function(e){
+    const a=e.target.closest && e.target.closest('a[href]');
+    if(!a) return;
+    try{
+      const u=new URL(a.href,location.href);
+      if(u.origin===location.origin && u.pathname!==location.pathname){
+        sessionStorage.setItem(INTERNAL,'1');
+      }
+    }catch(_){}
+  },true);
+
+  window.closeMainPopup=function(){sessionStorage.setItem(SESSION,'true');hideAll()};
+  window.hideMainPopupForDay=hideForDay;
+  window.hideMainPopupForWeek=hideForDay;
+})();
+</script>
 </body>
 </html>
